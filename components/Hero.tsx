@@ -13,13 +13,13 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
     >
       <div className="flex items-center justify-center px-6 pt-10 pb-6 md:min-h-screen md:px-12 md:py-16 lg:px-16">
         <Image
-          src="/images/save-the-date.png"
-          alt={`Save the Date — ${couple.bride} and ${couple.groom}`}
-          width={800}
-          height={800}
+          src="/images/hero-couple.png"
+          alt={`${couple.bride} and ${couple.groom}`}
+          width={1024}
+          height={682}
           priority
-          sizes="(max-width: 768px) 380px, 50vw"
-          className="h-auto w-full max-w-[380px] md:max-w-md lg:max-w-lg"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="h-auto w-full max-w-[380px] rounded-sm object-cover shadow-sm md:max-h-[85vh] md:max-w-none"
         />
       </div>
 
