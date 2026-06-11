@@ -12,13 +12,14 @@ export async function PUT(request: Request, context: RouteContext) {
   try {
     const { id } = await context.params;
     const body = (await request.json()) as Partial<WeddingEvent>;
-    const updated = await updateEvent(id, {
-      name: body.name?.trim(),
-      date: body.date?.trim(),
-      venue: body.venue?.trim(),
-      mapsUrl: body.mapsUrl?.trim(),
-      schedule: body.schedule,
-    });
+    const updates: Partial<WeddingEvent> = {};
+    if (body.name !== undefined) updates.name = body.name.trim();
+    if (body.date !== undefined) updates.date = body.date.trim();
+    if (body.venue !== undefined) updates.venue = body.venue.trim();
+    if (body.mapsUrl !== undefined) updates.mapsUrl = body.mapsUrl.trim();
+    if (body.schedule !== undefined) updates.schedule = body.schedule;
+
+    const updated = await updateEvent(id, updates);
     return NextResponse.json({ event: updated });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to update event";

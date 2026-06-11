@@ -26,7 +26,7 @@ export function parseEventDateValue(date: string): number {
   return Number.isNaN(parsed) ? Number.MAX_SAFE_INTEGER : parsed;
 }
 
-export function sortSchedule(schedule: ScheduleItem[]): ScheduleItem[] {
+export function sortSchedule(schedule: ScheduleItem[] = []): ScheduleItem[] {
   return [...schedule].sort(
     (a, b) => parseTimeValue(a.time) - parseTimeValue(b.time)
   );
