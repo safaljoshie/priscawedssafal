@@ -28,28 +28,7 @@ const units: { key: keyof TimeLeft; label: string }[] = [
   { key: "seconds", label: "Sec" },
 ];
 
-export function Countdown({ countdownDate }: { countdownDate: string }) {
-  const target = new Date(countdownDate);
-
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(() =>
-    getTimeLeft(target)
-  );
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(getTimeLeft(target));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [countdownDate]);
-
-  if (!timeLeft) {
-    return (
-      <p className="glass relative mt-10 rounded-2xl px-6 py-4 font-serif text-lg font-bold text-black md:text-xl">
-        The day has arrived!
-      </p>
-    );
-  }
-
+function CountdownGrid({ timeLeft }: { timeLeft: TimeLeft }) {
   return (
     <div className="relative mt-10 grid w-full max-w-md grid-cols-4 gap-3 md:mt-12 md:max-w-lg md:gap-4">
       {units.map(({ key, label }) => (
@@ -67,4 +46,38 @@ export function Countdown({ countdownDate }: { countdownDate: string }) {
       ))}
     </div>
   );
+}
+
+export function Countdown({ countdownDate }: { countdownDate: string }) {
+  const [mounted, setMounted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+
+  useEffect(() => {
+    const target = new Date(countdownDate);
+    setMounted(true);
+
+    const update = () => setTimeLeft(getTimeLeft(target));
+    update();
+
+    const timer = setInterval(update, 1000);
+    return () => clearInterval(timer);
+  }, [countdownDate]);
+
+  if (!mounted) {
+    return (
+      <CountdownGrid
+        timeLeft={{ days: 0, hours: 0, minutes: 0, seconds: 0 }}
+      />
+    );
+  }
+
+  if (!timeLeft) {
+    return (
+      <p className="glass relative mt-10 rounded-2xl px-6 py-4 font-serif text-lg font-bold text-black md:text-xl">
+        The day has arrived!
+      </p>
+    );
+  }
+
+  return <CountdownGrid timeLeft={timeLeft} />;
 }
