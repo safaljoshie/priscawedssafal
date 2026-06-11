@@ -44,7 +44,7 @@ export function Countdown({ countdownDate }: { countdownDate: string }) {
 
   if (!timeLeft) {
     return (
-      <p className="glass relative mt-10 rounded-2xl px-6 py-4 font-serif text-lg italic text-ivory md:text-xl">
+      <p className="glass relative mt-10 rounded-2xl px-6 py-4 font-serif text-lg italic text-green md:text-xl">
         The day has arrived!
       </p>
     );
@@ -57,10 +57,10 @@ export function Countdown({ countdownDate }: { countdownDate: string }) {
           key={key}
           className="glass flex flex-col items-center rounded-2xl px-2 py-3 md:px-4 md:py-5"
         >
-          <span className="font-serif text-2xl text-ivory md:text-4xl">
+          <span className="font-serif text-2xl text-green md:text-4xl">
             {String(timeLeft[key]).padStart(2, "0")}
           </span>
-          <span className="mt-1 text-[10px] uppercase tracking-wider text-ivory/60 md:text-xs">
+          <span className="mt-1 text-[10px] uppercase tracking-wider text-green/60 md:text-xs">
             {label}
           </span>
         </div>
