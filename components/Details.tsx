@@ -6,6 +6,13 @@ import { wedding } from "@/lib/wedding";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
+const eventActiveStyles: Record<string, string> = {
+  mehendi: "border-green bg-green text-ivory",
+  "wedding-day": "border-[#a63d40] bg-[#a63d40] text-ivory",
+  "ganesh-sagun": "border-[#d97706] bg-[#d97706] text-ivory",
+  reception: "border-[#6b4423] bg-[#6b4423] text-ivory",
+};
+
 export function Details() {
   const { dateDisplay, location, events } = wedding;
   const [selectedId, setSelectedId] = useState<string>(events[0].id);
@@ -70,7 +77,7 @@ export function Details() {
                 onClick={() => setSelectedId(event.id)}
                 className={`shrink-0 rounded-sm border px-4 py-2.5 text-xs uppercase tracking-[0.12em] transition-colors md:px-5 md:py-3 md:text-sm md:tracking-[0.15em] ${
                   isActive
-                    ? "border-green bg-green text-ivory"
+                    ? eventActiveStyles[event.id]
                     : "border-gold/30 bg-white text-green/70 hover:border-gold hover:text-green"
                 }`}
               >
