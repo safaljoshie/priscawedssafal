@@ -1,4 +1,4 @@
-import type { ScheduleItem, WeddingData, WeddingEvent } from "./types";
+import type { ScheduleItem, WeddingData, WeddingEvent, WeddingUpdate } from "./types";
 
 /** Minutes from midnight for comparing schedule times like "3:00 PM". */
 export function parseTimeValue(time: string): number {
@@ -41,9 +41,17 @@ export function sortEvents(events: WeddingEvent[]): WeddingEvent[] {
     .sort((a, b) => parseEventDateValue(a.date) - parseEventDateValue(b.date));
 }
 
+export function sortUpdates(updates: WeddingUpdate[] = []): WeddingUpdate[] {
+  return [...updates].sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+}
+
 export function sortWeddingData(data: WeddingData): WeddingData {
   return {
     ...data,
     events: sortEvents(data.events),
+    updates: sortUpdates(data.updates ?? []),
   };
 }

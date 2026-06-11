@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import type { RsvpSubmission, ScheduleItem, WeddingEvent } from "@/lib/types";
+import type { RsvpSubmission, ScheduleItem, WeddingEvent, WeddingUpdate } from "@/lib/types";
 
-type Tab = "events" | "rsvps";
+type Tab = "events" | "updates" | "rsvps";
 
 const emptyScheduleRow = (): ScheduleItem => ({
   time: "",
@@ -20,17 +20,32 @@ const emptyEvent = (): WeddingEvent => ({
   schedule: [emptyScheduleRow()],
 });
 
+const emptyUpdate = (): WeddingUpdate => ({
+  id: "",
+  title: "",
+  body: "",
+  publishedAt: new Date().toISOString().slice(0, 10),
+});
+
 type Props = {
   initialEvents: WeddingEvent[];
+  initialUpdates: WeddingUpdate[];
   initialRsvps: RsvpSubmission[];
 };
 
-export function AdminDashboard({ initialEvents, initialRsvps }: Props) {
+export function AdminDashboard({
+  initialEvents,
+  initialUpdates,
+  initialRsvps,
+}: Props) {
   const [tab, setTab] = useState<Tab>("events");
   const [events, setEvents] = useState(initialEvents);
+  const [updates, setUpdates] = useState(initialUpdates);
   const [rsvps, setRsvps] = useState(initialRsvps);
   const [editing, setEditing] = useState<WeddingEvent | null>(null);
+  const [editingUpdate, setEditingUpdate] = useState<WeddingUpdate | null>(null);
   const [isNew, setIsNew] = useState(false);
+  const [isNewUpdate, setIsNewUpdate] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -44,6 +59,14 @@ export function AdminDashboard({ initialEvents, initialRsvps }: Props) {
     if (res.ok) {
       const data = await res.json();
       setRsvps(data.rsvps);
+    }
+  }
+
+  async function refreshUpdates() {
+    const res = await fetch("/api/admin/updates");
+    if (res.ok) {
+      const data = await res.json();
+      setUpdates(data.updates);
     }
   }
 
@@ -67,6 +90,88 @@ export function AdminDashboard({ initialEvents, initialRsvps }: Props) {
     setEditing(null);
     setIsNew(false);
     setMessage("");
+  }
+
+  function startEditUpdate(update: WeddingUpdate) {
+    setIsNewUpdate(false);
+    setEditingUpdate({
+      ...update,
+      publishedAt: update.publishedAt.slice(0, 10),
+    });
+    setMessage("");
+  }
+
+  function startAddUpdate() {
+    setIsNewUpdate(true);
+    setEditingUpdate(emptyUpdate());
+    setMessage("");
+  }
+
+  function cancelEditUpdate() {
+    setEditingUpdate(null);
+    setIsNewUpdate(false);
+    setMessage("");
+  }
+
+  async function saveUpdate() {
+    if (!editingUpdate) return;
+    setSaving(true);
+    setMessage("");
+
+    const payload = {
+      title: editingUpdate.title.trim(),
+      body: editingUpdate.body.trim(),
+      publishedAt: new Date(editingUpdate.publishedAt).toISOString(),
+    };
+
+    try {
+      const res = isNewUpdate
+        ? await fetch("/api/admin/updates", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          })
+        : await fetch(`/api/admin/updates/${editingUpdate.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setMessage(data.error || "Failed to save");
+        return;
+      }
+
+      if (isNewUpdate) {
+        setUpdates((prev) => [data.update, ...prev]);
+      } else {
+        setUpdates((prev) =>
+          prev.map((u) => (u.id === data.update.id ? data.update : u))
+        );
+      }
+
+      setMessage("Saved successfully");
+      setEditingUpdate(null);
+      setIsNewUpdate(false);
+    } catch {
+      setMessage("Failed to save update");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function deleteUpdate(id: string) {
+    if (!confirm("Delete this update? This cannot be undone.")) return;
+
+    const res = await fetch(`/api/admin/updates/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      setUpdates((prev) => prev.filter((u) => u.id !== id));
+      if (editingUpdate?.id === id) cancelEditUpdate();
+    } else {
+      const data = await res.json();
+      setMessage(data.error || "Failed to delete");
+    }
   }
 
   function updateScheduleRow(index: number, field: keyof ScheduleItem, value: string) {
@@ -162,7 +267,7 @@ export function AdminDashboard({ initialEvents, initialRsvps }: Props) {
             <h1 className="font-serif text-xl text-green md:text-2xl">
               Wedding Admin
             </h1>
-            <p className="text-xs text-[#1a1a1a]/50">Events & RSVPs</p>
+            <p className="text-xs text-[#1a1a1a]/50">Events, updates & RSVPs</p>
           </div>
           <button
             type="button"
@@ -176,13 +281,14 @@ export function AdminDashboard({ initialEvents, initialRsvps }: Props) {
 
       <div className="mx-auto max-w-6xl px-4 py-6 md:px-8 md:py-10">
         <div className="flex gap-2 border-b border-gold/15 pb-4">
-          {(["events", "rsvps"] as const).map((t) => (
+          {(["events", "updates", "rsvps"] as const).map((t) => (
             <button
               key={t}
               type="button"
               onClick={() => {
                 setTab(t);
                 if (t === "rsvps") refreshRsvps();
+                if (t === "updates") refreshUpdates();
               }}
               className={`rounded-sm px-4 py-2 text-xs uppercase tracking-[0.12em] transition-colors ${
                 tab === t
@@ -190,7 +296,11 @@ export function AdminDashboard({ initialEvents, initialRsvps }: Props) {
                   : "bg-white text-green/70 hover:bg-green/10"
               }`}
             >
-              {t === "events" ? "Events" : `RSVPs (${rsvps.length})`}
+              {t === "events"
+                ? "Events"
+                : t === "updates"
+                  ? `Updates (${updates.length})`
+                  : `RSVPs (${rsvps.length})`}
             </button>
           ))}
         </div>
@@ -387,6 +497,139 @@ export function AdminDashboard({ initialEvents, initialRsvps }: Props) {
                   <button
                     type="button"
                     onClick={cancelEdit}
+                    className="rounded-sm border border-gold/30 px-5 py-2.5 text-xs uppercase tracking-[0.12em] text-green/70 hover:border-gold"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab === "updates" && (
+          <div className="mt-6 grid gap-8 lg:grid-cols-2">
+            <div>
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="font-serif text-lg text-green">All updates</h2>
+                <button
+                  type="button"
+                  onClick={startAddUpdate}
+                  className="rounded-sm bg-gold px-4 py-2 text-xs uppercase tracking-[0.12em] text-green transition-colors hover:bg-gold/90"
+                >
+                  Add update
+                </button>
+              </div>
+
+              {updates.length === 0 ? (
+                <p className="rounded-sm border border-gold/20 bg-white p-8 text-center text-sm text-[#1a1a1a]/50">
+                  No updates yet. Add one to show it on the homepage.
+                </p>
+              ) : (
+                <ul className="space-y-3">
+                  {updates.map((update) => (
+                    <li
+                      key={update.id}
+                      className="flex items-start justify-between gap-3 rounded-sm border border-gold/20 bg-white p-4"
+                    >
+                      <div>
+                        <p className="font-medium text-green">{update.title}</p>
+                        <p className="mt-1 text-xs text-gold">
+                          {formatDate(update.publishedAt)}
+                        </p>
+                        <p className="mt-2 line-clamp-2 text-sm text-[#1a1a1a]/60">
+                          {update.body}
+                        </p>
+                      </div>
+                      <div className="flex shrink-0 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => startEditUpdate(update)}
+                          className="text-xs uppercase tracking-[0.1em] text-gold hover:text-green"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => deleteUpdate(update.id)}
+                          className="text-xs uppercase tracking-[0.1em] text-red-600/70 hover:text-red-600"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {editingUpdate && (
+              <div className="rounded-sm border border-gold/25 bg-white p-5 md:p-6">
+                <h2 className="font-serif text-lg text-green">
+                  {isNewUpdate ? "New update" : `Edit: ${editingUpdate.title}`}
+                </h2>
+
+                <div className="mt-5 space-y-4">
+                  <Field label="Title" required>
+                    <input
+                      required
+                      value={editingUpdate.title}
+                      onChange={(e) =>
+                        setEditingUpdate({
+                          ...editingUpdate,
+                          title: e.target.value,
+                        })
+                      }
+                      className={inputClass}
+                    />
+                  </Field>
+
+                  <Field label="Date">
+                    <input
+                      type="date"
+                      value={editingUpdate.publishedAt}
+                      onChange={(e) =>
+                        setEditingUpdate({
+                          ...editingUpdate,
+                          publishedAt: e.target.value,
+                        })
+                      }
+                      className={inputClass}
+                    />
+                  </Field>
+
+                  <Field label="Message" required>
+                    <textarea
+                      required
+                      rows={6}
+                      value={editingUpdate.body}
+                      onChange={(e) =>
+                        setEditingUpdate({
+                          ...editingUpdate,
+                          body: e.target.value,
+                        })
+                      }
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+
+                <div className="mt-6 flex gap-3">
+                  <button
+                    type="button"
+                    onClick={saveUpdate}
+                    disabled={
+                      saving ||
+                      !editingUpdate.title.trim() ||
+                      !editingUpdate.body.trim()
+                    }
+                    className="rounded-sm bg-green px-5 py-2.5 text-xs uppercase tracking-[0.12em] text-ivory hover:bg-green-dark disabled:opacity-60"
+                  >
+                    {saving ? "Saving…" : "Save"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={cancelEditUpdate}
                     className="rounded-sm border border-gold/30 px-5 py-2.5 text-xs uppercase tracking-[0.12em] text-green/70 hover:border-gold"
                   >
                     Cancel

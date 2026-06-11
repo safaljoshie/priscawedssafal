@@ -13,6 +13,13 @@ export type WeddingEvent = {
   schedule: ScheduleItem[];
 };
 
+export type WeddingUpdate = {
+  id: string;
+  title: string;
+  body: string;
+  publishedAt: string;
+};
+
 export type WeddingData = {
   couple: { bride: string; groom: string };
   countdownDate: string;
@@ -47,6 +54,7 @@ export type WeddingData = {
     }[];
   };
   faq: { q: string; a: string }[];
+  updates: WeddingUpdate[];
   rsvpDeadline: string;
   hashtag: string;
 };

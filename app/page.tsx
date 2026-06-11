@@ -1,3 +1,4 @@
+import { Updates } from "@/components/Updates";
 import { Details } from "@/components/Details";
 import { DressCode } from "@/components/DressCode";
 import { Faq } from "@/components/Faq";
@@ -25,6 +26,7 @@ export default async function Home() {
       <Nav couple={wedding.couple} />
       <Hero wedding={wedding} />
       <Details wedding={wedding} />
+      <Updates wedding={wedding} />
       <Travel wedding={wedding} />
       <DressCode wedding={wedding} />
       <Faq wedding={wedding} />
