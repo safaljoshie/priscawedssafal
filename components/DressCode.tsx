@@ -11,7 +11,11 @@ export function DressCode({ wedding }: { wedding: WeddingData }) {
 
   return (
     <Section id="dress-code" className="bg-white">
-      <SectionHeading label="Attire" title={dressCode.title} />
+      <SectionHeading
+        label="Attire"
+        title={dressCode.title}
+        className="[&_h2]:font-bold"
+      />
 
       <div className="mx-auto mt-8 max-w-4xl md:mt-12">
         <p className="text-center text-sm leading-relaxed text-[#1a1a1a]/70 md:text-base md:leading-loose">
@@ -28,7 +32,9 @@ export function DressCode({ wedding }: { wedding: WeddingData }) {
                 key={event.id}
                 className={`rounded-sm border p-5 md:p-6 ${getEventActiveStyle(event.id)}`}
               >
-                <h3 className="font-serif text-lg md:text-xl">{event.name}</h3>
+                <h3 className="font-serif text-lg font-bold md:text-xl">
+                  {event.name}
+                </h3>
                 <p className="mt-3 text-sm leading-relaxed opacity-90 md:text-base">
                   <span className="font-medium uppercase tracking-[0.08em] opacity-75">
                     Ladies
