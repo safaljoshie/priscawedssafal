@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { WeddingData } from "@/lib/types";
 import { Countdown } from "./Countdown";
-import { Ornament } from "./Divider";
 
 export function Hero({ wedding }: { wedding: WeddingData }) {
   const { couple, dateDisplay, location, countdownDate } = wedding;
@@ -23,20 +22,18 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
         <Image
           src="/images/save-the-date.png"
           alt={`Save the Date — ${couple.bride} and ${couple.groom}`}
-          width={800}
-          height={800}
+          width={1024}
+          height={1024}
           priority
-          sizes="(max-width: 768px) 320px, 28rem"
-          className="h-auto w-full max-w-[320px] md:max-w-md"
+          sizes="(max-width: 768px) 340px, 400px"
+          className="h-auto w-full max-w-[340px] md:max-w-[400px]"
         />
 
-        <Ornament />
-
-        <div className="mt-6 rounded-sm bg-white/50 px-6 py-4 backdrop-blur-sm md:mt-8">
-          <p className="font-serif text-xl text-green drop-shadow-sm md:text-2xl">
+        <div className="glass mt-6 rounded-2xl px-8 py-5 md:mt-8">
+          <p className="font-serif text-xl text-ivory drop-shadow-sm md:text-2xl">
             {dateDisplay}
           </p>
-          <p className="mt-2 text-sm tracking-wide text-green/80 drop-shadow-sm md:text-base">
+          <p className="mt-2 text-sm tracking-wide text-ivory/80 drop-shadow-sm md:text-base">
             {location.city}
           </p>
         </div>
@@ -46,7 +43,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
         <div className="mt-12 flex w-full flex-col items-center md:mt-16">
           <a
             href="#details"
-            className="flex flex-col items-center gap-2 rounded-sm bg-white/40 px-4 py-2 text-xs uppercase tracking-[0.25em] text-green backdrop-blur-sm transition-colors hover:bg-white/60 hover:text-gold"
+            className="glass flex flex-col items-center gap-2 rounded-2xl px-4 py-2 text-xs uppercase tracking-[0.25em] text-ivory transition-colors hover:bg-white/20 hover:text-gold"
           >
             <span>Discover more</span>
             <svg
