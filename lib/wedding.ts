@@ -11,28 +11,6 @@ export const wedding = {
     address: "1200 Main Street, St. Helena, CA 94574",
     mapsUrl: "https://maps.google.com/?q=St+Helena+CA",
   },
-  story: [
-    {
-      year: "2019",
-      title: "A chance meeting",
-      text: "They met at a mutual friend's dinner party in San Francisco. Safal spilled wine on Prisca's notebook; she laughed, he apologized, and they talked until the candles burned low.",
-    },
-    {
-      year: "2021",
-      title: "Adventures together",
-      text: "Weekend hikes, late-night cooking experiments, and cross-country road trips became their rhythm. They learned that the best journeys are the ones taken side by side.",
-    },
-    {
-      year: "2024",
-      title: "The proposal",
-      text: "On a quiet morning in Big Sur, Safal asked the question Prisca had been hoping for. She said yes before he finished the sentence.",
-    },
-    {
-      year: "2026",
-      title: "Forever begins",
-      text: "Surrounded by family and friends, they will say \"I do\" among the vines and golden hills they love.",
-    },
-  ],
   schedule: [
     { time: "3:30 PM", event: "Guest arrival & seating", location: "Garden terrace" },
     { time: "4:00 PM", event: "Ceremony", location: "Vineyard lawn" },
@@ -103,7 +81,6 @@ export const wedding = {
 } as const;
 
 export const navLinks = [
-  { href: "#story", label: "Story" },
   { href: "#details", label: "Details" },
   { href: "#schedule", label: "Schedule" },
   { href: "#travel", label: "Travel" },
