@@ -8,6 +8,7 @@ import { SectionHeading } from "./SectionHeading";
 type FormState = {
   name: string;
   email: string;
+  phone: string;
   attending: "yes" | "no" | "";
   guests: string;
   dietary: string;
@@ -17,6 +18,7 @@ type FormState = {
 const initial: FormState = {
   name: "",
   email: "",
+  phone: "",
   attending: "",
   guests: "1",
   dietary: "",
@@ -26,9 +28,20 @@ const initial: FormState = {
 export function Rsvp() {
   const [form, setForm] = useState<FormState>(initial);
   const [submitted, setSubmitted] = useState(false);
+  const [contactError, setContactError] = useState(false);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
+    const hasEmail = form.email.trim().length > 0;
+    const hasPhone = form.phone.trim().length > 0;
+
+    if (!hasEmail && !hasPhone) {
+      setContactError(true);
+      return;
+    }
+
+    setContactError(false);
     setSubmitted(true);
   }
 
@@ -84,17 +97,41 @@ export function Rsvp() {
             />
           </Field>
 
-          <Field label="Email" required>
+          <Field label="Email">
             <input
               type="email"
-              required
               value={form.email}
-              onChange={(e) => update("email", e.target.value)}
+              onChange={(e) => {
+                setContactError(false);
+                update("email", e.target.value);
+              }}
               className={inputClass}
               placeholder="you@email.com"
             />
           </Field>
+
+          <Field label="Phone number">
+            <input
+              type="tel"
+              value={form.phone}
+              onChange={(e) => {
+                setContactError(false);
+                update("phone", e.target.value);
+              }}
+              className={inputClass}
+              placeholder="+977 98XXXXXXXX"
+            />
+          </Field>
         </div>
+
+        <p className="text-center text-xs text-ivory/50">
+          Email or phone number required <span className="text-gold">*</span>
+        </p>
+        {contactError && (
+          <p className="text-center text-xs text-gold">
+            Please provide an email or phone number so we can reach you.
+          </p>
+        )}
 
         <Field label="Will you attend?" required>
           <div className="flex gap-3 md:gap-4">

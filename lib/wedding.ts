@@ -64,29 +64,32 @@ export const wedding = {
     },
   ],
   travel: {
-    airports: [
-      { name: "Bharatpur (BHR)", distance: "~25 km" },
-      { name: "Kathmandu Tribhuvan (KTM)", distance: "~150 km" },
-      { name: "Pokhara (PKR)", distance: "~130 km" },
-    ],
-    hotels: [
-      {
-        name: "Hotels in Bharatpur",
-        note: "Closest options to the venue in Chitwan",
-        url: "#",
+    gettingHere: {
+      title: "Getting here",
+      airport: {
+        label: "Nearest airport",
+        name: "Bharatpur Airport (BHR)",
+        distance: "25 KM",
       },
-      {
-        name: "Sauraha & Meghauli",
-        note: "Popular stay areas near Chitwan National Park",
-        url: "#",
+      busStops: {
+        label: "Nearest busstops",
+        stops: [
+          { name: "Sauraha Chowk", distance: "3 KM" },
+          { name: "Chitrasari Chowk", distance: "600 M" },
+          { name: "Sauraha Stand", distance: "1.5 KM" },
+        ],
       },
-      {
-        name: "Narayangarh",
-        note: "Convenient base with shops and restaurants",
-        url: "#",
-      },
-    ],
-    parking: "Street and nearby parking available around the venue. Taxis and rideshare are common in Ratnanagar.",
+    },
+    stay: {
+      name: "Sauraha Nepal",
+      url: "https://saurahanepal.com",
+      note: "Find hotels and lodges in Sauraha, Chitwan",
+    },
+    explore: {
+      title: "Explore",
+      text: "There are so many places to explore while you are free but the bride and groom are not. So visit SaurahaNepal.com and discover Sauraha and it's wildness.",
+      url: "https://saurahanepal.com",
+    },
   },
   dressCode: {
     title: "Garden formal",
