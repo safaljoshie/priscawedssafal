@@ -7,38 +7,46 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
   const { couple, dateDisplay, location, countdownDate } = wedding;
 
   return (
-    <section
-      id="home"
-      className="relative bg-ivory md:grid md:min-h-screen md:grid-cols-2"
-    >
-      <div className="flex items-center justify-center px-6 pt-10 pb-6 md:min-h-screen md:px-12 md:py-16 lg:px-16">
+    <section id="home" className="relative min-h-screen">
+      <Image
+        src="/images/hero-couple.png"
+        alt={`${couple.bride} and ${couple.groom}`}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+
+      <div className="absolute inset-0 bg-ivory/30" aria-hidden />
+
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20 text-center md:px-12 md:py-24">
         <Image
           src="/images/save-the-date.png"
           alt={`Save the Date — ${couple.bride} and ${couple.groom}`}
           width={800}
           height={800}
           priority
-          sizes="(max-width: 768px) 380px, 50vw"
-          className="h-auto w-full max-w-[380px] md:max-w-md lg:max-w-lg"
+          sizes="(max-width: 768px) 320px, 28rem"
+          className="h-auto w-full max-w-[320px] md:max-w-md"
         />
-      </div>
 
-      <div className="flex flex-col items-center justify-center px-6 py-10 text-center md:px-12 md:py-20 lg:px-16">
         <Ornament />
 
-        <p className="mt-6 font-serif text-xl text-green/90 md:mt-8 md:text-2xl">
-          {dateDisplay}
-        </p>
-        <p className="mt-2 text-sm tracking-wide text-[#1a1a1a]/60 md:text-base">
-          {location.city}
-        </p>
+        <div className="mt-6 rounded-sm bg-white/50 px-6 py-4 backdrop-blur-sm md:mt-8">
+          <p className="font-serif text-xl text-green drop-shadow-sm md:text-2xl">
+            {dateDisplay}
+          </p>
+          <p className="mt-2 text-sm tracking-wide text-green/80 drop-shadow-sm md:text-base">
+            {location.city}
+          </p>
+        </div>
 
         <Countdown countdownDate={countdownDate} />
 
         <div className="mt-12 flex w-full flex-col items-center md:mt-16">
           <a
             href="#details"
-            className="flex flex-col items-center gap-2 text-xs uppercase tracking-[0.25em] text-green/50 transition-colors hover:text-gold"
+            className="flex flex-col items-center gap-2 rounded-sm bg-white/40 px-4 py-2 text-xs uppercase tracking-[0.25em] text-green backdrop-blur-sm transition-colors hover:bg-white/60 hover:text-gold"
           >
             <span>Discover more</span>
             <svg

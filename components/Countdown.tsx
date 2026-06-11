@@ -55,7 +55,7 @@ export function Countdown({ countdownDate }: { countdownDate: string }) {
       {units.map(({ key, label }) => (
         <div
           key={key}
-          className="flex flex-col items-center rounded-sm border border-gold/20 bg-white/60 px-2 py-3 backdrop-blur-sm md:px-4 md:py-5"
+          className="flex flex-col items-center rounded-sm border border-gold/20 bg-white/70 px-2 py-3 backdrop-blur-sm md:px-4 md:py-5"
         >
           <span className="font-serif text-2xl text-green md:text-4xl">
             {String(timeLeft[key]).padStart(2, "0")}
