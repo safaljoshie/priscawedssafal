@@ -1,13 +1,27 @@
+import { Details } from "@/components/Details";
+import { DressCode } from "@/components/DressCode";
+import { Faq } from "@/components/Faq";
+import { Footer } from "@/components/Footer";
+import { Hero } from "@/components/Hero";
+import { Nav } from "@/components/Nav";
+import { OurStory } from "@/components/OurStory";
+import { Rsvp } from "@/components/Rsvp";
+import { Schedule } from "@/components/Schedule";
+import { Travel } from "@/components/Travel";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <p className="font-serif text-sm uppercase tracking-[0.3em] text-gold">
-        Save the Date
-      </p>
-      <h1 className="mt-4 font-serif text-5xl text-green">Prisca & Safal</h1>
-      <p className="mt-6 max-w-xs text-sm leading-relaxed text-[#1a1a1a]/70">
-        Wedding website foundation ready. Sections coming soon.
-      </p>
-    </main>
+    <>
+      <Nav />
+      <Hero />
+      <OurStory />
+      <Details />
+      <Schedule />
+      <Travel />
+      <DressCode />
+      <Faq />
+      <Rsvp />
+      <Footer />
+    </>
   );
 }
