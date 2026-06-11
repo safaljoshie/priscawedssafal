@@ -173,12 +173,29 @@
     }
   },
   "dressCode": {
-    "title": "Garden formal",
-    "description": "We invite you to dress in elegant attire suited for an outdoor celebration. Think flowing fabrics, soft colours, and comfortable shoes for the lawn.",
-    "suggestions": [
-      "Ladies: midi or floor-length dresses, dressy separates",
-      "Gentlemen: suits or sport coats; ties optional",
-      "Colours: ivory, sage, blush, gold — please avoid white"
+    "title": "What to wear",
+    "description": "Dress code for each celebration — choose colours that feel right for you.",
+    "events": [
+      {
+        "eventId": "mehendi",
+        "ladies": "Sari, kurtha or lenga in a colour of your choice.",
+        "gents": "Kurtha in a colour of your choice."
+      },
+      {
+        "eventId": "wedding-day",
+        "ladies": "Sari, kurtha or lenga in a colour of your choice.",
+        "gents": "Daura suruwal or formal suit in a colour of your choice."
+      },
+      {
+        "eventId": "ganesh-sagun",
+        "ladies": "Sari or kurtha in a colour of your choice.",
+        "gents": "Formals in a colour of your choice."
+      },
+      {
+        "eventId": "reception",
+        "ladies": "Sari, kurtha or lenga in a colour of your choice.",
+        "gents": "Formals in a colour of your choice."
+      }
     ]
   },
   "faq": [

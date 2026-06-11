@@ -40,7 +40,11 @@ export type WeddingData = {
   dressCode: {
     title: string;
     description: string;
-    suggestions: string[];
+    events: {
+      eventId: string;
+      ladies: string;
+      gents: string;
+    }[];
   };
   faq: { q: string; a: string }[];
   rsvpDeadline: string;
