@@ -3,14 +3,15 @@ import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 import { StayPreview } from "./StayPreview";
 
-const phoneOuterClass = "mx-auto mt-4 w-full max-w-[280px] md:mt-6";
-
 const phoneFrameClass =
   "overflow-hidden rounded-[1.75rem] border-[3px] shadow-md";
 
 const phoneHeightClass = "h-[440px] md:h-[485px]";
 
 const infoBoxClass = `${phoneFrameClass} ${phoneHeightClass} flex flex-col justify-center border-green/25 bg-green/10 px-5 py-8 md:px-6`;
+
+const columnClass =
+  "flex w-full max-w-[280px] flex-col items-center text-center";
 
 export function Travel() {
   const { travel } = wedding;
@@ -21,12 +22,12 @@ export function Travel() {
     <Section id="travel" className="bg-ivory">
       <SectionHeading label="Travel" title="Getting there & staying" />
 
-      <div className="mt-14 grid gap-10 md:mt-20 md:grid-cols-2 md:gap-12 lg:grid-cols-3">
-        <div>
+      <div className="mt-14 grid justify-items-center gap-10 md:mt-20 md:grid-cols-3 md:gap-8 lg:gap-12">
+        <div className={columnClass}>
           <h3 className="font-serif text-lg text-green md:text-xl">
             {gettingHere.title}
           </h3>
-          <div className={phoneOuterClass}>
+          <div className="mt-4 w-full md:mt-6">
             <div className={infoBoxClass}>
               <div>
                 <p className="font-serif text-sm text-gold md:text-base">
@@ -62,7 +63,7 @@ export function Travel() {
           </div>
         </div>
 
-        <div className="lg:col-span-1">
+        <div className={columnClass}>
           <h3 className="font-serif text-lg text-green md:text-xl">
             Where to stay
           </h3>
@@ -73,11 +74,11 @@ export function Travel() {
           />
         </div>
 
-        <div className="md:col-span-2 lg:col-span-1">
+        <div className={columnClass}>
           <h3 className="font-serif text-lg text-green md:text-xl">
             {explore.title}
           </h3>
-          <div className={phoneOuterClass}>
+          <div className="mt-4 w-full md:mt-6">
             <div
               className={`${infoBoxClass} items-center text-center`}
             >
