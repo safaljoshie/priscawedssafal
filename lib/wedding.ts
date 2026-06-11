@@ -3,21 +3,64 @@ export const wedding = {
     bride: "Prisca",
     groom: "Safal",
   },
-  date: new Date("2026-09-12T16:00:00"),
-  dateDisplay: "Saturday, September 12, 2026",
+  date: new Date("2026-09-11T10:00:00"),
+  dateDisplay: "September 10 – 13, 2026",
   location: {
     city: "Napa Valley, California",
     venue: "Vineyard Estate at St. Helena",
     address: "1200 Main Street, St. Helena, CA 94574",
     mapsUrl: "https://maps.google.com/?q=St+Helena+CA",
   },
-  schedule: [
-    { time: "3:30 PM", event: "Guest arrival & seating", location: "Garden terrace" },
-    { time: "4:00 PM", event: "Ceremony", location: "Vineyard lawn" },
-    { time: "5:00 PM", event: "Cocktail hour", location: "Courtyard bar" },
-    { time: "6:30 PM", event: "Reception & dinner", location: "Grand pavilion" },
-    { time: "9:00 PM", event: "Dancing & celebration", location: "Grand pavilion" },
-    { time: "11:00 PM", event: "Farewell", location: "" },
+  events: [
+    {
+      id: "mehendi",
+      name: "Mehendi",
+      date: "Thursday, September 10, 2026",
+      venue: "Courtyard Garden",
+      schedule: [
+        { time: "3:00 PM", event: "Guest arrival", location: "Garden terrace" },
+        { time: "3:30 PM", event: "Mehendi ceremony begins", location: "Courtyard" },
+        { time: "5:00 PM", event: "Music, dancing & refreshments", location: "Courtyard" },
+        { time: "7:30 PM", event: "Dinner", location: "Garden pavilion" },
+      ],
+    },
+    {
+      id: "wedding-day",
+      name: "Wedding Day",
+      date: "Friday, September 11, 2026",
+      venue: "Vineyard Estate at St. Helena",
+      schedule: [
+        { time: "9:00 AM", event: "Guest arrival", location: "Main entrance" },
+        { time: "10:00 AM", event: "Wedding ceremony", location: "Vineyard lawn" },
+        { time: "12:00 PM", event: "Blessings & family photos", location: "Garden terrace" },
+        { time: "1:00 PM", event: "Wedding lunch", location: "Grand pavilion" },
+      ],
+    },
+    {
+      id: "ganesh-sagun",
+      name: "Ganesh Chauthi & Sagun",
+      date: "Saturday, September 12, 2026",
+      venue: "Vineyard Estate at St. Helena",
+      schedule: [
+        { time: "9:00 AM", event: "Guest arrival", location: "Main hall" },
+        { time: "9:30 AM", event: "Ganesh Puja", location: "Main hall" },
+        { time: "11:00 AM", event: "Sagun ceremony", location: "Main hall" },
+        { time: "12:30 PM", event: "Lunch & refreshments", location: "Grand pavilion" },
+      ],
+    },
+    {
+      id: "reception",
+      name: "Reception",
+      date: "Saturday, September 12, 2026",
+      venue: "Vineyard Estate at St. Helena",
+      schedule: [
+        { time: "5:00 PM", event: "Guest arrival & cocktails", location: "Courtyard bar" },
+        { time: "6:30 PM", event: "Reception & dinner", location: "Grand pavilion" },
+        { time: "8:30 PM", event: "First dance & toasts", location: "Grand pavilion" },
+        { time: "9:00 PM", event: "Dancing & celebration", location: "Grand pavilion" },
+        { time: "11:00 PM", event: "Farewell", location: "" },
+      ],
+    },
   ],
   travel: {
     airports: [
@@ -82,7 +125,6 @@ export const wedding = {
 
 export const navLinks = [
   { href: "#details", label: "Details" },
-  { href: "#schedule", label: "Schedule" },
   { href: "#travel", label: "Travel" },
   { href: "#rsvp", label: "RSVP" },
 ] as const;

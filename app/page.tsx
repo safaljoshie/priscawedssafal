@@ -5,7 +5,6 @@ import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { Rsvp } from "@/components/Rsvp";
-import { Schedule } from "@/components/Schedule";
 import { Travel } from "@/components/Travel";
 
 export default function Home() {
@@ -14,7 +13,6 @@ export default function Home() {
       <Nav />
       <Hero />
       <Details />
-      <Schedule />
       <Travel />
       <DressCode />
       <Faq />
