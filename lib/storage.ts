@@ -1,24 +1,17 @@
-import { mkdir, readFile, writeFile } from "fs/promises";
-import path from "path";
 import type { RsvpSubmission, WeddingData, WeddingEvent } from "./types";
+import { readJson, readJsonArray, writeJson } from "./persistence";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const WEDDING_PATH = path.join(DATA_DIR, "wedding.json");
-const RSVPS_PATH = path.join(DATA_DIR, "rsvps.json");
-
-async function ensureDataDir() {
-  await mkdir(DATA_DIR, { recursive: true });
-}
+const WEDDING_BLOB_KEY = "data/wedding.json";
+const RSVPS_BLOB_KEY = "data/rsvps.json";
+const WEDDING_FILE = "wedding.json";
+const RSVPS_FILE = "rsvps.json";
 
 export async function getWeddingData(): Promise<WeddingData> {
-  await ensureDataDir();
-  const raw = await readFile(WEDDING_PATH, "utf-8");
-  return JSON.parse(raw) as WeddingData;
+  return readJson<WeddingData>(WEDDING_BLOB_KEY, WEDDING_FILE);
 }
 
 export async function saveWeddingData(data: WeddingData): Promise<void> {
-  await ensureDataDir();
-  await writeFile(WEDDING_PATH, JSON.stringify(data, null, 2), "utf-8");
+  await writeJson(WEDDING_BLOB_KEY, WEDDING_FILE, data);
 }
 
 export async function getEvents(): Promise<WeddingEvent[]> {
@@ -59,13 +52,7 @@ export async function deleteEvent(id: string): Promise<void> {
 }
 
 export async function getRsvps(): Promise<RsvpSubmission[]> {
-  await ensureDataDir();
-  try {
-    const raw = await readFile(RSVPS_PATH, "utf-8");
-    return JSON.parse(raw) as RsvpSubmission[];
-  } catch {
-    return [];
-  }
+  return readJsonArray<RsvpSubmission>(RSVPS_BLOB_KEY, RSVPS_FILE);
 }
 
 export async function addRsvp(
@@ -78,8 +65,7 @@ export async function addRsvp(
     submittedAt: new Date().toISOString(),
   };
   rsvps.unshift(entry);
-  await ensureDataDir();
-  await writeFile(RSVPS_PATH, JSON.stringify(rsvps, null, 2), "utf-8");
+  await writeJson(RSVPS_BLOB_KEY, RSVPS_FILE, rsvps);
   return entry;
 }
 
