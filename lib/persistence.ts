@@ -1,4 +1,4 @@
-import { head, put } from "@vercel/blob";
+import { get, put } from "@vercel/blob";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 
@@ -20,17 +20,28 @@ async function ensureDataDir() {
   await mkdir(DATA_DIR, { recursive: true });
 }
 
+async function readBlobJson<T>(blobKey: string): Promise<T | null> {
+  try {
+    const result = await get(blobKey, {
+      access: "private",
+      useCache: false,
+    });
+
+    if (!result || result.statusCode !== 200 || !result.stream) {
+      return null;
+    }
+
+    const text = await new Response(result.stream).text();
+    return JSON.parse(text) as T;
+  } catch {
+    return null;
+  }
+}
+
 export async function readJson<T>(blobKey: string, localFile: string): Promise<T> {
   if (useBlobStorage()) {
-    try {
-      const meta = await head(blobKey);
-      const res = await fetch(meta.url);
-      if (res.ok) {
-        return (await res.json()) as T;
-      }
-    } catch {
-      // Blob not created yet — fall back to bundled local file.
-    }
+    const fromBlob = await readBlobJson<T>(blobKey);
+    if (fromBlob) return fromBlob;
   }
 
   const localPath = path.join(DATA_DIR, localFile);
@@ -63,15 +74,8 @@ export async function writeJson(
 
 export async function readJsonArray<T>(blobKey: string, localFile: string): Promise<T[]> {
   if (useBlobStorage()) {
-    try {
-      const meta = await head(blobKey);
-      const res = await fetch(meta.url);
-      if (res.ok) {
-        return (await res.json()) as T[];
-      }
-    } catch {
-      // Blob not created yet.
-    }
+    const fromBlob = await readBlobJson<T[]>(blobKey);
+    if (fromBlob) return fromBlob;
     return [];
   }
 

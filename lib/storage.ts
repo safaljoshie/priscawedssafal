@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import type { RsvpSubmission, WeddingData, WeddingEvent } from "./types";
 import { readJson, readJsonArray, writeJson } from "./persistence";
 
@@ -12,6 +13,7 @@ export async function getWeddingData(): Promise<WeddingData> {
 
 export async function saveWeddingData(data: WeddingData): Promise<void> {
   await writeJson(WEDDING_BLOB_KEY, WEDDING_FILE, data);
+  revalidatePath("/");
 }
 
 export async function getEvents(): Promise<WeddingEvent[]> {

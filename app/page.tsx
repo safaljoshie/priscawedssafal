@@ -8,6 +8,8 @@ import { Rsvp } from "@/components/Rsvp";
 import { Travel } from "@/components/Travel";
 import { getWeddingData } from "@/lib/storage";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const wedding = await getWeddingData();
 
