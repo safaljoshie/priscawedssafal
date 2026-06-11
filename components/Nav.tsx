@@ -26,11 +26,11 @@ export function Nav({ couple }: Props) {
       }`}
       aria-label="Section navigation"
     >
-      <div className="border-b border-gold/15 bg-white/90 backdrop-blur-md md:bg-white/95">
+      <div className="border-b border-gold/15 bg-white/20 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-12 md:py-4">
           <a
             href="#home"
-            className="hidden font-serif text-lg text-green transition-colors hover:text-gold md:block lg:text-xl"
+            className="hidden font-serif text-lg text-black transition-colors hover:text-wedding md:block lg:text-xl"
           >
             {couple.bride} & {couple.groom}
           </a>
@@ -40,7 +40,7 @@ export function Nav({ couple }: Props) {
               <li key={href}>
                 <a
                   href={href}
-                  className="block px-1.5 py-1 text-[10px] uppercase tracking-[0.15em] text-green/70 transition-colors hover:text-gold md:px-0 md:text-xs md:tracking-[0.2em]"
+                  className="block px-1.5 py-1 text-[10px] uppercase tracking-[0.15em] text-black transition-colors hover:text-wedding md:px-0 md:text-xs md:tracking-[0.2em]"
                 >
                   {label}
                 </a>
