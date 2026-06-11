@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { wedding } from "@/lib/wedding";
 import { Section } from "./Section";
@@ -27,7 +28,16 @@ export function Details() {
         <p className="mt-3 font-serif text-2xl text-green md:text-3xl">
           {dateDisplay}
         </p>
-        <p className="mt-3 font-serif text-lg text-green/90 md:text-xl">
+        <div className="mx-auto mt-6 max-w-xs">
+          <Image
+            src={location.venueImage}
+            alt={location.venue}
+            width={400}
+            height={300}
+            className="mx-auto h-auto w-full rounded-sm"
+          />
+        </div>
+        <p className="mt-4 font-serif text-lg text-green/90 md:text-xl">
           {location.venue}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-[#1a1a1a]/60 md:text-base">

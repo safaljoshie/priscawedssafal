@@ -7,7 +7,8 @@ export const wedding = {
   dateDisplay: "January 17 – 22, 2027",
   location: {
     city: "Chitwan, Nepal",
-    venue: "Ratnanagar 8",
+    venue: "Joshi Villa Sauraha",
+    venueImage: "/images/joshi-villa-sauraha.png",
     address: "Ratnanagar 8, Chitwan, Nepal",
     mapsUrl: "https://maps.app.goo.gl/DZ8jGnDhY3xJvKZS8",
   },
@@ -16,7 +17,7 @@ export const wedding = {
       id: "mehendi",
       name: "Mehendi",
       date: "Sunday, January 17, 2027",
-      venue: "Ratnanagar 8",
+      venue: "Joshi Villa Sauraha",
       schedule: [
         { time: "3:00 PM", event: "Guest arrival", location: "Garden terrace" },
         { time: "3:30 PM", event: "Mehendi ceremony begins", location: "Courtyard" },
@@ -28,7 +29,7 @@ export const wedding = {
       id: "wedding-day",
       name: "Wedding Day",
       date: "Tuesday, January 19, 2027",
-      venue: "Ratnanagar 8",
+      venue: "Joshi Villa Sauraha",
       schedule: [
         { time: "9:00 AM", event: "Guest arrival", location: "Main entrance" },
         { time: "10:00 AM", event: "Wedding ceremony", location: "Vineyard lawn" },
@@ -40,7 +41,7 @@ export const wedding = {
       id: "ganesh-sagun",
       name: "Ganesh Chauthi & Sagun",
       date: "Wednesday, January 20, 2027",
-      venue: "Ratnanagar 8",
+      venue: "Joshi Villa Sauraha",
       schedule: [
         { time: "9:00 AM", event: "Guest arrival", location: "Main hall" },
         { time: "9:30 AM", event: "Ganesh Puja", location: "Main hall" },
@@ -52,7 +53,7 @@ export const wedding = {
       id: "reception",
       name: "Reception",
       date: "Friday, January 22, 2027",
-      venue: "Ratnanagar 8",
+      venue: "Joshi Villa Sauraha",
       schedule: [
         { time: "5:00 PM", event: "Guest arrival & cocktails", location: "Courtyard bar" },
         { time: "6:30 PM", event: "Reception & dinner", location: "Grand pavilion" },
