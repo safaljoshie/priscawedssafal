@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { WeddingData } from "@/lib/types";
 import { Countdown } from "./Countdown";
 
@@ -7,15 +6,12 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
 
   return (
     <section id="home" className="relative min-h-screen">
-      <Image
-        src="/images/hero-couple.png"
-        alt={`${couple.bride} and ${couple.groom}`}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
+      <div
+        className="hero-bg absolute inset-0 bg-cover bg-center bg-no-repeat"
+        role="img"
+        aria-label={`${couple.bride} and ${couple.groom}`}
       />
-      <div className="absolute inset-0 bg-black/25" aria-hidden />
+      <div className="absolute inset-0 bg-black/20" aria-hidden />
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20 text-center md:px-12 md:py-24">
         <div className="glass rounded-2xl px-8 py-5 md:px-10 md:py-6">

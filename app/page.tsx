@@ -15,6 +15,13 @@ export default async function Home() {
 
   return (
     <>
+      <link
+        rel="preload"
+        href="/images/hero-couple.webp"
+        as="image"
+        type="image/webp"
+        fetchPriority="high"
+      />
       <Nav couple={wedding.couple} />
       <Hero wedding={wedding} />
       <Details wedding={wedding} />
