@@ -1,8 +1,8 @@
-import { wedding } from "@/lib/wedding";
+import type { WeddingData } from "@/lib/types";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
-export function Faq() {
+export function Faq({ wedding }: { wedding: WeddingData }) {
   return (
     <Section id="faq" className="bg-ivory">
       <SectionHeading label="FAQ" title="Good to know" />

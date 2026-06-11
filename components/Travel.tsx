@@ -1,4 +1,4 @@
-import { wedding } from "@/lib/wedding";
+import type { WeddingData } from "@/lib/types";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 import { StayPreview } from "./StayPreview";
@@ -13,7 +13,7 @@ const infoBoxClass = `${phoneFrameClass} ${phoneHeightClass} flex flex-col justi
 const columnClass =
   "flex w-full max-w-[280px] flex-col items-center text-center";
 
-export function Travel() {
+export function Travel({ wedding }: { wedding: WeddingData }) {
   const { travel } = wedding;
   const { gettingHere, explore } = travel;
   const { airport, busStops } = gettingHere;

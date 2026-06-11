@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { wedding } from "@/lib/wedding";
 
 type TimeLeft = {
   days: number;
@@ -29,17 +28,19 @@ const units: { key: keyof TimeLeft; label: string }[] = [
   { key: "seconds", label: "Sec" },
 ];
 
-export function Countdown() {
+export function Countdown({ countdownDate }: { countdownDate: string }) {
+  const target = new Date(countdownDate);
+
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(() =>
-    getTimeLeft(wedding.date)
+    getTimeLeft(target)
   );
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(getTimeLeft(wedding.date));
+      setTimeLeft(getTimeLeft(target));
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [countdownDate]);
 
   if (!timeLeft) {
     return (

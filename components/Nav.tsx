@@ -1,9 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { navLinks, wedding } from "@/lib/wedding";
+import { navLinks } from "@/lib/wedding";
 
-export function Nav() {
+type Props = {
+  couple: { bride: string; groom: string };
+};
+
+export function Nav({ couple }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -12,8 +16,6 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const { couple } = wedding;
 
   return (
     <nav

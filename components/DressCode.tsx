@@ -1,8 +1,8 @@
-import { wedding } from "@/lib/wedding";
+import type { WeddingData } from "@/lib/types";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
-export function DressCode() {
+export function DressCode({ wedding }: { wedding: WeddingData }) {
   const { dressCode } = wedding;
 
   return (

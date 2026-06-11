@@ -1,7 +1,7 @@
-import { wedding } from "@/lib/wedding";
+import type { WeddingData } from "@/lib/types";
 import { Ornament } from "./Divider";
 
-export function Footer() {
+export function Footer({ wedding }: { wedding: WeddingData }) {
   const { couple, hashtag } = wedding;
 
   return (

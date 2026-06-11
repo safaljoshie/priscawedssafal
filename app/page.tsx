@@ -6,18 +6,21 @@ import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { Rsvp } from "@/components/Rsvp";
 import { Travel } from "@/components/Travel";
+import { getWeddingData } from "@/lib/storage";
 
-export default function Home() {
+export default async function Home() {
+  const wedding = await getWeddingData();
+
   return (
     <>
-      <Nav />
-      <Hero />
-      <Details />
-      <Travel />
-      <DressCode />
-      <Faq />
-      <Rsvp />
-      <Footer />
+      <Nav couple={wedding.couple} />
+      <Hero wedding={wedding} />
+      <Details wedding={wedding} />
+      <Travel wedding={wedding} />
+      <DressCode wedding={wedding} />
+      <Faq wedding={wedding} />
+      <Rsvp wedding={wedding} />
+      <Footer wedding={wedding} />
     </>
   );
 }

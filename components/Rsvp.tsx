@@ -1,7 +1,11 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { wedding } from "@/lib/wedding";
+import type { WeddingData } from "@/lib/types";
+import {
+  eventInactiveStyleRsvp,
+  getEventActiveStyle,
+} from "@/lib/eventStyles";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
@@ -10,6 +14,7 @@ type FormState = {
   email: string;
   phone: string;
   attending: "yes" | "no" | "";
+  eventsAttending: string[];
   guests: string;
   dietary: string;
   message: string;
@@ -20,17 +25,21 @@ const initial: FormState = {
   email: "",
   phone: "",
   attending: "",
+  eventsAttending: [],
   guests: "1",
   dietary: "",
   message: "",
 };
 
-export function Rsvp() {
+export function Rsvp({ wedding }: { wedding: WeddingData }) {
   const [form, setForm] = useState<FormState>(initial);
   const [submitted, setSubmitted] = useState(false);
   const [contactError, setContactError] = useState(false);
+  const [eventsError, setEventsError] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     const hasEmail = form.email.trim().length > 0;
@@ -41,12 +50,70 @@ export function Rsvp() {
       return;
     }
 
+    if (form.attending === "yes" && form.eventsAttending.length === 0) {
+      setEventsError(true);
+      return;
+    }
+
     setContactError(false);
-    setSubmitted(true);
+    setEventsError(false);
+    setSubmitError("");
+    setSubmitting(true);
+
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          attending: form.attending,
+          eventsAttending: form.eventsAttending,
+          guests: form.guests,
+          dietary: form.dietary,
+          message: form.message,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setSubmitError(data.error || "Failed to submit RSVP");
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Failed to submit RSVP. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  function toggleEvent(eventId: string) {
+    setEventsError(false);
+    setForm((prev) => {
+      const selected = prev.eventsAttending.includes(eventId);
+      return {
+        ...prev,
+        eventsAttending: selected
+          ? prev.eventsAttending.filter((id) => id !== eventId)
+          : [...prev.eventsAttending, eventId],
+      };
+    });
+  }
+
+  function setAttending(val: "yes" | "no") {
+    setForm((prev) => ({
+      ...prev,
+      attending: val,
+      eventsAttending: val === "yes" ? prev.eventsAttending : [],
+    }));
+    if (val === "no") setEventsError(false);
   }
 
   if (submitted) {
@@ -150,7 +217,7 @@ export function Rsvp() {
                   value={val}
                   required
                   checked={form.attending === val}
-                  onChange={() => update("attending", val)}
+                  onChange={() => setAttending(val)}
                   className="sr-only"
                 />
                 {val === "yes" ? "Joyfully accepts" : "Regretfully declines"}
@@ -158,6 +225,35 @@ export function Rsvp() {
             ))}
           </div>
         </Field>
+
+        {form.attending === "yes" && (
+          <Field label="Which events will you attend?" required>
+            <div className="flex flex-wrap gap-2">
+              {wedding.events.map((event) => {
+                const isSelected = form.eventsAttending.includes(event.id);
+                return (
+                  <button
+                    key={event.id}
+                    type="button"
+                    onClick={() => toggleEvent(event.id)}
+                    className={`rounded-sm border px-3 py-2.5 text-left text-xs uppercase tracking-[0.08em] transition-colors md:px-4 md:py-3 md:text-sm ${
+                      isSelected
+                        ? getEventActiveStyle(event.id)
+                        : eventInactiveStyleRsvp
+                    }`}
+                  >
+                    {event.name}
+                  </button>
+                );
+              })}
+            </div>
+            {eventsError && (
+              <p className="mt-2 text-xs text-gold">
+                Please select at least one event you will attend.
+              </p>
+            )}
+          </Field>
+        )}
 
         {form.attending === "yes" && (
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
@@ -197,11 +293,16 @@ export function Rsvp() {
           />
         </Field>
 
+        {submitError && (
+          <p className="text-center text-xs text-gold">{submitError}</p>
+        )}
+
         <button
           type="submit"
-          className="w-full rounded-sm bg-gold py-3.5 text-xs uppercase tracking-[0.25em] text-green transition-colors hover:bg-gold/90 md:py-4 md:text-sm"
+          disabled={submitting}
+          className="w-full rounded-sm bg-gold py-3.5 text-xs uppercase tracking-[0.25em] text-green transition-colors hover:bg-gold/90 disabled:opacity-60 md:py-4 md:text-sm"
         >
-          Send RSVP
+          {submitting ? "Sending…" : "Send RSVP"}
         </button>
       </form>
     </Section>

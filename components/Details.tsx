@@ -2,22 +2,21 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { wedding } from "@/lib/wedding";
+import type { WeddingData } from "@/lib/types";
+import {
+  eventInactiveStyleDetails,
+  getEventActiveStyle,
+} from "@/lib/eventStyles";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
-const eventActiveStyles: Record<string, string> = {
-  mehendi: "border-green bg-green text-ivory",
-  "wedding-day": "border-[#a63d40] bg-[#a63d40] text-ivory",
-  "ganesh-sagun": "border-[#d97706] bg-[#d97706] text-ivory",
-  reception: "border-[#6b4423] bg-[#6b4423] text-ivory",
-};
-
-export function Details() {
+export function Details({ wedding }: { wedding: WeddingData }) {
   const { dateDisplay, location, events } = wedding;
-  const [selectedId, setSelectedId] = useState<string>(events[0].id);
+  const [selectedId, setSelectedId] = useState<string>(events[0]?.id ?? "");
 
   const selected = events.find((e) => e.id === selectedId) ?? events[0];
+
+  if (!selected) return null;
 
   return (
     <Section id="details" className="bg-ivory">
@@ -77,8 +76,8 @@ export function Details() {
                 onClick={() => setSelectedId(event.id)}
                 className={`shrink-0 rounded-sm border px-4 py-2.5 text-xs uppercase tracking-[0.12em] transition-colors md:px-5 md:py-3 md:text-sm md:tracking-[0.15em] ${
                   isActive
-                    ? eventActiveStyles[event.id]
-                    : "border-gold/30 bg-white text-green/70 hover:border-gold hover:text-green"
+                    ? getEventActiveStyle(event.id)
+                    : eventInactiveStyleDetails
                 }`}
               >
                 {event.name}
@@ -99,6 +98,16 @@ export function Details() {
               {selected.date}
             </p>
             <p className="mt-0.5 text-sm text-[#1a1a1a]/50">{selected.venue}</p>
+            {selected.mapsUrl && (
+              <a
+                href={selected.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-block text-xs uppercase tracking-[0.15em] text-gold underline-offset-4 hover:underline"
+              >
+                View on map
+              </a>
+            )}
           </div>
 
           <div className="overflow-x-auto">

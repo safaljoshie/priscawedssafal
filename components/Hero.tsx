@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { wedding } from "@/lib/wedding";
+import type { WeddingData } from "@/lib/types";
 import { Countdown } from "./Countdown";
 import { Ornament } from "./Divider";
 
-export function Hero() {
-  const { couple, dateDisplay, location } = wedding;
+export function Hero({ wedding }: { wedding: WeddingData }) {
+  const { couple, dateDisplay, location, countdownDate } = wedding;
 
   return (
     <section
@@ -33,7 +33,7 @@ export function Hero() {
           {location.city}
         </p>
 
-        <Countdown />
+        <Countdown countdownDate={countdownDate} />
 
         <a
           href="#details"
