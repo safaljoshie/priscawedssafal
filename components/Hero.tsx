@@ -35,28 +35,38 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
 
         <Countdown countdownDate={countdownDate} />
 
-        <a
-          href="#details"
-          className="mt-12 flex flex-col items-center gap-2 text-xs uppercase tracking-[0.25em] text-green/50 transition-colors hover:text-gold md:mt-16"
-        >
-          <span>Discover more</span>
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            className="animate-bounce"
-            aria-hidden
+        <div className="mt-12 flex w-full flex-col items-center md:mt-16">
+          <a
+            href="#details"
+            className="flex flex-col items-center gap-2 text-xs uppercase tracking-[0.25em] text-green/50 transition-colors hover:text-gold"
           >
-            <path
-              d="M10 4v12M5 11l5 5 5-5"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </a>
+            <span>Discover more</span>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              className="animate-bounce"
+              aria-hidden
+            >
+              <path
+                d="M10 4v12M5 11l5 5 5-5"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+
+          <Image
+            src="/images/psj-monogram.png"
+            alt={`${couple.bride} and ${couple.groom} monogram`}
+            width={936}
+            height={873}
+            className="mx-auto mt-8 h-auto w-full max-w-[200px] md:max-w-[240px]"
+          />
+        </div>
       </div>
     </section>
   );
