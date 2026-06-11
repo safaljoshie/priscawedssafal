@@ -71,19 +71,9 @@ export const wedding = {
     ],
     hotels: [
       {
-        name: "Hotels in Bharatpur",
-        note: "Closest options to the venue in Chitwan",
-        url: "#",
-      },
-      {
-        name: "Sauraha & Meghauli",
-        note: "Popular stay areas near Chitwan National Park",
-        url: "#",
-      },
-      {
-        name: "Narayangarh",
-        note: "Convenient base with shops and restaurants",
-        url: "#",
+        name: "saurahanepal.com",
+        note: "Find hotels and lodges in Sauraha, Chitwan",
+        url: "https://saurahanepal.com",
       },
     ],
     parking: "Street and nearby parking available around the venue. Taxis and rideshare are common in Ratnanagar.",
