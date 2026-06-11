@@ -29,15 +29,15 @@ export function DressCode({ wedding }: { wedding: WeddingData }) {
                 className={`rounded-sm border p-5 md:p-6 ${getEventActiveStyle(event.id)}`}
               >
                 <h3 className="font-serif text-lg md:text-xl">{event.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-ivory/90 md:text-base">
-                  <span className="font-medium uppercase tracking-[0.08em] text-ivory/70">
+                <p className="mt-3 text-sm leading-relaxed opacity-90 md:text-base">
+                  <span className="font-medium uppercase tracking-[0.08em] opacity-75">
                     Ladies
                   </span>
                   <br />
                   {attire.ladies}
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-ivory/90 md:text-base">
-                  <span className="font-medium uppercase tracking-[0.08em] text-ivory/70">
+                <p className="mt-3 text-sm leading-relaxed opacity-90 md:text-base">
+                  <span className="font-medium uppercase tracking-[0.08em] opacity-75">
                     Gents
                   </span>
                   <br />

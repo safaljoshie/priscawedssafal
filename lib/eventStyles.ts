@@ -1,8 +1,8 @@
 export const eventActiveStyles: Record<string, string> = {
-  mehendi: "border-green-dark bg-green-dark text-ivory",
-  "wedding-day": "border-wedding bg-wedding text-ivory",
-  "ganesh-sagun": "border-ganesh bg-ganesh text-ivory",
-  reception: "border-reception bg-reception text-ivory",
+  mehendi: "border-green-dark/70 bg-mehendi-bg text-green-dark",
+  "wedding-day": "border-wedding/70 bg-wedding-bg text-wedding",
+  "ganesh-sagun": "border-ganesh/70 bg-ganesh-bg text-ganesh",
+  reception: "border-reception/70 bg-reception-bg text-reception",
 };
 
 export const eventInactiveStyleDetails =
@@ -11,7 +11,7 @@ export const eventInactiveStyleDetails =
 export const eventInactiveStyleRsvp =
   "border-ivory/20 bg-white/5 text-ivory/70 hover:border-ivory/40";
 
-const defaultActiveStyle = "border-green bg-green text-ivory";
+const defaultActiveStyle = "border-green/70 bg-mehendi-bg text-green";
 
 export function getEventActiveStyle(eventId: string): string {
   return eventActiveStyles[eventId] ?? defaultActiveStyle;
