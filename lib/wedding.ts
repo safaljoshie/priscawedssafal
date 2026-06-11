@@ -3,20 +3,20 @@ export const wedding = {
     bride: "Prisca",
     groom: "Safal",
   },
-  date: new Date("2026-09-11T10:00:00"),
-  dateDisplay: "September 10 – 13, 2026",
+  date: new Date("2027-01-19T10:00:00"),
+  dateDisplay: "January 17 – 22, 2027",
   location: {
-    city: "Napa Valley, California",
-    venue: "Vineyard Estate at St. Helena",
-    address: "1200 Main Street, St. Helena, CA 94574",
-    mapsUrl: "https://maps.google.com/?q=St+Helena+CA",
+    city: "Chitwan, Nepal",
+    venue: "Ratnanagar 8",
+    address: "Ratnanagar 8, Chitwan, Nepal",
+    mapsUrl: "https://maps.app.goo.gl/DZ8jGnDhY3xJvKZS8",
   },
   events: [
     {
       id: "mehendi",
       name: "Mehendi",
-      date: "Thursday, September 10, 2026",
-      venue: "Courtyard Garden",
+      date: "Sunday, January 17, 2027",
+      venue: "Ratnanagar 8",
       schedule: [
         { time: "3:00 PM", event: "Guest arrival", location: "Garden terrace" },
         { time: "3:30 PM", event: "Mehendi ceremony begins", location: "Courtyard" },
@@ -27,8 +27,8 @@ export const wedding = {
     {
       id: "wedding-day",
       name: "Wedding Day",
-      date: "Friday, September 11, 2026",
-      venue: "Vineyard Estate at St. Helena",
+      date: "Tuesday, January 19, 2027",
+      venue: "Ratnanagar 8",
       schedule: [
         { time: "9:00 AM", event: "Guest arrival", location: "Main entrance" },
         { time: "10:00 AM", event: "Wedding ceremony", location: "Vineyard lawn" },
@@ -39,8 +39,8 @@ export const wedding = {
     {
       id: "ganesh-sagun",
       name: "Ganesh Chauthi & Sagun",
-      date: "Saturday, September 12, 2026",
-      venue: "Vineyard Estate at St. Helena",
+      date: "Wednesday, January 20, 2027",
+      venue: "Ratnanagar 8",
       schedule: [
         { time: "9:00 AM", event: "Guest arrival", location: "Main hall" },
         { time: "9:30 AM", event: "Ganesh Puja", location: "Main hall" },
@@ -51,8 +51,8 @@ export const wedding = {
     {
       id: "reception",
       name: "Reception",
-      date: "Saturday, September 12, 2026",
-      venue: "Vineyard Estate at St. Helena",
+      date: "Friday, January 22, 2027",
+      venue: "Ratnanagar 8",
       schedule: [
         { time: "5:00 PM", event: "Guest arrival & cocktails", location: "Courtyard bar" },
         { time: "6:30 PM", event: "Reception & dinner", location: "Grand pavilion" },
@@ -64,28 +64,28 @@ export const wedding = {
   ],
   travel: {
     airports: [
-      { name: "San Francisco (SFO)", distance: "~70 miles" },
-      { name: "Oakland (OAK)", distance: "~65 miles" },
-      { name: "Sacramento (SMF)", distance: "~55 miles" },
+      { name: "Bharatpur (BHR)", distance: "~25 km" },
+      { name: "Kathmandu Tribhuvan (KTM)", distance: "~150 km" },
+      { name: "Pokhara (PKR)", distance: "~130 km" },
     ],
     hotels: [
       {
-        name: "Harvest Inn",
-        note: "Room block available — mention Prisca & Safal wedding",
+        name: "Hotels in Bharatpur",
+        note: "Closest options to the venue in Chitwan",
         url: "#",
       },
       {
-        name: "Meadowood Napa Valley",
-        note: "Luxury option, 10 min from venue",
+        name: "Sauraha & Meghauli",
+        note: "Popular stay areas near Chitwan National Park",
         url: "#",
       },
       {
-        name: "Wine Country Inn",
-        note: "Charming B&B in downtown St. Helena",
+        name: "Narayangarh",
+        note: "Convenient base with shops and restaurants",
         url: "#",
       },
     ],
-    parking: "Complimentary valet parking at the venue. Rideshare drop-off at the main entrance.",
+    parking: "Street and nearby parking available around the venue. Taxis and rideshare are common in Ratnanagar.",
   },
   dressCode: {
     title: "Garden formal",
@@ -116,10 +116,10 @@ export const wedding = {
     },
     {
       q: "When is the RSVP deadline?",
-      a: "Please respond by July 15, 2026 so we can finalize seating and catering.",
+      a: "Please respond by December 15, 2026 so we can finalize seating and catering.",
     },
   ],
-  rsvpDeadline: "July 15, 2026",
+  rsvpDeadline: "December 15, 2026",
   hashtag: "#PriscaAndSafal",
 } as const;
 
