@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap");
+
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+:root {
+  --gold: #c9a96e;
+  --green: #2c3e2d;
+  --ivory: #f5f0e8;
+  --green-dark: #1e2b1f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #e5e5e5;
+  color: #1a1a1a;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--gold) 35%, white);
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
