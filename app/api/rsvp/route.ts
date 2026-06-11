@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { addRsvp } from "@/lib/storage";
+import { submitRsvpToGoogleScript } from "@/lib/google-script";
+import { addRsvp, getWeddingData } from "@/lib/storage";
 
 export async function POST(request: Request) {
   try {
@@ -31,18 +32,47 @@ export async function POST(request: Request) {
       );
     }
 
-    const entry = await addRsvp({
+    const wedding = await getWeddingData();
+    const eventNameById = Object.fromEntries(
+      wedding.events.map((e) => [e.id, e.name])
+    );
+    const selectedEvents =
+      attending === "yes"
+        ? (eventsAttending as string[]).map((id) => eventNameById[id] || id)
+        : [];
+
+    const submittedAt = new Date().toISOString();
+    const rsvpData = {
       name: name.trim(),
       email: email?.trim() || "",
       phone: phone?.trim() || "",
-      attending,
+      attending: attending as "yes" | "no",
       eventsAttending: attending === "yes" ? eventsAttending : [],
+      events: selectedEvents.join(", "),
       guests: guests || "1",
       dietary: dietary?.trim() || "",
       message: message?.trim() || "",
-    });
+      submittedAt,
+    };
 
-    return NextResponse.json({ ok: true, id: entry.id });
+    await submitRsvpToGoogleScript(rsvpData);
+
+    try {
+      await addRsvp({
+        name: rsvpData.name,
+        email: rsvpData.email,
+        phone: rsvpData.phone,
+        attending: rsvpData.attending,
+        eventsAttending: rsvpData.eventsAttending,
+        guests: rsvpData.guests,
+        dietary: rsvpData.dietary,
+        message: rsvpData.message,
+      });
+    } catch {
+      // Local file storage may fail on Vercel; Google Script is the source of truth.
+    }
+
+    return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Failed to save RSVP" }, { status: 500 });
   }
