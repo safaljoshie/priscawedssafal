@@ -14,6 +14,7 @@ const config: Config = {
       },
       maxWidth: {
         phone: "430px",
+        content: "72rem",
       },
     },
   },

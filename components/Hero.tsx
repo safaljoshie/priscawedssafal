@@ -7,37 +7,29 @@ export function Hero() {
   const { couple, dateDisplay, location } = wedding;
 
   return (
-    <section id="home" className="relative bg-ivory">
-      <div className="relative h-[52vh] min-h-[300px] w-full overflow-hidden">
+    <section
+      id="home"
+      className="relative bg-ivory md:grid md:min-h-screen md:grid-cols-2"
+    >
+      <div className="flex items-center justify-center px-6 pt-10 pb-6 md:min-h-screen md:px-12 md:py-16 lg:px-16">
         <Image
-          src="/images/couple.png"
-          alt={`${couple.bride} and ${couple.groom}`}
-          fill
+          src="/images/save-the-date.png"
+          alt={`Save the Date — ${couple.bride} and ${couple.groom}`}
+          width={800}
+          height={800}
           priority
-          sizes="430px"
-          className="object-cover object-[center_35%]"
+          sizes="(max-width: 768px) 380px, 50vw"
+          className="h-auto w-full max-w-[380px] md:max-w-md lg:max-w-lg"
         />
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-[var(--green-dark)]/85 via-[var(--green-dark)]/25 to-transparent"
-          aria-hidden
-        />
-        <div className="absolute inset-x-0 bottom-0 px-6 pb-8 text-center text-ivory">
-          <p className="font-serif text-xs uppercase tracking-[0.4em] text-gold">
-            Save the Date
-          </p>
-          <h1 className="mt-4 font-serif text-[2.75rem] leading-[1.1]">
-            {couple.bride}
-            <span className="mx-2 italic text-gold">&</span>
-            {couple.groom}
-          </h1>
-        </div>
       </div>
 
-      <div className="flex flex-col items-center px-6 py-12 text-center">
+      <div className="flex flex-col items-center justify-center px-6 py-10 text-center md:px-12 md:py-20 lg:px-16">
         <Ornament />
 
-        <p className="mt-6 font-serif text-xl text-green/90">{dateDisplay}</p>
-        <p className="mt-2 text-sm tracking-wide text-[#1a1a1a]/60">
+        <p className="mt-6 font-serif text-xl text-green/90 md:mt-8 md:text-2xl">
+          {dateDisplay}
+        </p>
+        <p className="mt-2 text-sm tracking-wide text-[#1a1a1a]/60 md:text-base">
           {location.city}
         </p>
 
@@ -45,7 +37,7 @@ export function Hero() {
 
         <a
           href="#details"
-          className="mt-12 flex flex-col items-center gap-2 text-xs uppercase tracking-[0.25em] text-green/50 transition-colors hover:text-gold"
+          className="mt-12 flex flex-col items-center gap-2 text-xs uppercase tracking-[0.25em] text-green/50 transition-colors hover:text-gold md:mt-16"
         >
           <span>Discover more</span>
           <svg
