@@ -24,7 +24,7 @@ export function Faq({ wedding }: { wedding: WeddingData }) {
               </span>
             </summary>
             <div className="border-t border-gold/10 px-5 py-4 md:px-6 md:py-5">
-              <p className="text-sm leading-relaxed text-[#1a1a1a]/70 md:text-base">
+              <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#1a1a1a]/70 md:text-base">
                 {a}
               </p>
               {image && (
