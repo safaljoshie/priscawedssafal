@@ -53,7 +53,7 @@ export type WeddingData = {
       gents: string;
     }[];
   };
-  faq: { q: string; a: string }[];
+  faq: { q: string; a: string; image?: string }[];
   updates: WeddingUpdate[];
   rsvpDeadline: string;
   hashtag: string;

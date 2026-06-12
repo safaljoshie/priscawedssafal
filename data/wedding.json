@@ -205,7 +205,7 @@
     },
     {
       "q": "Are children welcome?",
-      "a": "We love your little ones, but we've planned an adults-only celebration. We hope this gives parents a well-deserved evening off."
+      "a": "We love your little ones, but please make sure they are supervised and safe. We hope this gives parents a well-deserved stress free evening."
     },
     {
       "q": "Will the ceremony be outdoors?",
@@ -213,7 +213,8 @@
     },
     {
       "q": "Is there a gift registry?",
-      "a": "Your presence is the greatest gift. If you wish to honour us further, a honeymoon fund link is available upon RSVP confirmation."
+      "a": "Your presence is the Greatest Gift. If you wish to honour us further, a honeymoon fund QR is down here.",
+      "image": "/images/honeymoon-fund-qr.png"
     },
     {
       "q": "When is the RSVP deadline?",
