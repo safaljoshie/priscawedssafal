@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import {
   heroCountdownArrivedClass,
+  heroCountdownCellPaddingClass,
   heroCountdownGridClass,
   heroCountdownLabelClass,
   heroCountdownValueClass,
@@ -46,8 +47,6 @@ function CountdownGrid({
   locale: Locale;
   className?: string;
 }) {
-  const isNepali = locale === "ne";
-
   return (
     <div
       className={`relative grid w-full grid-cols-4 gap-3 md:gap-4 ${heroCountdownGridClass(locale)} ${className}`}
@@ -55,12 +54,12 @@ function CountdownGrid({
       {labels.map(({ key, label }) => (
         <div
           key={key}
-          className={`glass flex flex-col items-center rounded-2xl ${isNepali ? "px-3 py-4 md:px-5 md:py-6" : "px-3 py-4 md:px-5 md:py-5"}`}
+          className={`glass flex flex-col items-center rounded-2xl ${heroCountdownCellPaddingClass(locale)}`}
         >
           <span className={`text-wedding ${heroCountdownValueClass(locale)}`}>
             {formatCountdownValue(timeLeft[key], locale)}
           </span>
-          <span className={`mt-1 text-wedding ${heroCountdownLabelClass(locale)}`}>
+          <span className={`text-wedding ${heroCountdownLabelClass(locale)}`}>
             {label}
           </span>
         </div>

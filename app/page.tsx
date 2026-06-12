@@ -49,6 +49,7 @@ export default async function Home() {
         fetchPriority="high"
       />
       <Nav couple={wedding.couple} />
+      <div className="pb-[5.5rem] md:pb-0">
       <Hero wedding={wedding} />
       <Details wedding={wedding} />
       <Updates wedding={wedding} />
@@ -57,6 +58,7 @@ export default async function Home() {
       <Faq wedding={wedding} />
       <Rsvp wedding={wedding} />
       <Footer wedding={wedding} />
+      </div>
     </>
   );
 }

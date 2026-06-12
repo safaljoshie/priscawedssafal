@@ -10,6 +10,7 @@ import {
   heroCountdownPositionClass,
   heroDiscoverClass,
   heroDiscoverIconSize,
+  heroDiscoverPaddingClass,
   heroDiscoverPositionClass,
   heroSaveTheDateClass,
 } from "@/lib/i18n/heroTypography";
@@ -22,7 +23,6 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
 
   const displayDate = formatWeddingDateDisplay(locale, dateDisplay, dateRange);
   const displayCity = locale === "ne" ? t.location.city : location.city;
-  const isNepali = locale === "ne";
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden">
@@ -35,7 +35,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
 
       <div className="relative z-10 min-h-screen">
         <div
-          className={`absolute left-1/2 top-[calc(37%-2cm+5mm)] w-full -translate-x-1/2 -translate-y-full px-6 text-center md:top-[calc(39%-2cm+5mm)] ${heroDateBoxWidthClass(locale)}`}
+          className={`absolute left-1/2 top-[calc(37%-2cm+3mm)] w-full -translate-x-1/2 -translate-y-full px-6 text-center md:top-[calc(39%-2cm+3mm)] ${heroDateBoxWidthClass(locale)}`}
         >
           <div
             className={`glass flex flex-col gap-0 ${heroDateBoxPaddingClass(locale)}`}
@@ -59,7 +59,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
         <div className={heroDiscoverPositionClass()}>
           <a
             href="#details"
-            className={`glass flex flex-col items-center gap-2 rounded-2xl px-4 py-2 text-wedding transition-colors hover:bg-white/40 hover:text-wedding/80 ${heroDiscoverClass(locale)} ${isNepali ? "px-6 py-3 md:px-8 md:py-4" : "px-5 py-3 md:px-6 md:py-3.5"}`}
+            className={`glass flex flex-col items-center text-wedding transition-colors hover:bg-white/40 hover:text-wedding/80 ${heroDiscoverClass(locale)} ${heroDiscoverPaddingClass(locale)}`}
           >
             <span>{t.hero.discoverMore}</span>
             <svg

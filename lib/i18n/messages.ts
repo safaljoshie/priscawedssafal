@@ -3,6 +3,7 @@ export type Locale = "en" | "ne";
 export const messages = {
   en: {
     nav: {
+      home: "Home",
       details: "Details",
       updates: "Updates",
       travel: "Travel",
@@ -67,6 +68,7 @@ export const messages = {
   },
   ne: {
     nav: {
+      home: "गृह",
       details: "विवरण",
       updates: "सूचनाहरू",
       travel: "यात्रा",

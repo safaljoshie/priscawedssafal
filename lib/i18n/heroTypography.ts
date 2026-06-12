@@ -15,26 +15,32 @@ export function heroDateBoxPaddingClass(locale: Locale): string {
 
 export function heroSaveTheDateClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-2xl font-extrabold leading-none tracking-wide md:text-3xl"
+    ? "font-serif text-xl font-extrabold leading-none tracking-wide md:text-2xl"
     : "font-serif text-xl font-extrabold leading-none uppercase tracking-[0.28em] md:text-2xl";
 }
 
 export function heroDateClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-2xl font-extrabold leading-none md:text-3xl"
+    ? "font-serif text-xl font-extrabold leading-none md:text-2xl"
     : "font-serif text-xl font-extrabold leading-none md:text-2xl";
 }
 
 export function heroCityClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-lg font-extrabold leading-none tracking-wide md:text-xl"
+    ? "font-serif text-base font-extrabold leading-none tracking-wide md:text-lg"
     : "font-serif text-lg font-extrabold leading-none tracking-wide md:text-xl";
 }
 
 export function heroDiscoverClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-xl font-bold tracking-wide md:text-2xl"
-    : "text-base font-bold uppercase tracking-[0.25em] md:text-lg";
+    ? "font-serif text-base font-bold tracking-wide md:text-lg"
+    : "text-sm font-bold uppercase tracking-[0.22em] md:text-base";
+}
+
+export function heroDiscoverPaddingClass(locale: Locale): string {
+  return locale === "ne"
+    ? "gap-1.5 rounded-xl px-4 py-2 md:px-5 md:py-2.5"
+    : "gap-1.5 rounded-xl px-3.5 py-2 md:px-4 md:py-2.5";
 }
 
 export function heroCountdownGridClass(locale: Locale): string {
@@ -43,26 +49,32 @@ export function heroCountdownGridClass(locale: Locale): string {
     : "max-w-lg md:max-w-xl";
 }
 
+export function heroCountdownCellPaddingClass(locale: Locale): string {
+  return locale === "ne"
+    ? "px-2.5 py-[0.58rem] md:px-4 md:py-[0.88rem]"
+    : "px-2.5 py-[0.58rem] md:px-4 md:py-[0.73rem]";
+}
+
 export function heroCountdownValueClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-4xl font-extrabold md:text-5xl"
+    ? "font-serif text-3xl font-extrabold md:text-4xl"
     : "font-serif text-2xl font-extrabold md:text-4xl";
 }
 
 export function heroCountdownLabelClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-base font-extrabold tracking-normal md:text-lg"
+    ? "font-serif text-sm font-extrabold tracking-normal md:text-base"
     : "font-serif text-[10px] font-extrabold uppercase tracking-wider md:text-xs";
 }
 
 export function heroCountdownArrivedClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-2xl font-extrabold md:text-3xl"
+    ? "font-serif text-xl font-extrabold md:text-2xl"
     : "font-serif text-lg font-extrabold md:text-xl";
 }
 
 export function heroDiscoverIconSize(locale: Locale): number {
-  return locale === "ne" ? 28 : 24;
+  return locale === "ne" ? 22 : 19;
 }
 
 /** Hand / feet alignment on hero-couple photo */
@@ -71,5 +83,5 @@ export function heroCountdownPositionClass(): string {
 }
 
 export function heroDiscoverPositionClass(): string {
-  return "absolute inset-x-0 bottom-[3.5%] z-10 flex justify-center px-6 md:bottom-[4.5%]";
+  return "absolute inset-x-0 z-10 flex justify-center px-6 bottom-[calc(max(0.75rem,env(safe-area-inset-bottom,0px))+2.75rem+2mm)] md:bottom-[4.5%]";
 }
