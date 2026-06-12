@@ -60,7 +60,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
         <div className={heroDiscoverPositionClass()}>
           <a
             href="#details"
-            className={`glass flex flex-col items-center text-wedding transition-colors hover:bg-white/40 hover:text-wedding/80 ${heroDiscoverClass(locale)} ${heroDiscoverPaddingClass(locale)}`}
+            className={`glass flex flex-col items-center text-wedding transition-colors hover:bg-white/35 hover:text-wedding/80 ${heroDiscoverClass(locale)} ${heroDiscoverPaddingClass(locale)}`}
           >
             <span>{t.hero.discoverMore}</span>
             <svg
