@@ -39,16 +39,18 @@ function CountdownGrid({
   timeLeft,
   labels,
   locale,
+  className = "",
 }: {
   timeLeft: TimeLeft;
   labels: { key: keyof TimeLeft; label: string }[];
   locale: Locale;
+  className?: string;
 }) {
   const isNepali = locale === "ne";
 
   return (
     <div
-      className={`relative mt-10 grid w-full grid-cols-4 gap-3 md:mt-12 md:gap-4 ${heroCountdownGridClass(locale)}`}
+      className={`relative grid w-full grid-cols-4 gap-3 md:gap-4 ${heroCountdownGridClass(locale)} ${className}`}
     >
       {labels.map(({ key, label }) => (
         <div
@@ -67,7 +69,13 @@ function CountdownGrid({
   );
 }
 
-export function Countdown({ countdownDate }: { countdownDate: string }) {
+export function Countdown({
+  countdownDate,
+  className = "",
+}: {
+  countdownDate: string;
+  className?: string;
+}) {
   const { locale, t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
@@ -96,6 +104,7 @@ export function Countdown({ countdownDate }: { countdownDate: string }) {
         timeLeft={{ days: 0, hours: 0, minutes: 0, seconds: 0 }}
         labels={labels}
         locale={locale}
+        className={className}
       />
     );
   }
@@ -103,7 +112,7 @@ export function Countdown({ countdownDate }: { countdownDate: string }) {
   if (!timeLeft) {
     return (
       <p
-        className={`glass relative mt-10 rounded-2xl px-6 py-4 text-wedding ${heroCountdownArrivedClass(locale)}`}
+        className={`glass relative rounded-2xl px-6 py-4 text-wedding ${heroCountdownArrivedClass(locale)} ${className}`}
       >
         {t.countdown.arrived}
       </p>
@@ -111,6 +120,11 @@ export function Countdown({ countdownDate }: { countdownDate: string }) {
   }
 
   return (
-    <CountdownGrid timeLeft={timeLeft} labels={labels} locale={locale} />
+    <CountdownGrid
+      timeLeft={timeLeft}
+      labels={labels}
+      locale={locale}
+      className={className}
+    />
   );
 }

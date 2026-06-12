@@ -7,8 +7,10 @@ import {
   heroDateBoxPaddingClass,
   heroDateBoxWidthClass,
   heroDateClass,
+  heroCountdownPositionClass,
   heroDiscoverClass,
   heroDiscoverIconSize,
+  heroDiscoverPositionClass,
   heroSaveTheDateClass,
 } from "@/lib/i18n/heroTypography";
 import { formatWeddingDateDisplay } from "@/lib/i18n/nepaliDate";
@@ -33,48 +35,50 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
 
       <div className="relative z-10 min-h-screen">
         <div
-          className={`absolute left-1/2 top-[calc(37%-2cm)] w-full -translate-x-1/2 -translate-y-full px-6 text-center md:top-[calc(39%-2cm)] ${heroDateBoxWidthClass(locale)}`}
+          className={`absolute left-1/2 top-[calc(37%-2cm+5mm)] w-full -translate-x-1/2 -translate-y-full px-6 text-center md:top-[calc(39%-2cm+5mm)] ${heroDateBoxWidthClass(locale)}`}
         >
-          <div className={`glass ${heroDateBoxPaddingClass(locale)}`}>
+          <div
+            className={`glass flex flex-col gap-0 ${heroDateBoxPaddingClass(locale)}`}
+          >
             <p className={`text-wedding ${heroSaveTheDateClass(locale)}`}>
               {t.hero.saveTheDate}
             </p>
-            <p className={`mt-2 text-wedding ${heroDateClass(locale)}`}>
+            <p className={`text-wedding ${heroDateClass(locale)}`}>
               {displayDate}
             </p>
-            <p className={`mt-1 text-wedding ${heroCityClass(locale)}`}>
+            <p className={`text-wedding ${heroCityClass(locale)}`}>
               {displayCity}
             </p>
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-[10%] flex flex-col items-center px-6 md:bottom-[12%]">
+        <div className={heroCountdownPositionClass()}>
           <Countdown countdownDate={countdownDate} />
+        </div>
 
-          <div className="mt-12 flex w-full flex-col items-center md:mt-16">
-            <a
-              href="#details"
-              className={`glass flex flex-col items-center gap-2 rounded-2xl px-4 py-2 text-wedding transition-colors hover:bg-white/40 hover:text-wedding/80 ${heroDiscoverClass(locale)} ${isNepali ? "px-6 py-3 md:px-8 md:py-4" : "px-5 py-3 md:px-6 md:py-3.5"}`}
+        <div className={heroDiscoverPositionClass()}>
+          <a
+            href="#details"
+            className={`glass flex flex-col items-center gap-2 rounded-2xl px-4 py-2 text-wedding transition-colors hover:bg-white/40 hover:text-wedding/80 ${heroDiscoverClass(locale)} ${isNepali ? "px-6 py-3 md:px-8 md:py-4" : "px-5 py-3 md:px-6 md:py-3.5"}`}
+          >
+            <span>{t.hero.discoverMore}</span>
+            <svg
+              width={heroDiscoverIconSize(locale)}
+              height={heroDiscoverIconSize(locale)}
+              viewBox="0 0 20 20"
+              fill="none"
+              className="animate-bounce"
+              aria-hidden
             >
-              <span>{t.hero.discoverMore}</span>
-              <svg
-                width={heroDiscoverIconSize(locale)}
-                height={heroDiscoverIconSize(locale)}
-                viewBox="0 0 20 20"
-                fill="none"
-                className="animate-bounce"
-                aria-hidden
-              >
-                <path
-                  d="M10 4v12M5 11l5 5 5-5"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-          </div>
+              <path
+                d="M10 4v12M5 11l5 5 5-5"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </section>

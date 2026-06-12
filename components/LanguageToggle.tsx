@@ -16,7 +16,7 @@ export function LanguageToggle() {
           key={lang}
           type="button"
           onClick={() => setLocale(lang)}
-          className={`rounded-full px-2.5 py-1 transition-colors md:px-3 md:py-1.5 ${
+          className={`rounded-full px-2 py-0.5 transition-colors md:px-2.5 md:py-1 ${
             locale === lang
               ? "bg-wedding/90 text-white shadow-sm"
               : "text-black hover:bg-white/15 hover:text-wedding"
