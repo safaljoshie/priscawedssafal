@@ -5,7 +5,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
   const { couple, dateDisplay, location, countdownDate } = wedding;
 
   return (
-    <section id="home" className="relative min-h-screen">
+    <section id="home" className="relative min-h-screen overflow-hidden">
       <div
         className="hero-bg absolute inset-0 bg-cover bg-center bg-no-repeat"
         role="img"

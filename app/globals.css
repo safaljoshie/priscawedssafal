@@ -36,9 +36,22 @@ details summary::-webkit-details-marker {
 }
 
 .hero-bg {
-  background-image: url("/images/hero-couple.jpg");
+  background-image: url("/images/hero-couple-mobile.jpg");
   background-image: image-set(
-    url("/images/hero-couple.webp") type("image/webp"),
-    url("/images/hero-couple.jpg") type("image/jpeg")
+    url("/images/hero-couple-mobile.avif") type("image/avif"),
+    url("/images/hero-couple-mobile.webp") type("image/webp"),
+    url("/images/hero-couple-mobile.jpg") type("image/jpeg")
   );
+  backface-visibility: hidden;
+}
+
+@media (min-width: 768px) {
+  .hero-bg {
+    background-image: url("/images/hero-couple.jpg");
+    background-image: image-set(
+      url("/images/hero-couple.avif") type("image/avif"),
+      url("/images/hero-couple.webp") type("image/webp"),
+      url("/images/hero-couple.jpg") type("image/jpeg")
+    );
+  }
 }

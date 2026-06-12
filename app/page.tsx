@@ -18,9 +18,34 @@ export default async function Home() {
     <>
       <link
         rel="preload"
+        href="/images/hero-couple-mobile.avif"
+        as="image"
+        type="image/avif"
+        media="(max-width: 767px)"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        href="/images/hero-couple-mobile.webp"
+        as="image"
+        type="image/webp"
+        media="(max-width: 767px)"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        href="/images/hero-couple.avif"
+        as="image"
+        type="image/avif"
+        media="(min-width: 768px)"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
         href="/images/hero-couple.webp"
         as="image"
         type="image/webp"
+        media="(min-width: 768px)"
         fetchPriority="high"
       />
       <Nav couple={wedding.couple} />
