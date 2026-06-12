@@ -6,6 +6,13 @@ import {
   eventInactiveStyleRsvp,
   getEventActiveStyle,
 } from "@/lib/eventStyles";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import {
+  eventPickerButtonClass,
+  eventPickerPaddingClass,
+  getLocalizedEventName,
+} from "@/lib/i18n/eventTranslations";
+import { formatEventDate } from "@/lib/i18n/nepaliDate";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
@@ -32,7 +39,9 @@ const initial: FormState = {
 };
 
 export function Rsvp({ wedding }: { wedding: WeddingData }) {
+  const { locale, t } = useLanguage();
   const [form, setForm] = useState<FormState>(initial);
+  const rsvpDeadline = formatEventDate(locale, wedding.rsvpDeadline);
   const [submitted, setSubmitted] = useState(false);
   const [contactError, setContactError] = useState(false);
   const [eventsError, setEventsError] = useState(false);
@@ -139,13 +148,13 @@ export function Rsvp({ wedding }: { wedding: WeddingData }) {
   return (
     <Section id="rsvp" className="bg-green" innerClassName="max-w-3xl">
       <SectionHeading
-        label="RSVP"
-        title="Will you join us?"
+        label={t.rsvp.label}
+        title={t.rsvp.title}
         className="[&_h2]:text-ivory [&_p]:text-gold"
       />
 
       <p className="mx-auto mt-6 max-w-md text-center text-sm text-ivory/70 md:text-base">
-        Please respond by {wedding.rsvpDeadline}
+        {t.rsvp.deadline} {rsvpDeadline}
       </p>
 
       <form
@@ -236,13 +245,13 @@ export function Rsvp({ wedding }: { wedding: WeddingData }) {
                     key={event.id}
                     type="button"
                     onClick={() => toggleEvent(event.id)}
-                    className={`rounded-sm border px-3 py-2.5 text-left text-xs uppercase tracking-[0.08em] transition-colors md:px-4 md:py-3 md:text-sm ${
+                    className={`rounded-sm border text-left transition-colors ${eventPickerPaddingClass(locale)} ${eventPickerButtonClass(locale)} ${
                       isSelected
                         ? getEventActiveStyle(event.id)
                         : eventInactiveStyleRsvp
                     }`}
                   >
-                    {event.name}
+                    {getLocalizedEventName(event, locale)}
                   </button>
                 );
               })}

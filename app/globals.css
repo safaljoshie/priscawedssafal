@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap");
 
 @import "tailwindcss";
 @config "../tailwind.config.ts";
@@ -19,6 +19,38 @@ body {
   color: #1a1a1a;
 }
 
+html.lang-ne {
+  font-size: 125%;
+}
+
+html.lang-ne body {
+  font-family: "Noto Sans Devanagari", "Inter", sans-serif;
+}
+
+html.lang-ne .font-serif {
+  font-family: "Noto Serif Devanagari", "Cormorant Garamond", serif;
+}
+
+html.lang-ne .text-\[9px\] {
+  font-size: 11px;
+}
+
+html.lang-ne .text-\[10px\] {
+  font-size: 12px;
+}
+
+html.lang-ne .text-\[11px\] {
+  font-size: 13px;
+}
+
+html.lang-ne .text-\[13px\] {
+  font-size: 16px;
+}
+
+html.lang-ne .text-\[15px\] {
+  font-size: 18px;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--gold) 35%, white);
 }
@@ -28,10 +60,10 @@ details summary::-webkit-details-marker {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.42);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 

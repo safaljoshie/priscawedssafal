@@ -15,6 +15,12 @@ export async function PUT(request: Request, context: RouteContext) {
     const updates: Partial<WeddingUpdate> = {};
     if (body.title !== undefined) updates.title = body.title.trim();
     if (body.body !== undefined) updates.body = body.body.trim();
+    if (body.titleNe !== undefined) {
+      updates.titleNe = body.titleNe.trim() || undefined;
+    }
+    if (body.bodyNe !== undefined) {
+      updates.bodyNe = body.bodyNe.trim() || undefined;
+    }
     if (body.publishedAt !== undefined) {
       updates.publishedAt = body.publishedAt.trim();
     }

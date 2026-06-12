@@ -2,9 +2,17 @@ type StayPreviewProps = {
   url: string;
   name: string;
   note: string;
+  openSiteLabel?: string;
+  isNepali?: boolean;
 };
 
-export function StayPreview({ url, name, note }: StayPreviewProps) {
+export function StayPreview({
+  url,
+  name,
+  note,
+  openSiteLabel = "Open",
+  isNepali = false,
+}: StayPreviewProps) {
   return (
     <div className="mt-4 w-full md:mt-6">
       <div className="h-[440px] overflow-hidden rounded-[1.75rem] border-[3px] border-[#2c3e2d] bg-[#2c3e2d] shadow-md md:h-[485px]">
@@ -27,9 +35,11 @@ export function StayPreview({ url, name, note }: StayPreviewProps) {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs uppercase tracking-[0.15em] text-gold underline-offset-4 transition-colors hover:text-green hover:underline md:text-sm"
+          className={`text-xs tracking-[0.15em] text-gold underline-offset-4 transition-colors hover:text-green hover:underline md:text-sm ${
+            isNepali ? "font-serif" : "uppercase"
+          }`}
         >
-          Open {url.replace(/^https?:\/\//, "")}
+          {openSiteLabel} {url.replace(/^https?:\/\//, "")}
         </a>
       </p>
     </div>

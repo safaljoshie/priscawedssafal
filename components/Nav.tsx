@@ -1,14 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { navLinks } from "@/lib/wedding";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { LanguageToggle } from "./LanguageToggle";
 
 type Props = {
   couple: { bride: string; groom: string };
 };
 
+const navItems = [
+  { href: "#details", key: "details" as const },
+  { href: "#updates", key: "updates" as const },
+  { href: "#travel", key: "travel" as const },
+  { href: "#rsvp", key: "rsvp" as const },
+];
+
 export function Nav({ couple }: Props) {
   const [visible, setVisible] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 300);
@@ -27,7 +36,7 @@ export function Nav({ couple }: Props) {
       aria-label="Section navigation"
     >
       <div className="border-b border-gold/15 bg-white/20 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-12 md:py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 md:px-12 md:py-4">
           <a
             href="#home"
             className="hidden font-serif text-lg text-black transition-colors hover:text-wedding md:block lg:text-xl"
@@ -35,17 +44,20 @@ export function Nav({ couple }: Props) {
             {couple.bride} & {couple.groom}
           </a>
 
-          <ul className="flex w-full items-center justify-between gap-1 md:w-auto md:justify-end md:gap-8">
-            {navLinks.map(({ href, label }) => (
+          <ul className="flex flex-1 items-center justify-between gap-1 md:w-auto md:flex-none md:justify-end md:gap-6">
+            {navItems.map(({ href, key }) => (
               <li key={href}>
                 <a
                   href={href}
                   className="block px-1.5 py-1 text-[10px] uppercase tracking-[0.15em] text-black transition-colors hover:text-wedding md:px-0 md:text-xs md:tracking-[0.2em]"
                 >
-                  {label}
+                  {t.nav[key]}
                 </a>
               </li>
             ))}
+            <li className="shrink-0">
+              <LanguageToggle />
+            </li>
           </ul>
         </div>
       </div>

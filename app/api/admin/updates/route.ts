@@ -32,6 +32,8 @@ export async function POST(request: Request) {
       id: crypto.randomUUID(),
       title: body.title.trim(),
       body: body.body.trim(),
+      titleNe: body.titleNe?.trim() || undefined,
+      bodyNe: body.bodyNe?.trim() || undefined,
       publishedAt: body.publishedAt?.trim() || new Date().toISOString(),
     };
 

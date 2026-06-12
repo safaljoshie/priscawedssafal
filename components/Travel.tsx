@@ -1,4 +1,8 @@
+"use client";
+
 import type { WeddingData } from "@/lib/types";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { getLocalizedTravel } from "@/lib/i18n/travelTranslations";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 import { StayPreview } from "./StayPreview";
@@ -14,23 +18,25 @@ const columnClass =
   "flex w-full max-w-[280px] flex-col items-center text-center";
 
 export function Travel({ wedding }: { wedding: WeddingData }) {
-  const { travel } = wedding;
+  const { locale, t } = useLanguage();
+  const travel = getLocalizedTravel(wedding.travel, locale);
   const { gettingHere, explore } = travel;
   const { airport, busStops } = gettingHere;
+  const isNepali = locale === "ne";
 
   return (
     <Section id="travel" className="bg-ivory">
-      <SectionHeading label="Travel" title="Getting there & staying" />
+      <SectionHeading label={t.travel.label} title={t.travel.title} />
 
       <div className="mt-14 grid justify-items-center gap-10 md:mt-20 md:grid-cols-3 md:gap-8 lg:gap-12">
         <div className={columnClass}>
-          <h3 className="font-serif text-lg text-green md:text-xl">
+          <h3 className="font-serif text-lg font-bold text-green md:text-xl">
             {gettingHere.title}
           </h3>
           <div className="mt-4 w-full md:mt-6">
             <div className={infoBoxClass}>
               <div>
-                <p className="font-serif text-sm text-gold md:text-base">
+                <p className="font-serif text-sm font-bold text-gold md:text-base">
                   {airport.label}
                 </p>
                 <p className="mt-2 flex items-baseline justify-between gap-2 text-sm text-green md:text-base">
@@ -42,7 +48,7 @@ export function Travel({ wedding }: { wedding: WeddingData }) {
               </div>
 
               <div className="mt-8 border-t border-green/15 pt-8">
-                <p className="font-serif text-sm text-gold md:text-base">
+                <p className="font-serif text-sm font-bold text-gold md:text-base">
                   {busStops.label}
                 </p>
                 <ul className="mt-3 space-y-3">
@@ -64,18 +70,20 @@ export function Travel({ wedding }: { wedding: WeddingData }) {
         </div>
 
         <div className={columnClass}>
-          <h3 className="font-serif text-lg text-green md:text-xl">
-            Where to stay
+          <h3 className="font-serif text-lg font-bold text-green md:text-xl">
+            {travel.whereToStay}
           </h3>
           <StayPreview
             url={travel.stay.url}
             name={travel.stay.name}
             note={travel.stay.note}
+            openSiteLabel={travel.openSite}
+            isNepali={isNepali}
           />
         </div>
 
         <div className={columnClass}>
-          <h3 className="font-serif text-lg text-green md:text-xl">
+          <h3 className="font-serif text-lg font-bold text-green md:text-xl">
             {explore.title}
           </h3>
           <div className="mt-4 w-full md:mt-6">
@@ -83,8 +91,7 @@ export function Travel({ wedding }: { wedding: WeddingData }) {
               className={`${infoBoxClass} items-center text-center`}
             >
               <p className="text-sm leading-relaxed text-green md:text-base">
-                There are so many places to explore while you are free but the
-                bride and groom are not. So visit{" "}
+                {travel.exploreTextBefore}{" "}
                 <a
                   href={explore.url}
                   target="_blank"
@@ -93,7 +100,7 @@ export function Travel({ wedding }: { wedding: WeddingData }) {
                 >
                   SaurahaNepal.com
                 </a>{" "}
-                and discover Sauraha and it&apos;s wildness.
+                {travel.exploreTextAfter}
               </p>
             </div>
           </div>

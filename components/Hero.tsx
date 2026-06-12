@@ -1,8 +1,26 @@
+"use client";
+
 import type { WeddingData } from "@/lib/types";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import {
+  heroCityClass,
+  heroDateBoxPaddingClass,
+  heroDateBoxWidthClass,
+  heroDateClass,
+  heroDiscoverClass,
+  heroDiscoverIconSize,
+  heroSaveTheDateClass,
+} from "@/lib/i18n/heroTypography";
+import { formatWeddingDateDisplay } from "@/lib/i18n/nepaliDate";
 import { Countdown } from "./Countdown";
 
 export function Hero({ wedding }: { wedding: WeddingData }) {
-  const { couple, dateDisplay, location, countdownDate } = wedding;
+  const { couple, dateDisplay, dateRange, location, countdownDate } = wedding;
+  const { locale, t } = useLanguage();
+
+  const displayDate = formatWeddingDateDisplay(locale, dateDisplay, dateRange);
+  const displayCity = locale === "ne" ? t.location.city : location.city;
+  const isNepali = locale === "ne";
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden">
@@ -14,16 +32,18 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
       <div className="absolute inset-0 bg-black/20" aria-hidden />
 
       <div className="relative z-10 min-h-screen">
-        <div className="absolute left-1/2 top-[calc(37%-2cm)] w-full max-w-[280px] -translate-x-1/2 -translate-y-full px-6 text-center md:top-[calc(39%-2cm)] md:max-w-[300px]">
-          <div className="glass rounded-xl px-5 py-3 md:px-6 md:py-4">
-            <p className="font-serif text-[15px] font-bold uppercase tracking-[0.3em] text-black">
-              Save the Date
+        <div
+          className={`absolute left-1/2 top-[calc(37%-2cm)] w-full -translate-x-1/2 -translate-y-full px-6 text-center md:top-[calc(39%-2cm)] ${heroDateBoxWidthClass(locale)}`}
+        >
+          <div className={`glass ${heroDateBoxPaddingClass(locale)}`}>
+            <p className={`text-wedding ${heroSaveTheDateClass(locale)}`}>
+              {t.hero.saveTheDate}
             </p>
-            <p className="mt-2 font-serif text-lg font-bold text-black md:text-xl">
-              {dateDisplay}
+            <p className={`mt-2 text-wedding ${heroDateClass(locale)}`}>
+              {displayDate}
             </p>
-            <p className="mt-1 text-[11px] font-bold tracking-wide text-black md:text-xs">
-              {location.city}
+            <p className={`mt-1 text-wedding ${heroCityClass(locale)}`}>
+              {displayCity}
             </p>
           </div>
         </div>
@@ -34,12 +54,12 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
           <div className="mt-12 flex w-full flex-col items-center md:mt-16">
             <a
               href="#details"
-              className="glass flex flex-col items-center gap-2 rounded-2xl px-4 py-2 text-xs font-bold uppercase tracking-[0.25em] text-black transition-colors hover:bg-white/40 hover:text-wedding"
+              className={`glass flex flex-col items-center gap-2 rounded-2xl px-4 py-2 text-wedding transition-colors hover:bg-white/40 hover:text-wedding/80 ${heroDiscoverClass(locale)} ${isNepali ? "px-6 py-3 md:px-8 md:py-4" : "px-5 py-3 md:px-6 md:py-3.5"}`}
             >
-              <span>Discover more</span>
+              <span>{t.hero.discoverMore}</span>
               <svg
-                width="20"
-                height="20"
+                width={heroDiscoverIconSize(locale)}
+                height={heroDiscoverIconSize(locale)}
                 viewBox="0 0 20 20"
                 fill="none"
                 className="animate-bounce"

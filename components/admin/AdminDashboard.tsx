@@ -24,6 +24,8 @@ const emptyUpdate = (): WeddingUpdate => ({
   id: "",
   title: "",
   body: "",
+  titleNe: "",
+  bodyNe: "",
   publishedAt: new Date().toISOString().slice(0, 10),
 });
 
@@ -121,6 +123,8 @@ export function AdminDashboard({
     const payload = {
       title: editingUpdate.title.trim(),
       body: editingUpdate.body.trim(),
+      titleNe: editingUpdate.titleNe?.trim() ?? "",
+      bodyNe: editingUpdate.bodyNe?.trim() ?? "",
       publishedAt: new Date(editingUpdate.publishedAt).toISOString(),
     };
 
@@ -534,12 +538,22 @@ export function AdminDashboard({
                     >
                       <div>
                         <p className="font-medium text-green">{update.title}</p>
+                        {update.titleNe?.trim() && (
+                          <p className="mt-0.5 text-sm font-medium text-green/75">
+                            {update.titleNe}
+                          </p>
+                        )}
                         <p className="mt-1 text-xs text-gold">
                           {formatDate(update.publishedAt)}
                         </p>
                         <p className="mt-2 line-clamp-2 text-sm text-[#1a1a1a]/60">
                           {update.body}
                         </p>
+                        {update.bodyNe?.trim() && (
+                          <p className="mt-1 line-clamp-2 text-sm text-[#1a1a1a]/45">
+                            {update.bodyNe}
+                          </p>
+                        )}
                       </div>
                       <div className="flex shrink-0 gap-2">
                         <button
@@ -570,7 +584,11 @@ export function AdminDashboard({
                 </h2>
 
                 <div className="mt-5 space-y-4">
-                  <Field label="Title" required>
+                  <p className="text-xs font-bold uppercase tracking-[0.12em] text-gold">
+                    English
+                  </p>
+
+                  <Field label="Title (English)" required>
                     <input
                       required
                       value={editingUpdate.title}
@@ -584,6 +602,54 @@ export function AdminDashboard({
                     />
                   </Field>
 
+                  <Field label="Message (English)" required>
+                    <textarea
+                      required
+                      rows={4}
+                      value={editingUpdate.body}
+                      onChange={(e) =>
+                        setEditingUpdate({
+                          ...editingUpdate,
+                          body: e.target.value,
+                        })
+                      }
+                      className={inputClass}
+                    />
+                  </Field>
+
+                  <p className="border-t border-gold/15 pt-4 text-xs font-bold uppercase tracking-[0.12em] text-gold">
+                    Nepali (नेपाली)
+                  </p>
+
+                  <Field label="Title (Nepali)">
+                    <input
+                      value={editingUpdate.titleNe ?? ""}
+                      onChange={(e) =>
+                        setEditingUpdate({
+                          ...editingUpdate,
+                          titleNe: e.target.value,
+                        })
+                      }
+                      className={inputClass}
+                      placeholder="शीर्षक नेपालीमा"
+                    />
+                  </Field>
+
+                  <Field label="Message (Nepali)">
+                    <textarea
+                      rows={4}
+                      value={editingUpdate.bodyNe ?? ""}
+                      onChange={(e) =>
+                        setEditingUpdate({
+                          ...editingUpdate,
+                          bodyNe: e.target.value,
+                        })
+                      }
+                      className={inputClass}
+                      placeholder="सन्देश नेपालीमा"
+                    />
+                  </Field>
+
                   <Field label="Date">
                     <input
                       type="date"
@@ -592,21 +658,6 @@ export function AdminDashboard({
                         setEditingUpdate({
                           ...editingUpdate,
                           publishedAt: e.target.value,
-                        })
-                      }
-                      className={inputClass}
-                    />
-                  </Field>
-
-                  <Field label="Message" required>
-                    <textarea
-                      required
-                      rows={6}
-                      value={editingUpdate.body}
-                      onChange={(e) =>
-                        setEditingUpdate({
-                          ...editingUpdate,
-                          body: e.target.value,
                         })
                       }
                       className={inputClass}

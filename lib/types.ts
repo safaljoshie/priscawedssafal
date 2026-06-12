@@ -17,6 +17,8 @@ export type WeddingUpdate = {
   id: string;
   title: string;
   body: string;
+  titleNe?: string;
+  bodyNe?: string;
   publishedAt: string;
 };
 
@@ -24,6 +26,7 @@ export type WeddingData = {
   couple: { bride: string; groom: string };
   countdownDate: string;
   dateDisplay: string;
+  dateRange?: { start: string; end: string };
   location: {
     city: string;
     venue: string;
