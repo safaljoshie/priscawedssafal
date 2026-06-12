@@ -108,8 +108,8 @@ export function Nav({ couple }: Props) {
                 href={href}
                 className={`flex flex-1 items-center justify-center rounded-full px-0.5 py-2 text-center font-bold leading-none transition-colors ${
                   isNepali
-                    ? "font-serif text-[9px] tracking-wide"
-                    : "text-[8px] uppercase tracking-[0.08em]"
+                    ? "font-serif text-[11px] tracking-wide"
+                    : "text-[10px] uppercase tracking-[0.08em]"
                 } ${isActive ? "bg-black/10 text-wedding" : "text-black hover:bg-black/5"}`}
                 aria-current={isActive ? "page" : undefined}
               >
