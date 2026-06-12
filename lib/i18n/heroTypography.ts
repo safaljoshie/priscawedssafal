@@ -89,5 +89,5 @@ export function heroCountdownPositionClass(): string {
 }
 
 export function heroDiscoverPositionClass(): string {
-  return "absolute inset-x-0 z-10 flex justify-center px-6 bottom-[calc(max(0.75rem,env(safe-area-inset-bottom,0px))+2.75rem+2mm)] md:bottom-[4.5%]";
+  return "absolute inset-x-0 z-10 flex justify-center px-6 bottom-[calc(max(0.75rem,env(safe-area-inset-bottom,0px))+2.75rem+7mm)] md:bottom-[4.5%]";
 }
