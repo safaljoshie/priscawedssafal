@@ -39,14 +39,12 @@ export function heroCityClass(locale: Locale): string {
 
 export function heroDiscoverClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-base font-bold tracking-wide md:text-lg"
+    ? "font-serif text-sm font-bold leading-tight tracking-wide md:text-base"
     : "text-sm font-bold uppercase tracking-[0.22em] md:text-base";
 }
 
 export function heroDiscoverPaddingClass(locale: Locale): string {
-  return locale === "ne"
-    ? "gap-1.5 rounded-xl px-4 py-2 md:px-5 md:py-2.5"
-    : "gap-1.5 rounded-xl px-3.5 py-2 md:px-4 md:py-2.5";
+  return "gap-1.5 rounded-xl px-3.5 py-2 md:px-4 md:py-2.5";
 }
 
 export function heroCountdownGridClass(locale: Locale): string {
@@ -79,8 +77,8 @@ export function heroCountdownArrivedClass(locale: Locale): string {
     : "font-serif text-lg font-extrabold md:text-xl";
 }
 
-export function heroDiscoverIconSize(locale: Locale): number {
-  return locale === "ne" ? 22 : 19;
+export function heroDiscoverIconSize(_locale: Locale): number {
+  return 19;
 }
 
 /** Hand / feet alignment on hero-couple photo */
@@ -89,5 +87,5 @@ export function heroCountdownPositionClass(): string {
 }
 
 export function heroDiscoverPositionClass(): string {
-  return "absolute inset-x-0 z-10 flex justify-center px-6 bottom-[calc(max(0.75rem,env(safe-area-inset-bottom,0px))+2.75rem+7mm)] md:bottom-[4.5%]";
+  return "absolute inset-x-0 z-10 flex -translate-y-1/2 justify-center px-6 top-[calc(78%-2mm)] md:top-auto md:bottom-[4.5%] md:translate-y-0";
 }
