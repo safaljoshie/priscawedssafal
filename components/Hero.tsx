@@ -5,6 +5,7 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import {
   heroCityClass,
   heroDateBoxPaddingClass,
+  heroDateBoxPositionClass,
   heroDateBoxWidthClass,
   heroDateClass,
   heroCountdownPositionClass,
@@ -35,7 +36,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
 
       <div className="relative z-10 min-h-screen">
         <div
-          className={`absolute left-1/2 top-[calc(37%-2cm+3mm)] w-full -translate-x-1/2 -translate-y-full px-6 text-center md:top-[calc(39%-2cm+3mm)] ${heroDateBoxWidthClass(locale)}`}
+          className={`absolute left-1/2 w-full -translate-x-1/2 -translate-y-full px-6 text-center ${heroDateBoxPositionClass(locale)} ${heroDateBoxWidthClass(locale)}`}
         >
           <div
             className={`glass flex flex-col gap-0 ${heroDateBoxPaddingClass(locale)}`}

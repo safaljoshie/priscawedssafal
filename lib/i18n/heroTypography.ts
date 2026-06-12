@@ -7,6 +7,12 @@ export function heroDateBoxWidthClass(locale: Locale): string {
     : "max-w-[340px] md:max-w-[400px]";
 }
 
+export function heroDateBoxPositionClass(locale: Locale): string {
+  return locale === "ne"
+    ? "top-[calc(37%-2cm+2mm)] md:top-[calc(39%-2cm+2mm)]"
+    : "top-[calc(37%-2cm)] md:top-[calc(39%-2cm)]";
+}
+
 export function heroDateBoxPaddingClass(locale: Locale): string {
   return locale === "ne"
     ? "rounded-2xl px-6 pb-[0.8rem] pt-[0.58rem] md:px-10 md:pb-[1.4rem] md:pt-[1.13rem]"
@@ -15,8 +21,8 @@ export function heroDateBoxPaddingClass(locale: Locale): string {
 
 export function heroSaveTheDateClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-xl font-extrabold leading-none tracking-wide md:text-2xl"
-    : "font-serif text-xl font-extrabold leading-none uppercase tracking-[0.28em] md:text-2xl";
+    ? "font-serif text-base font-extrabold leading-none tracking-wide md:text-lg"
+    : "font-serif text-lg font-extrabold leading-none uppercase tracking-[0.28em] md:text-xl";
 }
 
 export function heroDateClass(locale: Locale): string {
