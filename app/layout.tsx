@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="ne" className="scroll-smooth lang-ne">
       <body className="min-h-screen bg-[#e5e5e5] font-sans antialiased md:bg-white">
         <ScrollToHomeOnReload />
         <LanguageProvider>
