@@ -41,7 +41,7 @@ const eventTranslations: Record<string, EventTranslation> = {
   },
   reception: {
     name: "रिसेप्शन",
-    venue: "जोशी भिल्ला सौराहा",
+    venue: "सौराहा थारु भिलेज रिसोर्ट",
     schedule: [
       { event: "अतिथि आगमन र ककटेल", location: "आँगन बार" },
       { event: "रिसेप्शन र खाना", location: "ठूलो पेभिलियन" },

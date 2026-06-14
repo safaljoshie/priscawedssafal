@@ -38,6 +38,8 @@ export const messages = {
       emptyTitle: "No updates yet",
       emptyBody:
         "We'll post news and reminders here as plans come together. Check back soon.",
+      facebookEvent: "Visit our FB Event Page & Join our group chat",
+      facebookEventUrl: "https://fb.me/2YtsftoyfzbEpzT",
     },
     travel: {
       label: "Travel",
@@ -103,6 +105,8 @@ export const messages = {
       emptyTitle: "अहिलेसम्म कुनै सूचना छैन",
       emptyBody:
         "योजना अगाडि बढेपछि हामी यहाँ समाचार र सम्झाउना राख्नेछौं। चाँडै फेरि हेर्नुहोला।",
+      facebookEvent: "हाम्रो FB कार्यक्रम पेज हेर्नुहोस् र समूह च्याटमा सामेल हुनुहोस्",
+      facebookEventUrl: "https://fb.me/2YtsftoyfzbEpzT",
     },
     travel: {
       label: "यात्रा",

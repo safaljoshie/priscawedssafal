@@ -79,6 +79,19 @@ export function Updates({ wedding }: { wedding: WeddingData }) {
             </div>
           )}
         </div>
+
+        <div className="mt-8 text-center">
+          <a
+            href={t.updates.facebookEventUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-block rounded-sm border border-gold/35 px-6 py-3 text-xs tracking-[0.2em] text-green transition-colors hover:border-gold hover:text-wedding md:text-sm ${
+              isNepali ? "font-serif" : "uppercase"
+            }`}
+          >
+            {t.updates.facebookEvent}
+          </a>
+        </div>
       </div>
     </Section>
   );
