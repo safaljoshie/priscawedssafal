@@ -75,7 +75,9 @@ export function Nav({ couple }: Props) {
                 <li key={href}>
                   <a
                     href={href}
-                    className="block text-xs uppercase tracking-[0.2em] text-black transition-colors hover:text-wedding"
+                    className={`block text-xs font-bold tracking-[0.2em] text-black transition-colors hover:text-wedding ${
+                      isNepali ? "font-serif tracking-wide" : "uppercase"
+                    }`}
                   >
                     {t.nav[key]}
                   </a>
