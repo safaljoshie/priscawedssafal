@@ -9,13 +9,17 @@ const emptyScheduleRow = (): ScheduleItem => ({
   time: "",
   event: "",
   location: "",
+  eventNe: "",
+  locationNe: "",
 });
 
 const emptyEvent = (): WeddingEvent => ({
   id: "",
   name: "",
+  nameNe: "",
   date: "",
   venue: "",
+  venueNe: "",
   mapsUrl: "",
   schedule: [emptyScheduleRow()],
 });
@@ -206,9 +210,22 @@ export function AdminDashboard({
 
     const payload = {
       ...editing,
-      schedule: editing.schedule.filter(
-        (row) => row.time.trim() || row.event.trim() || row.location.trim()
-      ),
+      nameNe: editing.nameNe?.trim() ?? "",
+      venueNe: editing.venueNe?.trim() ?? "",
+      schedule: editing.schedule
+        .filter(
+          (row) =>
+            row.time.trim() ||
+            row.event.trim() ||
+            row.location.trim() ||
+            row.eventNe?.trim() ||
+            row.locationNe?.trim()
+        )
+        .map((row) => ({
+          ...row,
+          eventNe: row.eventNe?.trim() ?? "",
+          locationNe: row.locationNe?.trim() ?? "",
+        })),
     };
 
     try {
@@ -337,8 +354,16 @@ export function AdminDashboard({
                   >
                     <div>
                       <p className="font-medium text-green">{event.name}</p>
+                      {event.nameNe?.trim() && (
+                        <p className="mt-0.5 text-sm font-medium text-green/75">
+                          {event.nameNe}
+                        </p>
+                      )}
                       <p className="mt-1 text-sm text-[#1a1a1a]/60">{event.date}</p>
                       <p className="text-sm text-[#1a1a1a]/45">{event.venue}</p>
+                      {event.venueNe?.trim() && (
+                        <p className="text-sm text-[#1a1a1a]/35">{event.venueNe}</p>
+                      )}
                       <p className="mt-1 text-xs text-[#1a1a1a]/35">
                         {event.schedule.length} schedule item
                         {event.schedule.length !== 1 ? "s" : ""}
@@ -372,6 +397,10 @@ export function AdminDashboard({
                 </h2>
 
                 <div className="mt-5 space-y-4">
+                  <p className="text-xs font-bold uppercase tracking-[0.12em] text-gold">
+                    English
+                  </p>
+
                   {isNew && (
                     <Field label="ID (optional)">
                       <input
@@ -385,7 +414,7 @@ export function AdminDashboard({
                     </Field>
                   )}
 
-                  <Field label="Event name" required>
+                  <Field label="Event name (English)" required>
                     <input
                       required
                       value={editing.name}
@@ -407,7 +436,7 @@ export function AdminDashboard({
                     />
                   </Field>
 
-                  <Field label="Venue / location">
+                  <Field label="Venue / location (English)">
                     <input
                       value={editing.venue}
                       onChange={(e) =>
@@ -432,7 +461,7 @@ export function AdminDashboard({
                   <div>
                     <div className="mb-2 flex items-center justify-between">
                       <span className="text-xs uppercase tracking-[0.15em] text-[#1a1a1a]/50">
-                        Schedule
+                        Schedule (English)
                       </span>
                       <button
                         type="button"
@@ -483,6 +512,67 @@ export function AdminDashboard({
                               ×
                             </button>
                           </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="border-t border-gold/15 pt-4 text-xs font-bold uppercase tracking-[0.12em] text-gold">
+                    Nepali (नेपाली)
+                  </p>
+
+                  <Field label="Event name (Nepali)">
+                    <input
+                      value={editing.nameNe ?? ""}
+                      onChange={(e) =>
+                        setEditing({ ...editing, nameNe: e.target.value })
+                      }
+                      className={inputClass}
+                      placeholder="कार्यक्रमको नाम नेपालीमा"
+                    />
+                  </Field>
+
+                  <Field label="Venue / location (Nepali)">
+                    <input
+                      value={editing.venueNe ?? ""}
+                      onChange={(e) =>
+                        setEditing({ ...editing, venueNe: e.target.value })
+                      }
+                      className={inputClass}
+                      placeholder="स्थान नेपालीमा"
+                    />
+                  </Field>
+
+                  <div>
+                    <span className="mb-2 block text-xs uppercase tracking-[0.15em] text-[#1a1a1a]/50">
+                      Schedule (Nepali)
+                    </span>
+                    <div className="space-y-3">
+                      {editing.schedule.map((row, index) => (
+                        <div
+                          key={index}
+                          className="grid gap-2 rounded-sm border border-gold/15 p-3 sm:grid-cols-2"
+                        >
+                          <input
+                            value={row.eventNe ?? ""}
+                            onChange={(e) =>
+                              updateScheduleRow(index, "eventNe", e.target.value)
+                            }
+                            placeholder="कार्यक्रम नेपालीमा"
+                            className={inputClass}
+                          />
+                          <input
+                            value={row.locationNe ?? ""}
+                            onChange={(e) =>
+                              updateScheduleRow(
+                                index,
+                                "locationNe",
+                                e.target.value
+                              )
+                            }
+                            placeholder="स्थान नेपालीमा"
+                            className={inputClass}
+                          />
                         </div>
                       ))}
                     </div>

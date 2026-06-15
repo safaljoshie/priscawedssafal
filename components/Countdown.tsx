@@ -5,6 +5,7 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import {
   heroCountdownArrivedClass,
   heroCountdownCellPaddingClass,
+  heroCountdownGapClass,
   heroCountdownGridClass,
   heroCountdownLabelClass,
   heroCountdownValueClass,
@@ -49,12 +50,12 @@ function CountdownGrid({
 }) {
   return (
     <div
-      className={`relative grid w-full grid-cols-4 gap-3 md:gap-4 ${heroCountdownGridClass(locale)} ${className}`}
+      className={`relative grid w-full grid-cols-4 ${heroCountdownGapClass(locale)} ${heroCountdownGridClass(locale)} ${className}`}
     >
       {labels.map(({ key, label }) => (
         <div
           key={key}
-          className={`glass flex flex-col items-center rounded-2xl ${heroCountdownCellPaddingClass(locale)}`}
+          className={`glass flex flex-col items-center justify-center rounded-2xl ${heroCountdownCellPaddingClass(locale)}`}
         >
           <span className={`text-wedding ${heroCountdownValueClass(locale)}`}>
             {formatCountdownValue(timeLeft[key], locale)}

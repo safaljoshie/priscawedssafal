@@ -47,16 +47,16 @@ export function heroDiscoverPaddingClass(locale: Locale): string {
   return "gap-1.5 rounded-xl px-3.5 py-2 md:px-4 md:py-2.5";
 }
 
-export function heroCountdownGridClass(locale: Locale): string {
-  return locale === "ne"
-    ? "max-w-2xl md:max-w-3xl"
-    : "max-w-lg md:max-w-xl";
+export function heroCountdownGridClass(_locale: Locale): string {
+  return "max-w-[512px] md:max-w-[576px]";
 }
 
-export function heroCountdownCellPaddingClass(locale: Locale): string {
-  return locale === "ne"
-    ? "px-2.5 py-[0.58rem] md:px-4 md:py-[0.88rem]"
-    : "px-2.5 py-[0.58rem] md:px-4 md:py-[0.73rem]";
+export function heroCountdownGapClass(_locale: Locale): string {
+  return "gap-[12px] md:gap-[16px]";
+}
+
+export function heroCountdownCellPaddingClass(_locale: Locale): string {
+  return "min-h-[72px] px-[10px] py-[9px] md:min-h-[80px] md:px-4 md:py-[12px]";
 }
 
 export function heroCountdownValueClass(locale: Locale): string {

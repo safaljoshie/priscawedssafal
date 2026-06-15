@@ -12,7 +12,7 @@ const neTravel: Omit<
   LocalizedTravel,
   "stay"
 > & {
-  stay: { note: string };
+  stay: { name: string; note: string };
 } = {
   gettingHere: {
     title: "यहाँ कसरी आउने",
@@ -42,6 +42,7 @@ const neTravel: Omit<
   exploreTextAfter:
     "मा जानुहोस् र सौराहाको जङ्गली सुन्दरता पत्ता लगाउनुहोस्।",
   stay: {
+    name: "रिजेन्ट रिसोर्ट, जुगेडी",
     note: "सौराहा, चितवनमा होटल र लजहरू खोज्नुहोस्",
   },
 };
@@ -70,6 +71,7 @@ export function getLocalizedTravel(
     },
     stay: {
       ...travel.stay,
+      name: neTravel.stay.name,
       note: neTravel.stay.note,
     },
     whereToStay: neTravel.whereToStay,

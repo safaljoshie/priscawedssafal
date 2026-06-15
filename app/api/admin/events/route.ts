@@ -36,10 +36,16 @@ export async function POST(request: Request) {
     const event: WeddingEvent = {
       id,
       name: body.name.trim(),
+      nameNe: body.nameNe?.trim() || undefined,
       date: body.date?.trim() || "",
       venue: body.venue?.trim() || "",
+      venueNe: body.venueNe?.trim() || undefined,
       mapsUrl: body.mapsUrl?.trim() || "",
-      schedule: body.schedule || [],
+      schedule: (body.schedule || []).map((row) => ({
+        ...row,
+        eventNe: row.eventNe?.trim() || undefined,
+        locationNe: row.locationNe?.trim() || undefined,
+      })),
     };
 
     const created = await addEvent(event);

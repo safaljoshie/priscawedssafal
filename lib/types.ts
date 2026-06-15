@@ -2,13 +2,17 @@ export type ScheduleItem = {
   time: string;
   event: string;
   location: string;
+  eventNe?: string;
+  locationNe?: string;
 };
 
 export type WeddingEvent = {
   id: string;
   name: string;
+  nameNe?: string;
   date: string;
   venue: string;
+  venueNe?: string;
   mapsUrl?: string;
   schedule: ScheduleItem[];
 };

@@ -54,7 +54,11 @@ const eventTranslations: Record<string, EventTranslation> = {
 
 export function getLocalizedEventName(event: WeddingEvent, locale: Locale): string {
   if (locale === "en") return event.name;
-  return eventTranslations[event.id]?.name ?? event.name;
+  return (
+    event.nameNe?.trim() ||
+    eventTranslations[event.id]?.name ||
+    event.name
+  );
 }
 
 /** +4 Tailwind steps vs default English event labels */
@@ -101,18 +105,29 @@ export function getLocalizedEvent(
   if (locale === "en") return event;
 
   const translation = eventTranslations[event.id];
-  if (!translation) return event;
 
   return {
     ...event,
-    name: translation.name,
-    venue: translation.venue,
+    name:
+      event.nameNe?.trim() ||
+      translation?.name ||
+      event.name,
+    venue:
+      event.venueNe?.trim() ||
+      translation?.venue ||
+      event.venue,
     schedule: event.schedule.map((item, index) => {
-      const row = translation.schedule[index];
+      const row = translation?.schedule[index];
       return {
         time: formatNepaliTime(item.time),
-        event: row?.event ?? item.event,
-        location: row?.location ?? item.location,
+        event:
+          item.eventNe?.trim() ||
+          row?.event ||
+          item.event,
+        location:
+          item.locationNe?.trim() ||
+          row?.location ||
+          item.location,
       };
     }),
   };
