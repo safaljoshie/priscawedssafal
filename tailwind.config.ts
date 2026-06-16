@@ -14,6 +14,7 @@ const config: Config = {
         "mehendi-bg": "#d5e0d7",
         ivory: "#f5f0e8",
         wedding: "#a63d40",
+        "wedding-dark": "#712528",
         "wedding-bg": "#f2d4d6",
         ganesh: "#d97706",
         "ganesh-bg": "#f5e0c4",

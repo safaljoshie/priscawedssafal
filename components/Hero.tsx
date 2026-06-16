@@ -44,7 +44,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
             <p className={`text-wedding ${heroSaveTheDateClass(locale)}`}>
               {t.hero.saveTheDate}
             </p>
-            <p className={`text-wedding ${heroDateClass(locale)}`}>
+            <p className={heroDateClass(locale)}>
               {displayDate}
             </p>
             <p className={`text-wedding ${heroCityClass(locale)}`}>
@@ -60,7 +60,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
         <div className={heroDiscoverPositionClass()}>
           <a
             href="#details"
-            className={`glass flex flex-col items-center text-wedding transition-colors hover:bg-white/35 hover:text-wedding/80 ${heroDiscoverClass(locale)} ${heroDiscoverPaddingClass(locale)}`}
+            className={`glass flex flex-col items-center text-wedding-dark transition-colors hover:bg-white/35 hover:text-wedding-dark/80 ${heroDiscoverClass(locale)} ${heroDiscoverPaddingClass(locale)}`}
           >
             <span>{t.hero.discoverMore}</span>
             <svg

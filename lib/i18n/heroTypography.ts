@@ -27,8 +27,8 @@ export function heroSaveTheDateClass(locale: Locale): string {
 
 export function heroDateClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-xl font-extrabold leading-none md:text-2xl"
-    : "font-serif text-xl font-extrabold leading-none md:text-2xl";
+    ? "font-serif text-xl font-extrabold leading-none text-wedding-dark md:text-2xl"
+    : "font-serif text-xl font-extrabold leading-none text-wedding-dark md:text-2xl";
 }
 
 export function heroCityClass(locale: Locale): string {
