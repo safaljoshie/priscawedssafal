@@ -82,7 +82,7 @@ export function eventPanelTitleClass(locale: Locale): string {
 
 export function eventCardTitleClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-4xl font-bold md:text-5xl"
+    ? "font-serif text-2xl font-bold md:text-3xl"
     : "font-serif text-lg font-bold md:text-xl";
 }
 

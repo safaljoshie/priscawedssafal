@@ -206,6 +206,15 @@
   },
   "faq": [
     {
+      "q": "Sagun Event's important information.",
+      "a": "Please, no boxed gifts.\n\nAll we need is your presence."
+    },
+    {
+      "q": "Is there a gift registry?",
+      "a": "Your presence is the Greatest Gift. If you wish to honour us further, a honeymoon fund QR is down here.\n\nPay ID for NRNA - 0450887207",
+      "image": "/images/honeymoon-fund-qr.png"
+    },
+    {
       "q": "Can I bring a plus-one?",
       "a": "Your invitation will indicate whether a plus-one is included. Please RSVP with the exact number of guests listed on your invite."
     },
@@ -218,17 +227,8 @@
       "a": "Yes. The ceremony and cocktail hour are outdoors. We recommend a light layer for the evening breeze."
     },
     {
-      "q": "Is there a gift registry?",
-      "a": "Your presence is the Greatest Gift. If you wish to honour us further, a honeymoon fund QR is down here.\n\nPay ID for NRNA - 0450887207",
-      "image": "/images/honeymoon-fund-qr.png"
-    },
-    {
       "q": "When is the RSVP deadline?",
       "a": "Please respond by December 15, 2026 so we can finalize seating and catering."
-    },
-    {
-      "q": "Sagun Event's important information.",
-      "a": "Please, no boxed gifts (including clothes or fabric pieces).\n\nFor Sagun, eggs and curd will be provided on request.\n\nAll we need is your presence."
     }
   ],
   "updates": [],

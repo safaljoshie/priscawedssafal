@@ -43,10 +43,16 @@ export function DressCode({ wedding }: { wedding: WeddingData }) {
                 <h3 className={eventCardTitleClass(locale)}>
                   {getLocalizedEventName(event, locale)}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed opacity-90 md:text-base">
+                <p
+                  className={`mt-3 leading-relaxed opacity-90 ${
+                    isNepali
+                      ? "font-serif text-xs md:text-sm"
+                      : "text-sm md:text-base"
+                  }`}
+                >
                   <span
                     className={`font-bold tracking-[0.08em] opacity-90 ${
-                      isNepali ? "font-serif" : "uppercase"
+                      isNepali ? "font-serif text-xs md:text-sm" : "uppercase"
                     }`}
                   >
                     {t.dressCode.ladies}
@@ -54,10 +60,16 @@ export function DressCode({ wedding }: { wedding: WeddingData }) {
                   <br />
                   {localizedAttire.ladies}
                 </p>
-                <p className="mt-3 text-sm leading-relaxed opacity-90 md:text-base">
+                <p
+                  className={`mt-3 leading-relaxed opacity-90 ${
+                    isNepali
+                      ? "font-serif text-xs md:text-sm"
+                      : "text-sm md:text-base"
+                  }`}
+                >
                   <span
                     className={`font-bold tracking-[0.08em] opacity-90 ${
-                      isNepali ? "font-serif" : "uppercase"
+                      isNepali ? "font-serif text-xs md:text-sm" : "uppercase"
                     }`}
                   >
                     {t.dressCode.gents}
