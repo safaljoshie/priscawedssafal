@@ -58,6 +58,8 @@ export type WeddingData = {
       eventId: string;
       ladies: string;
       gents: string;
+      ladiesNe?: string;
+      gentsNe?: string;
     }[];
   };
   faq: { q: string; a: string; image?: string }[];

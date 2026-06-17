@@ -10,7 +10,7 @@ type EventTranslation = {
 
 const eventTranslations: Record<string, EventTranslation> = {
   mehendi: {
-    name: "मेहन्दी",
+    name: "अलाह र आयला नाइट्स",
     venue: "नारायणघर, चितवन",
     schedule: [
       { event: "अतिथि आगमन", location: "बगैंचा टेरेस" },

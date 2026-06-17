@@ -3,12 +3,15 @@ import type { Locale } from "./messages";
 type AttireTranslation = {
   ladies: string;
   gents: string;
+  ladiesNe?: string;
+  gentsNe?: string;
 };
 
 const attireByEventId: Record<string, AttireTranslation> = {
   mehendi: {
-    ladies: "आफूलाई मन पर्ने रङमा सारी, कुर्ता वा लहेंगा।",
-    gents: "आफूलाई मन पर्ने रङमा कुर्ता।",
+    ladies:
+      "हकुपतासी (उपलब्ध भए) वा कालो वा रातो रङको सारी, कुर्ता वा लहेंगा।",
+    gents: "रातो वा कालो औपचारिक पहिरन वा कुर्ता।",
   },
   "wedding-day": {
     ladies: "आफूलाई मन पर्ने रङमा सारी, कुर्ता वा लहेंगा।",
@@ -29,6 +32,13 @@ export function getLocalizedAttire(
   attire: AttireTranslation,
   locale: Locale
 ): AttireTranslation {
-  if (locale === "en") return attire;
-  return attireByEventId[eventId] ?? attire;
+  if (locale === "en") {
+    return { ladies: attire.ladies, gents: attire.gents };
+  }
+
+  const fallback = attireByEventId[eventId];
+  return {
+    ladies: attire.ladiesNe?.trim() || fallback?.ladies || attire.ladies,
+    gents: attire.gentsNe?.trim() || fallback?.gents || attire.gents,
+  };
 }

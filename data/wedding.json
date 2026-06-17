@@ -19,7 +19,7 @@
   "events": [
     {
       "id": "mehendi",
-      "name": "Mehendi",
+      "name": "Alāh: & Aylā Nights",
       "date": "Sunday, January 17, 2027",
       "venue": "Narayanghar, Chitwan",
       "mapsUrl": "https://maps.app.goo.gl/DZ8jGnDhY3xJvKZS8",
@@ -182,8 +182,10 @@
     "events": [
       {
         "eventId": "mehendi",
-        "ladies": "Sari, kurtha or lenga in a colour of your choice.",
-        "gents": "Kurtha in a colour of your choice."
+        "ladies": "Hakupatasi (if available) or Sari, kurtha or lenga in a black or red.",
+        "gents": "Formals or Kurtha in a red or black.",
+        "ladiesNe": "हकुपतासी (उपलब्ध भए) वा कालो वा रातो रङको सारी, कुर्ता वा लहेंगा।",
+        "gentsNe": "रातो वा कालो औपचारिक पहिरन वा कुर्ता।"
       },
       {
         "eventId": "wedding-day",
