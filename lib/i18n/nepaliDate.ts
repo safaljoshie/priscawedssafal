@@ -11,10 +11,16 @@ export function formatNepaliTime(time: string): string {
   const match = time.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
   if (!match) return time;
 
-  const [, hour, minute, period] = match;
-  const periodNe = period.toUpperCase() === "AM" ? "बिहान" : "बेलुका";
+  const [, hourStr, minute, period] = match;
+  const hour = Number(hourStr);
+  const isPm = period.toUpperCase() === "PM";
+  const periodNe = !isPm
+    ? "बिहान"
+    : hour === 12 || hour === 1
+      ? "दिउँसो"
+      : "बेलुका";
 
-  return `${toDevanagariDigits(hour)}:${toDevanagariDigits(minute)} ${periodNe}`;
+  return `${toDevanagariDigits(hourStr)}:${toDevanagariDigits(minute)} ${periodNe}`;
 }
 
 function parseAdDate(value: string): Date | null {
