@@ -3,9 +3,37 @@ import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { ScrollToHomeOnReload } from "@/components/ScrollToHomeOnReload";
 import "./globals.css";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.priscawedssafal.com";
+
+const title = "Prisca and Safal Wedding 2027";
+const description = "Join Prisca and Safal as they celebrate their wedding.";
+
 export const metadata: Metadata = {
-  title: "Prisca and Safal Wedding 2027",
-  description: "Join Prisca and Safal as they celebrate their wedding.",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: "/",
+    siteName: title,
+    type: "website",
+    images: [
+      {
+        url: "/icon.png",
+        width: 512,
+        height: 512,
+        alt: "Prisca and Safal Wedding 2027",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/icon.png"],
+  },
 };
 
 export default function RootLayout({
