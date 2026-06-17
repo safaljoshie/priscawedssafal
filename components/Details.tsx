@@ -30,7 +30,6 @@ export function Details({ wedding }: { wedding: WeddingData }) {
   const displayDate = formatWeddingDateDisplay(locale, dateDisplay, dateRange);
   const displayVenue = locale === "ne" ? t.location.venue : location.venue;
   const displayAddress = locale === "ne" ? t.location.address : location.address;
-  const displayCity = locale === "ne" ? t.location.city : location.city;
   const isNepali = locale === "ne";
 
   const selected = events.find((e) => e.id === selectedId) ?? events[0];
@@ -71,7 +70,7 @@ export function Details({ wedding }: { wedding: WeddingData }) {
           {displayVenue}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-[#1a1a1a]/60 md:text-base">
-          {displayAddress} · {displayCity}
+          {displayAddress}
         </p>
         <a
           href={location.mapsUrl}
