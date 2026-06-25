@@ -56,6 +56,7 @@ export function AdminDashboard({
   const [tab, setTab] = useState<Tab>("events");
   const [events, setEvents] = useState(initialEvents);
   const [updates, setUpdates] = useState(initialUpdates);
+  const [family, setFamily] = useState(initialFamily);
   const [rsvps, setRsvps] = useState(initialRsvps);
   const [editing, setEditing] = useState<WeddingEvent | null>(null);
   const [editingUpdate, setEditingUpdate] = useState<WeddingUpdate | null>(null);
@@ -82,6 +83,14 @@ export function AdminDashboard({
     if (res.ok) {
       const data = await res.json();
       setUpdates(data.updates);
+    }
+  }
+
+  async function refreshFamily() {
+    const res = await fetch("/api/admin/family");
+    if (res.ok) {
+      const data = await res.json();
+      setFamily(data.family);
     }
   }
 
@@ -319,6 +328,7 @@ export function AdminDashboard({
                 setTab(t);
                 if (t === "rsvps") refreshRsvps();
                 if (t === "updates") refreshUpdates();
+                if (t === "family") refreshFamily();
               }}
               className={`rounded-sm px-4 py-2 text-xs uppercase tracking-[0.12em] transition-colors ${
                 tab === t
@@ -793,7 +803,7 @@ export function AdminDashboard({
         )}
 
         {tab === "family" && (
-          <FamilyAdmin initialFamily={initialFamily} onMessage={setMessage} />
+          <FamilyAdmin initialFamily={family} onMessage={setMessage} />
         )}
 
         {tab === "rsvps" && (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   FamilyCategory,
   FamilyData,
@@ -39,6 +39,8 @@ type Props = {
 };
 
 export function FamilyAdmin({ initialFamily, onMessage }: Props) {
+  const listRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
   const [family, setFamily] = useState(initialFamily);
   const [side, setSide] = useState<FamilySide>("prisca");
   const [category, setCategory] = useState<FamilyCategory>("parents");
@@ -48,7 +50,23 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [photoMessage, setPhotoMessage] = useState("");
 
-  const members = family[side][category];
+  useEffect(() => {
+    setFamily(initialFamily);
+  }, [initialFamily]);
+
+  const members = family[side]?.[category] ?? [];
+
+  function scrollToForm() {
+    window.requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function scrollToList() {
+    window.requestAnimationFrame(() => {
+      listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   function startEdit(member: FamilyMember) {
     setIsNew(false);
@@ -60,12 +78,14 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
       bioNe: member.bioNe ?? "",
     });
     onMessage("");
+    scrollToForm();
   }
 
   function startAdd() {
     setIsNew(true);
     setEditing(emptyMember());
     onMessage("");
+    scrollToForm();
   }
 
   function cancelEdit() {
@@ -165,6 +185,7 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
       updateMemberList(data.member);
       onMessage("Saved successfully");
       cancelEdit();
+      scrollToList();
     } catch {
       onMessage("Failed to save family member");
     } finally {
@@ -191,7 +212,7 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
 
   return (
     <div className="mt-6 grid gap-8 lg:grid-cols-2">
-      <div>
+      <div ref={listRef} className={editing ? "max-lg:order-2" : undefined}>
         <div className="mb-4 flex flex-wrap gap-2">
           {(["prisca", "safal"] as const).map((value) => (
             <button
@@ -257,43 +278,65 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
             members.map((member) => (
               <li
                 key={member.id}
-                className="flex items-start justify-between gap-3 rounded-sm border border-gold/20 bg-white p-4"
+                className="rounded-sm border border-gold/20 bg-white p-4"
               >
-                <div>
-                  <p className="font-medium text-green">
-                    {member.name.trim() || member.relation}
-                  </p>
-                  {member.name.trim() && (
-                    <p className="mt-0.5 text-sm text-[#1a1a1a]/60">
-                      {member.relation}
+                <button
+                  type="button"
+                  onClick={() => startEdit(member)}
+                  className="flex w-full items-start gap-3 text-left"
+                >
+                  {member.photo?.trim() ? (
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-gold/25 bg-green/5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={member.photo}
+                        alt=""
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-dashed border-gold/25 bg-green/5 text-[10px] uppercase tracking-[0.08em] text-[#1a1a1a]/35">
+                      Photo
+                    </div>
+                  )}
+
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-green">
+                      {member.name.trim() || member.relation}
                     </p>
-                  )}
-                  {member.nameNe?.trim() && (
-                    <p className="mt-1 text-sm text-green/75">{member.nameNe}</p>
-                  )}
-                  {member.relationNe?.trim() && (
-                    <p className="text-sm text-[#1a1a1a]/45">
-                      {member.relationNe}
-                    </p>
-                  )}
-                  {member.photo?.trim() && (
-                    <p className="mt-1 truncate text-xs text-[#1a1a1a]/35">
-                      {member.photo}
-                    </p>
-                  )}
-                </div>
-                <div className="flex shrink-0 gap-2">
+                    {member.name.trim() && (
+                      <p className="mt-0.5 text-sm text-[#1a1a1a]/60">
+                        {member.relation}
+                      </p>
+                    )}
+                    {member.nameNe?.trim() && (
+                      <p className="mt-1 text-sm text-green/75">{member.nameNe}</p>
+                    )}
+                    {member.relationNe?.trim() && (
+                      <p className="text-sm text-[#1a1a1a]/45">
+                        {member.relationNe}
+                      </p>
+                    )}
+                    {member.bio?.trim() && (
+                      <p className="mt-1 line-clamp-2 text-xs text-[#1a1a1a]/45">
+                        {member.bio}
+                      </p>
+                    )}
+                  </div>
+                </button>
+
+                <div className="mt-3 flex gap-2 border-t border-gold/10 pt-3">
                   <button
                     type="button"
                     onClick={() => startEdit(member)}
-                    className="text-xs uppercase tracking-[0.1em] text-gold hover:text-green"
+                    className="min-h-[44px] flex-1 rounded-sm border border-gold/30 bg-gold/10 px-3 py-2 text-xs font-bold uppercase tracking-[0.1em] text-green transition-colors hover:bg-gold/20"
                   >
                     Edit
                   </button>
                   <button
                     type="button"
                     onClick={() => deleteMember(member.id)}
-                    className="text-xs uppercase tracking-[0.1em] text-red-600/70 hover:text-red-600"
+                    className="min-h-[44px] flex-1 rounded-sm border border-red-200 bg-red-50 px-3 py-2 text-xs font-bold uppercase tracking-[0.1em] text-red-600/80 transition-colors hover:bg-red-100"
                   >
                     Delete
                   </button>
@@ -305,7 +348,10 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
       </div>
 
       {editing && (
-        <div className="rounded-sm border border-gold/25 bg-white p-5 md:p-6">
+        <div
+          ref={formRef}
+          className="max-lg:order-1 rounded-sm border border-gold/25 bg-white p-5 md:p-6 lg:sticky lg:top-6 lg:self-start"
+        >
           <h2 className="font-serif text-lg text-green">
             {isNew ? "New family member" : `Edit: ${editing.name || editing.relation}`}
           </h2>
