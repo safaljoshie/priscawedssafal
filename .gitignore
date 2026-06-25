@@ -37,6 +37,10 @@ yarn-error.log*
 # guest RSVP data (local storage)
 data/rsvps.json
 
+# uploaded family photos (local dev)
+public/images/family/*
+!public/images/family/.gitkeep
+
 # vercel
 .vercel
 

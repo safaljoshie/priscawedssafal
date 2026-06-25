@@ -45,6 +45,8 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
   const [editing, setEditing] = useState<FamilyMember | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [photoMessage, setPhotoMessage] = useState("");
 
   const members = family[side][category];
 
@@ -69,7 +71,37 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
   function cancelEdit() {
     setEditing(null);
     setIsNew(false);
+    setPhotoMessage("");
     onMessage("");
+  }
+
+  async function uploadPhoto(file: File) {
+    if (!editing) return;
+    setUploadingPhoto(true);
+    setPhotoMessage("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/family/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setPhotoMessage(data.error || "Failed to upload photo");
+        return;
+      }
+
+      setEditing({ ...editing, photo: data.url });
+      setPhotoMessage(`Uploaded (${data.sizeKb} KB, compressed)`);
+    } catch {
+      setPhotoMessage("Failed to upload photo");
+    } finally {
+      setUploadingPhoto(false);
+    }
   }
 
   function updateMemberList(nextMember: FamilyMember) {
@@ -352,15 +384,78 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
               />
             </Field>
 
-            <Field label="Photo URL">
-              <input
-                value={editing.photo ?? ""}
-                onChange={(e) =>
-                  setEditing({ ...editing, photo: e.target.value })
-                }
-                placeholder="/images/family/photo.jpg"
-                className={inputClass}
-              />
+            <Field label="Photo">
+              <div className="flex items-start gap-4">
+                {editing.photo?.trim() ? (
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-gold/25 bg-green/5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={editing.photo}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-dashed border-gold/30 bg-green/5 text-center text-[10px] uppercase tracking-[0.08em] text-[#1a1a1a]/40">
+                    No photo
+                  </div>
+                )}
+
+                <div className="min-w-0 flex-1 space-y-2">
+                  <label className="inline-block cursor-pointer rounded-sm border border-gold/30 bg-gold/10 px-4 py-2 text-xs uppercase tracking-[0.12em] text-green transition-colors hover:bg-gold/20">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      disabled={uploadingPhoto}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) void uploadPhoto(file);
+                        e.target.value = "";
+                      }}
+                    />
+                    {uploadingPhoto ? "Compressing…" : "Upload photo"}
+                  </label>
+
+                  {editing.photo?.trim() && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditing({ ...editing, photo: "" });
+                        setPhotoMessage("");
+                      }}
+                      className="block text-xs uppercase tracking-[0.1em] text-red-600/70 hover:text-red-600"
+                    >
+                      Remove photo
+                    </button>
+                  )}
+
+                  <input
+                    value={editing.photo ?? ""}
+                    onChange={(e) =>
+                      setEditing({ ...editing, photo: e.target.value })
+                    }
+                    placeholder="Or paste image URL"
+                    className={inputClass}
+                  />
+
+                  {photoMessage && (
+                    <p
+                      className={`text-xs ${
+                        photoMessage.includes("Failed")
+                          ? "text-red-600"
+                          : "text-green/60"
+                      }`}
+                    >
+                      {photoMessage}
+                    </p>
+                  )}
+
+                  <p className="text-xs text-[#1a1a1a]/40">
+                    Photos are resized to 512×512 and saved as WebP.
+                  </p>
+                </div>
+              </div>
             </Field>
           </div>
 
