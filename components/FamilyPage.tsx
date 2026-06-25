@@ -16,9 +16,9 @@ import { SectionHeading } from "./SectionHeading";
 type Side = FamilySide;
 
 const categories: FamilyCategory[] = [
+  "grandparents",
   "parents",
   "siblings",
-  "grandparents",
   "extended",
 ];
 
@@ -193,7 +193,7 @@ export function FamilyPage({ family }: { family: FamilyData }) {
   const { locale, t } = useLanguage();
   const isNepali = locale === "ne";
   const [side, setSide] = useState<Side>("prisca");
-  const [category, setCategory] = useState<FamilyCategory>("parents");
+  const [category, setCategory] = useState<FamilyCategory>("grandparents");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const sideData: FamilySideData = family[side];

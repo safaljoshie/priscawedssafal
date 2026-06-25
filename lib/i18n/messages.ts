@@ -63,7 +63,7 @@ export const messages = {
     },
     family: {
       label: "Family",
-      title: "Who is who",
+      title: "Who is ...",
       priscaSide: "Prisca — Bride's side",
       safalSide: "Safal — Groom's side",
       close: "Close",
@@ -173,7 +173,7 @@ export const messages = {
     },
     family: {
       label: "परिवार",
-      title: "को को हो",
+      title: "को हो",
       priscaSide: "प्रिस्का — दुलही पक्ष",
       safalSide: "सफल — दुलहा पक्ष",
       close: "बन्द गर्नुहोस्",

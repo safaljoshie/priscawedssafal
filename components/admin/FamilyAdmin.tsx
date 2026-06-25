@@ -10,9 +10,9 @@ import type {
 import { sanitizeFamilyPhotoUrl, isImageUploadFile } from "@/lib/familyPhotoUrl";
 
 const categories: FamilyCategory[] = [
+  "grandparents",
   "parents",
   "siblings",
-  "grandparents",
   "extended",
 ];
 
@@ -45,7 +45,7 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
   const photoInputRef = useRef<HTMLInputElement>(null);
   const [family, setFamily] = useState(initialFamily);
   const [side, setSide] = useState<FamilySide>("prisca");
-  const [category, setCategory] = useState<FamilyCategory>("parents");
+  const [category, setCategory] = useState<FamilyCategory>("grandparents");
   const [editing, setEditing] = useState<FamilyMember | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [saving, setSaving] = useState(false);
