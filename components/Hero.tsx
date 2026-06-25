@@ -7,6 +7,7 @@ import {
   heroDateBoxPaddingClass,
   heroDateBoxPositionClass,
   heroDateBoxWidthClass,
+  heroDateBoxGapClass,
   heroDateClass,
   heroCountdownPositionClass,
   heroDiscoverClass,
@@ -39,7 +40,7 @@ export function Hero({ wedding }: { wedding: WeddingData }) {
           className={`absolute left-1/2 w-full -translate-x-1/2 -translate-y-full px-6 text-center ${heroDateBoxPositionClass(locale)} ${heroDateBoxWidthClass(locale)}`}
         >
           <div
-            className={`glass flex flex-col gap-0 ${heroDateBoxPaddingClass(locale)}`}
+            className={`glass flex flex-col ${heroDateBoxGapClass(locale)} ${heroDateBoxPaddingClass(locale)}`}
           >
             <p className={`text-wedding ${heroSaveTheDateClass(locale)}`}>
               {t.hero.saveTheDate}

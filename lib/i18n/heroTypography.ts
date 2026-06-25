@@ -15,14 +15,18 @@ export function heroDateBoxPositionClass(locale: Locale): string {
 
 export function heroDateBoxPaddingClass(locale: Locale): string {
   return locale === "ne"
-    ? "rounded-2xl px-6 pb-[0.8rem] pt-[0.58rem] md:px-10 md:pb-[1.4rem] md:pt-[1.13rem]"
-    : "rounded-2xl px-6 pb-[0.8rem] pt-[0.58rem] md:px-8 md:pb-[1.2rem] md:pt-[0.97rem]";
+    ? "rounded-2xl px-6 pb-[0.5rem] pt-[0.28rem] md:px-10 md:pb-[1.04rem] md:pt-[0.77rem]"
+    : "rounded-2xl px-6 pb-[0.5rem] pt-[0.28rem] md:px-8 md:pb-[0.84rem] md:pt-[0.61rem]";
+}
+
+export function heroDateBoxGapClass(_locale: Locale): string {
+  return "gap-[0.3rem] md:gap-[0.36rem]";
 }
 
 export function heroSaveTheDateClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-base font-extrabold leading-none tracking-wide md:text-lg"
-    : "font-serif text-lg font-extrabold leading-none uppercase tracking-[0.28em] md:text-xl";
+    ? "font-serif text-base font-extrabold leading-none tracking-[0.005em] md:text-lg"
+    : "font-serif text-lg font-extrabold leading-none uppercase tracking-[0.056em] md:text-xl";
 }
 
 export function heroDateClass(_locale: Locale): string {
