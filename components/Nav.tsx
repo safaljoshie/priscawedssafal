@@ -34,12 +34,12 @@ const navItems: NavLink[] = [
 const mobileItems = [
   { id: "home", href: "/", key: "home" as const, isPage: true },
   { id: "details", href: "#details", key: "details" as const, isPage: false },
-  { id: "updates", href: "#updates", key: "updates" as const, isPage: false },
   { id: "family", href: "/family", key: "family" as const, isPage: true },
   { id: "rsvp", href: "#rsvp", key: "rsvp" as const, isPage: false },
 ] as const;
 
 const moreLinks = [
+  { href: "#updates", key: "updates" as const, id: "updates" },
   { href: "#travel", key: "travel" as const, id: "travel" },
   { href: "#dress-code", key: "attire" as const, id: "dress-code" },
   { href: "#faq", key: "faq" as const, id: "faq" },
