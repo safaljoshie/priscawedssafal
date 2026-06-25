@@ -21,12 +21,10 @@ type NavLink = {
     | "rsvp";
 };
 
-const navItems: NavLink[] = [
+const desktopNavItems: NavLink[] = [
   { href: "#details", key: "details" },
   { href: "/family", key: "family" },
   { href: "#updates", key: "updates" },
-  { href: "#travel", key: "travel" },
-  { href: "#dress-code", key: "attire" },
   { href: "#faq", key: "faq" },
   { href: "#rsvp", key: "rsvp" },
 ];
@@ -135,7 +133,7 @@ export function Nav({ couple }: Props) {
             </a>
 
             <ul className="flex items-center gap-4 lg:gap-5">
-              {navItems.map(({ href, key }) => {
+              {desktopNavItems.map(({ href, key }) => {
                 const resolved = resolveHref(pathname, href);
                 const isActive =
                   key === "family"
