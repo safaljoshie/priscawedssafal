@@ -6,7 +6,7 @@ import path from "path";
 const MAX_EDGE = 512;
 const WEBP_QUALITY = 82;
 
-export const MAX_FAMILY_PHOTO_BYTES = 4 * 1024 * 1024;
+export const MAX_FAMILY_PHOTO_BYTES = 10 * 1024 * 1024;
 export const FAMILY_PHOTO_BLOB_PREFIX = "images/family/";
 
 function useBlobStorage(): boolean {
@@ -17,22 +17,36 @@ function toPlainBuffer(data: Buffer | Uint8Array): Buffer {
   return Buffer.from(data);
 }
 
-export function familyPhotoBlobKey(filename: string): string {
-  return `${FAMILY_PHOTO_BLOB_PREFIX}${filename}`;
+function isHeifBuffer(input: Buffer): boolean {
+  if (input.length < 12) return false;
+  const brand = input.subarray(8, 12).toString("ascii");
+  return (
+    brand.startsWith("heic") ||
+    brand.startsWith("heif") ||
+    brand.startsWith("mif1") ||
+    brand.startsWith("msf1")
+  );
 }
 
-export function familyPhotoPublicPath(filename: string): string {
-  if (useBlobStorage()) {
-    return `/api/family/photos/${filename}`;
-  }
-  return `/images/family/${filename}`;
+function isHeifError(message: string): boolean {
+  return /heif|heic|iref box/i.test(message);
 }
 
-export async function compressFamilyPhoto(input: Buffer): Promise<Buffer> {
+async function convertHeicToJpeg(input: Buffer): Promise<Buffer> {
+  const convert = (await import("heic-convert")).default;
+  const jpeg = await convert({
+    buffer: input,
+    format: "JPEG",
+    quality: 0.92,
+  });
+  return Buffer.from(jpeg);
+}
+
+async function compressWithSharp(input: Buffer): Promise<Buffer> {
   const sharp = (await import("sharp")).default;
   const plainInput = toPlainBuffer(input);
 
-  const pipeline = sharp(plainInput)
+  const pipeline = sharp(plainInput, { unlimited: true })
     .rotate()
     .resize(MAX_EDGE, MAX_EDGE, { fit: "cover", position: "centre" })
     .webp({ quality: WEBP_QUALITY });
@@ -44,6 +58,33 @@ export async function compressFamilyPhoto(input: Buffer): Promise<Buffer> {
   }
 
   return toPlainBuffer(await pipeline.toBuffer());
+}
+
+export async function compressFamilyPhoto(input: Buffer): Promise<Buffer> {
+  const plainInput = toPlainBuffer(input);
+
+  try {
+    return await compressWithSharp(plainInput);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    if (!isHeifError(message) && !isHeifBuffer(plainInput)) {
+      throw error;
+    }
+
+    const jpeg = await convertHeicToJpeg(plainInput);
+    return compressWithSharp(jpeg);
+  }
+}
+
+export function familyPhotoBlobKey(filename: string): string {
+  return `${FAMILY_PHOTO_BLOB_PREFIX}${filename}`;
+}
+
+export function familyPhotoPublicPath(filename: string): string {
+  if (useBlobStorage()) {
+    return `/api/family/photos/${filename}`;
+  }
+  return `/images/family/${filename}`;
 }
 
 export async function storeFamilyPhoto(buffer: Buffer): Promise<string> {

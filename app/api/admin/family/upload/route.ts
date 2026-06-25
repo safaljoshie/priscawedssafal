@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
     if (file.size > MAX_FAMILY_PHOTO_BYTES) {
       return NextResponse.json(
-        { error: "Image must be under 4MB. Try a smaller photo." },
+        { error: "Image must be under 10MB. Try a smaller photo." },
         { status: 400 }
       );
     }
@@ -41,8 +41,12 @@ export async function POST(request: Request) {
       sizeKb: Math.round(compressed.length / 1024),
     });
   } catch (error) {
-    const message =
+    const raw =
       error instanceof Error ? error.message : "Failed to upload image";
+    const message =
+      /heif|heic/i.test(raw)
+        ? "This iPhone photo could not be processed. Try choosing “Most Compatible” in Settings → Camera, or upload a JPG/PNG."
+        : raw;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
