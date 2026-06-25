@@ -1,4 +1,8 @@
 {
+  "visibility": {
+    "prisca": true,
+    "safal": true
+  },
   "prisca": {
     "parents": [
       {

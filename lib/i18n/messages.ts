@@ -71,7 +71,7 @@ export const messages = {
       emptyCategory: "Family members for this category will be added soon.",
       categories: {
         parents: "Parents",
-        siblings: "Siblings",
+        siblings: "Siblings +",
         grandparents: "Grandparents",
         extended: "Extended Family",
       },
@@ -182,7 +182,7 @@ export const messages = {
       emptyCategory: "यो श्रेणीका परिवार सदस्यहरू चाँडै थपिनेछन्।",
       categories: {
         parents: "अभिभावक",
-        siblings: "दाजुभाइ/दिदीबहिनी",
+        siblings: "दाजुभाइ/दिदीबहिनी +",
         grandparents: "हजुरबुबा/आमा",
         extended: "विस्तारित परिवार",
       },

@@ -9,6 +9,7 @@ import type {
 } from "@/lib/types";
 import { sanitizeFamilyPhotoUrl, isImageUploadFile } from "@/lib/familyPhotoUrl";
 import { preparePhotoForUpload } from "@/lib/preparePhotoUpload";
+import { getFamilyVisibility } from "@/lib/familyVisibility";
 
 const categories: FamilyCategory[] = [
   "grandparents",
@@ -19,7 +20,7 @@ const categories: FamilyCategory[] = [
 
 const categoryLabels: Record<FamilyCategory, string> = {
   parents: "Parents",
-  siblings: "Siblings",
+  siblings: "Siblings +",
   grandparents: "Grandparents",
   extended: "Extended Family",
 };
@@ -53,12 +54,14 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [photoMessage, setPhotoMessage] = useState("");
   const [photoDragActive, setPhotoDragActive] = useState(false);
+  const [savingVisibility, setSavingVisibility] = useState(false);
 
   useEffect(() => {
     setFamily(initialFamily);
   }, [initialFamily]);
 
   const members = family[side]?.[category] ?? [];
+  const visibility = getFamilyVisibility(family);
 
   function scrollToForm() {
     window.requestAnimationFrame(() => {
@@ -259,9 +262,87 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
     }
   }
 
+  async function togglePublicVisibility(side: FamilySide) {
+    const nextValue = !visibility[side];
+    const otherSide = side === "prisca" ? "safal" : "prisca";
+    if (!nextValue && !visibility[otherSide]) return;
+
+    setSavingVisibility(true);
+    onMessage("");
+
+    try {
+      const res = await fetch("/api/admin/family/visibility", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [side]: nextValue }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        onMessage(data.error || "Failed to update visibility");
+        return;
+      }
+
+      setFamily((prev) => ({ ...prev, visibility: data.visibility }));
+      onMessage("Family page visibility updated");
+    } catch {
+      onMessage("Failed to update visibility");
+    } finally {
+      setSavingVisibility(false);
+    }
+  }
+
   return (
     <div className="mt-6 grid gap-8 lg:grid-cols-2">
       <div ref={listRef} className={editing ? "max-lg:order-2" : undefined}>
+        <div className="mb-6 rounded-sm border border-gold/25 bg-white p-4">
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-gold">
+            Show on family page
+          </p>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {(["prisca", "safal"] as const).map((value) => {
+              const active = visibility[value];
+              const activeClass =
+                value === "prisca"
+                  ? "border-2 border-gold bg-gold/10 text-green"
+                  : "border-2 border-green bg-green/10 text-green";
+              const inactiveClass =
+                value === "prisca"
+                  ? "border border-gold/20 bg-white text-[#1a1a1a]/45"
+                  : "border border-green/20 bg-white text-[#1a1a1a]/45";
+
+              return (
+                <button
+                  key={value}
+                  type="button"
+                  role="switch"
+                  aria-checked={active}
+                  disabled={savingVisibility}
+                  onClick={() => void togglePublicVisibility(value)}
+                  className={`flex min-h-[44px] items-center justify-between gap-2 rounded-sm px-3 py-3 text-left transition-colors disabled:opacity-60 ${
+                    active ? activeClass : inactiveClass
+                  }`}
+                >
+                  <span className="text-xs font-bold uppercase tracking-[0.08em]">
+                    {value === "prisca" ? "Bride's side" : "Groom's side"}
+                  </span>
+                  <span
+                    className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] ${
+                      active
+                        ? value === "prisca"
+                          ? "bg-gold text-green"
+                          : "bg-green text-ivory"
+                        : "bg-[#1a1a1a]/10 text-[#1a1a1a]/45"
+                    }`}
+                  >
+                    {active ? "On" : "Off"}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="mb-4 flex flex-wrap gap-2">
           {(["prisca", "safal"] as const).map((value) => (
             <button

@@ -4,6 +4,7 @@ import type {
   FamilyData,
   FamilyMember,
   FamilySide,
+  FamilyVisibility,
   RsvpSubmission,
   WeddingData,
   WeddingEvent,
@@ -14,6 +15,10 @@ import {
   sanitizeFamilyMemberBio,
   sanitizeFamilyPhotoUrl,
 } from "./familyPhotoUrl";
+import {
+  getFamilyVisibility,
+  normalizeFamilyVisibility,
+} from "./familyVisibility";
 import { sortWeddingData } from "./sortEvents";
 
 const WEDDING_BLOB_KEY = "data/wedding.json";
@@ -155,6 +160,7 @@ function sanitizeFamilyData(data: FamilyData): FamilyData {
   ] as const;
 
   const next = structuredClone(data);
+  next.visibility = normalizeFamilyVisibility(data.visibility);
   for (const side of sides) {
     for (const category of categories) {
       next[side][category] = (next[side][category] ?? []).map(sanitizeFamilyMember);
@@ -169,8 +175,28 @@ export async function getFamilyData(): Promise<FamilyData> {
 }
 
 export async function saveFamilyData(data: FamilyData): Promise<void> {
-  await writeJson(FAMILY_BLOB_KEY, FAMILY_FILE, data);
+  const payload = sanitizeFamilyData(data);
+  await writeJson(FAMILY_BLOB_KEY, FAMILY_FILE, payload);
   revalidatePath("/family");
+}
+
+export async function updateFamilyVisibility(
+  visibility: Partial<FamilyVisibility>
+): Promise<FamilyVisibility> {
+  const data = await getFamilyData();
+  const current = getFamilyVisibility(data);
+  const next = normalizeFamilyVisibility({
+    prisca: visibility.prisca ?? current.prisca,
+    safal: visibility.safal ?? current.safal,
+  });
+
+  if (!next.prisca && !next.safal) {
+    throw new Error("At least one side must be visible on the family page");
+  }
+
+  data.visibility = next;
+  await saveFamilyData(data);
+  return next;
 }
 
 type FamilyMemberLocation = {

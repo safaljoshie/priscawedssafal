@@ -102,7 +102,13 @@ export type FamilyMember = {
 
 export type FamilySideData = Record<FamilyCategory, FamilyMember[]>;
 
+export type FamilyVisibility = {
+  prisca: boolean;
+  safal: boolean;
+};
+
 export type FamilyData = {
+  visibility?: FamilyVisibility;
   prisca: FamilySideData;
   safal: FamilySideData;
 };

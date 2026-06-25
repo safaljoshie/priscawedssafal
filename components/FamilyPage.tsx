@@ -1,16 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   FamilyCategory,
   FamilyData,
   FamilyMember,
   FamilySide,
-  FamilySideData,
 } from "@/lib/types";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { sanitizeFamilyPhotoUrl } from "@/lib/familyPhotoUrl";
+import {
+  getFamilyVisibility,
+  getVisibleFamilySides,
+} from "@/lib/familyVisibility";
 import { SectionHeading } from "./SectionHeading";
 
 type Side = FamilySide;
@@ -192,12 +195,21 @@ function MemberCard({
 export function FamilyPage({ family }: { family: FamilyData }) {
   const { locale, t } = useLanguage();
   const isNepali = locale === "ne";
-  const [side, setSide] = useState<Side>("prisca");
+  const visibility = getFamilyVisibility(family);
+  const availableSides = getVisibleFamilySides(visibility);
+  const [side, setSide] = useState<Side>(availableSides[0] ?? "prisca");
   const [category, setCategory] = useState<FamilyCategory>("grandparents");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const sideData: FamilySideData = family[side];
-  const members = sideData[category];
+  useEffect(() => {
+    if (!availableSides.includes(side) && availableSides[0]) {
+      setSide(availableSides[0]);
+      setOpenIndex(null);
+    }
+  }, [availableSides, side]);
+
+  const members = family[side]?.[category] ?? [];
+  const showSidePicker = availableSides.length > 1;
 
   const handleSideChange = (next: Side) => {
     setSide(next);
@@ -218,34 +230,48 @@ export function FamilyPage({ family }: { family: FamilyData }) {
       <div className="mx-auto w-full max-w-phone">
         <SectionHeading label={t.family.label} title={t.family.title} />
 
-        <div className="mt-10 grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={() => handleSideChange("prisca")}
-            className={`rounded-sm px-3 py-3 text-center text-xs font-bold transition-colors md:text-sm ${
-              isNepali ? "font-serif leading-snug" : "uppercase tracking-[0.08em]"
-            } ${
-              side === "prisca"
-                ? "border-2 border-gold bg-gold/10 text-green"
-                : "border border-gold/20 bg-white text-[#1a1a1a]/70"
+        {showSidePicker ? (
+          <div className="mt-10 grid grid-cols-2 gap-2">
+            {visibility.prisca && (
+              <button
+                type="button"
+                onClick={() => handleSideChange("prisca")}
+                className={`rounded-sm px-3 py-3 text-center text-xs font-bold transition-colors md:text-sm ${
+                  isNepali ? "font-serif leading-snug" : "uppercase tracking-[0.08em]"
+                } ${
+                  side === "prisca"
+                    ? "border-2 border-gold bg-gold/10 text-green"
+                    : "border border-gold/20 bg-white text-[#1a1a1a]/70"
+                }`}
+              >
+                {t.family.priscaSide}
+              </button>
+            )}
+            {visibility.safal && (
+              <button
+                type="button"
+                onClick={() => handleSideChange("safal")}
+                className={`rounded-sm px-3 py-3 text-center text-xs font-bold transition-colors md:text-sm ${
+                  isNepali ? "font-serif leading-snug" : "uppercase tracking-[0.08em]"
+                } ${
+                  side === "safal"
+                    ? "border-2 border-green bg-green/10 text-green"
+                    : "border border-green/20 bg-white text-[#1a1a1a]/70"
+                }`}
+              >
+                {t.family.safalSide}
+              </button>
+            )}
+          </div>
+        ) : (
+          <p
+            className={`mt-10 text-center text-sm font-bold text-green ${
+              isNepali ? "font-serif" : "uppercase tracking-[0.12em]"
             }`}
           >
-            {t.family.priscaSide}
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSideChange("safal")}
-            className={`rounded-sm px-3 py-3 text-center text-xs font-bold transition-colors md:text-sm ${
-              isNepali ? "font-serif leading-snug" : "uppercase tracking-[0.08em]"
-            } ${
-              side === "safal"
-                ? "border-2 border-green bg-green/10 text-green"
-                : "border border-green/20 bg-white text-[#1a1a1a]/70"
-            }`}
-          >
-            {t.family.safalSide}
-          </button>
-        </div>
+            {side === "prisca" ? t.family.priscaSide : t.family.safalSide}
+          </p>
+        )}
 
         <div
           className="mt-6 flex gap-1 overflow-x-auto border-b border-gold/15 pb-px [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
