@@ -1,12 +1,23 @@
 import { revalidatePath } from "next/cache";
-import type { RsvpSubmission, WeddingData, WeddingEvent, WeddingUpdate } from "./types";
+import type {
+  FamilyCategory,
+  FamilyData,
+  FamilyMember,
+  FamilySide,
+  RsvpSubmission,
+  WeddingData,
+  WeddingEvent,
+  WeddingUpdate,
+} from "./types";
 import { readJson, readJsonArray, writeJson } from "./persistence";
 import { sortWeddingData } from "./sortEvents";
 
 const WEDDING_BLOB_KEY = "data/wedding.json";
 const RSVPS_BLOB_KEY = "data/rsvps.json";
+const FAMILY_BLOB_KEY = "data/family.json";
 const WEDDING_FILE = "wedding.json";
 const RSVPS_FILE = "rsvps.json";
+const FAMILY_FILE = "family.json";
 
 export async function getWeddingData(): Promise<WeddingData> {
   const data = await readJson<WeddingData>(WEDDING_BLOB_KEY, WEDDING_FILE);
@@ -119,4 +130,111 @@ export function slugifyEventId(name: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+}
+
+export async function getFamilyData(): Promise<FamilyData> {
+  return readJson<FamilyData>(FAMILY_BLOB_KEY, FAMILY_FILE);
+}
+
+export async function saveFamilyData(data: FamilyData): Promise<void> {
+  await writeJson(FAMILY_BLOB_KEY, FAMILY_FILE, data);
+  revalidatePath("/family");
+}
+
+type FamilyMemberLocation = {
+  side: FamilySide;
+  category: FamilyCategory;
+  index: number;
+};
+
+function findFamilyMember(
+  data: FamilyData,
+  id: string
+): FamilyMemberLocation | null {
+  for (const side of ["prisca", "safal"] as const) {
+    for (const category of [
+      "parents",
+      "siblings",
+      "grandparents",
+      "extended",
+    ] as const) {
+      const index = data[side][category].findIndex((member) => member.id === id);
+      if (index !== -1) {
+        return { side, category, index };
+      }
+    }
+  }
+  return null;
+}
+
+function normalizeMember(
+  member: Omit<FamilyMember, "id"> & { id?: string }
+): FamilyMember {
+  return {
+    id: member.id?.trim() || crypto.randomUUID(),
+    name: member.name?.trim() ?? "",
+    nameNe: member.nameNe?.trim() || undefined,
+    relation: member.relation?.trim() ?? "",
+    relationNe: member.relationNe?.trim() || undefined,
+    photo: member.photo?.trim() || undefined,
+    bio: member.bio?.trim() ?? "",
+    bioNe: member.bioNe?.trim() || undefined,
+  };
+}
+
+export async function addFamilyMember(
+  side: FamilySide,
+  category: FamilyCategory,
+  member: Omit<FamilyMember, "id"> & { id?: string }
+): Promise<FamilyMember> {
+  const data = await getFamilyData();
+  const created = normalizeMember(member);
+  data[side][category].push(created);
+  await saveFamilyData(data);
+  return created;
+}
+
+export async function updateFamilyMember(
+  id: string,
+  updates: Partial<FamilyMember>
+): Promise<FamilyMember> {
+  const data = await getFamilyData();
+  const location = findFamilyMember(data, id);
+  if (!location) throw new Error("Family member not found");
+
+  const current = data[location.side][location.category][location.index];
+  const updated: FamilyMember = {
+    ...current,
+    ...updates,
+    id,
+    name: updates.name !== undefined ? updates.name.trim() : current.name,
+    nameNe:
+      updates.nameNe !== undefined
+        ? updates.nameNe.trim() || undefined
+        : current.nameNe,
+    relation:
+      updates.relation !== undefined ? updates.relation.trim() : current.relation,
+    relationNe:
+      updates.relationNe !== undefined
+        ? updates.relationNe.trim() || undefined
+        : current.relationNe,
+    photo:
+      updates.photo !== undefined ? updates.photo.trim() || undefined : current.photo,
+    bio: updates.bio !== undefined ? updates.bio.trim() : current.bio,
+    bioNe:
+      updates.bioNe !== undefined ? updates.bioNe.trim() || undefined : current.bioNe,
+  };
+
+  data[location.side][location.category][location.index] = updated;
+  await saveFamilyData(data);
+  return updated;
+}
+
+export async function deleteFamilyMember(id: string): Promise<void> {
+  const data = await getFamilyData();
+  const location = findFamilyMember(data, id);
+  if (!location) throw new Error("Family member not found");
+
+  data[location.side][location.category].splice(location.index, 1);
+  await saveFamilyData(data);
 }

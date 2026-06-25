@@ -80,3 +80,29 @@ export type RsvpSubmission = {
   dietary: string;
   message: string;
 };
+
+export type FamilyCategory =
+  | "parents"
+  | "siblings"
+  | "grandparents"
+  | "extended";
+
+export type FamilySide = "prisca" | "safal";
+
+export type FamilyMember = {
+  id: string;
+  name: string;
+  nameNe?: string;
+  relation: string;
+  relationNe?: string;
+  photo?: string;
+  bio: string;
+  bioNe?: string;
+};
+
+export type FamilySideData = Record<FamilyCategory, FamilyMember[]>;
+
+export type FamilyData = {
+  prisca: FamilySideData;
+  safal: FamilySideData;
+};

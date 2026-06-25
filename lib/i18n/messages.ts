@@ -8,6 +8,7 @@ export const messages = {
       updates: "Updates",
       travel: "Travel",
       rsvp: "RSVP",
+      family: "Family",
       more: "More",
       attire: "Attire",
       faq: "Good to know",
@@ -60,6 +61,21 @@ export const messages = {
       label: "FAQ",
       title: "Good to know",
     },
+    family: {
+      label: "Family",
+      title: "Who is who",
+      priscaSide: "Prisca — Bride's side",
+      safalSide: "Safal — Groom's side",
+      close: "Close",
+      bioPlaceholder: "A short note about this family member will appear here soon.",
+      emptyCategory: "Family members for this category will be added soon.",
+      categories: {
+        parents: "Parents",
+        siblings: "Siblings",
+        grandparents: "Grandparents",
+        extended: "Extended Family",
+      },
+    },
     rsvp: {
       label: "RSVP",
       title: "Celebrate with us",
@@ -102,6 +118,7 @@ export const messages = {
       updates: "सूचना",
       travel: "यात्रा",
       rsvp: "उपस्थिति",
+      family: "परिवार",
       more: "थप",
       attire: "पहिरन",
       faq: "जानकारी",
@@ -153,6 +170,22 @@ export const messages = {
     faq: {
       label: "बारम्बार सोधिने प्रश्न",
       title: "जान्नै पर्ने कुरा",
+    },
+    family: {
+      label: "परिवार",
+      title: "को को हो",
+      priscaSide: "प्रिस्का — दुलही पक्ष",
+      safalSide: "सफल — दुलहा पक्ष",
+      close: "बन्द गर्नुहोस्",
+      bioPlaceholder:
+        "यो परिवार सदस्यको बारेमा छोटो जानकारी चाँडै यहाँ राखिनेछ।",
+      emptyCategory: "यो श्रेणीका परिवार सदस्यहरू चाँडै थपिनेछन्।",
+      categories: {
+        parents: "अभिभावक",
+        siblings: "दाजुभाइ/दिदीबहिनी",
+        grandparents: "हजुरबुबा/आमा",
+        extended: "विस्तारित परिवार",
+      },
     },
     rsvp: {
       label: "उपस्थिति",

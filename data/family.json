@@ -1,0 +1,130 @@
+{
+  "prisca": {
+    "parents": [
+      {
+        "id": "prisca-parent-1",
+        "name": "",
+        "relation": "Father",
+        "relationNe": "बुबा",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      },
+      {
+        "id": "prisca-parent-2",
+        "name": "",
+        "relation": "Mother",
+        "relationNe": "आमा",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      }
+    ],
+    "siblings": [
+      {
+        "id": "prisca-sibling-1",
+        "name": "",
+        "relation": "Sibling",
+        "relationNe": "दाजु/दिदी/भाइ/बहिनी",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      }
+    ],
+    "grandparents": [
+      {
+        "id": "prisca-grandparent-1",
+        "name": "",
+        "relation": "Grandfather",
+        "relationNe": "हजुरबुबा",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      },
+      {
+        "id": "prisca-grandparent-2",
+        "name": "",
+        "relation": "Grandmother",
+        "relationNe": "हजुरआमा",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      }
+    ],
+    "extended": [
+      {
+        "id": "prisca-extended-1",
+        "name": "",
+        "relation": "Extended family",
+        "relationNe": "विस्तारित परिवार",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      }
+    ]
+  },
+  "safal": {
+    "parents": [
+      {
+        "id": "safal-parent-1",
+        "name": "",
+        "relation": "Father",
+        "relationNe": "बुबा",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      },
+      {
+        "id": "safal-parent-2",
+        "name": "",
+        "relation": "Mother",
+        "relationNe": "आमा",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      }
+    ],
+    "siblings": [
+      {
+        "id": "safal-sibling-1",
+        "name": "",
+        "relation": "Sibling",
+        "relationNe": "दाजु/दिदी/भाइ/बहिनी",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      }
+    ],
+    "grandparents": [
+      {
+        "id": "safal-grandparent-1",
+        "name": "",
+        "relation": "Grandfather",
+        "relationNe": "हजुरबुबा",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      },
+      {
+        "id": "safal-grandparent-2",
+        "name": "",
+        "relation": "Grandmother",
+        "relationNe": "हजुरआमा",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      }
+    ],
+    "extended": [
+      {
+        "id": "safal-extended-1",
+        "name": "",
+        "relation": "Extended family",
+        "relationNe": "विस्तारित परिवार",
+        "photo": "",
+        "bio": "",
+        "bioNe": ""
+      }
+    ]
+  }
+}

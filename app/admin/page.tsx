@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AdminDashboard } from "@/components/admin/AdminDashboard";
 import { LoginForm } from "@/components/admin/LoginForm";
 import { isAdminAuthenticated } from "@/lib/auth";
-import { getEvents, getRsvps, getUpdates } from "@/lib/storage";
+import { getEvents, getFamilyData, getRsvps, getUpdates } from "@/lib/storage";
 
 export const metadata: Metadata = {
   title: "Admin | Prisca & Safal",
@@ -16,10 +16,11 @@ export default async function AdminPage() {
     return <LoginForm />;
   }
 
-  const [events, rsvps, updates] = await Promise.all([
+  const [events, rsvps, updates, family] = await Promise.all([
     getEvents(),
     getRsvps(),
     getUpdates(),
+    getFamilyData(),
   ]);
 
   return (
@@ -27,6 +28,7 @@ export default async function AdminPage() {
       initialEvents={events}
       initialRsvps={rsvps}
       initialUpdates={updates}
+      initialFamily={family}
     />
   );
 }

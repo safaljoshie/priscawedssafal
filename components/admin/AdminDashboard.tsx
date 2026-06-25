@@ -1,9 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import type { RsvpSubmission, ScheduleItem, WeddingEvent, WeddingUpdate } from "@/lib/types";
+import { FamilyAdmin } from "@/components/admin/FamilyAdmin";
+import type {
+  FamilyData,
+  RsvpSubmission,
+  ScheduleItem,
+  WeddingEvent,
+  WeddingUpdate,
+} from "@/lib/types";
 
-type Tab = "events" | "updates" | "rsvps";
+type Tab = "events" | "updates" | "family" | "rsvps";
 
 const emptyScheduleRow = (): ScheduleItem => ({
   time: "",
@@ -36,12 +43,14 @@ const emptyUpdate = (): WeddingUpdate => ({
 type Props = {
   initialEvents: WeddingEvent[];
   initialUpdates: WeddingUpdate[];
+  initialFamily: FamilyData;
   initialRsvps: RsvpSubmission[];
 };
 
 export function AdminDashboard({
   initialEvents,
   initialUpdates,
+  initialFamily,
   initialRsvps,
 }: Props) {
   const [tab, setTab] = useState<Tab>("events");
@@ -288,7 +297,7 @@ export function AdminDashboard({
             <h1 className="font-serif text-xl text-green md:text-2xl">
               Wedding Admin
             </h1>
-            <p className="text-xs text-[#1a1a1a]/50">Events, updates & RSVPs</p>
+            <p className="text-xs text-[#1a1a1a]/50">Events, family, updates & RSVPs</p>
           </div>
           <button
             type="button"
@@ -302,7 +311,7 @@ export function AdminDashboard({
 
       <div className="mx-auto max-w-6xl px-4 py-6 md:px-8 md:py-10">
         <div className="flex gap-2 border-b border-gold/15 pb-4">
-          {(["events", "updates", "rsvps"] as const).map((t) => (
+          {(["events", "updates", "family", "rsvps"] as const).map((t) => (
             <button
               key={t}
               type="button"
@@ -321,7 +330,9 @@ export function AdminDashboard({
                 ? "Events"
                 : t === "updates"
                   ? `Updates (${updates.length})`
-                  : `RSVPs (${rsvps.length})`}
+                  : t === "family"
+                    ? "Family"
+                    : `RSVPs (${rsvps.length})`}
             </button>
           ))}
         </div>
@@ -779,6 +790,10 @@ export function AdminDashboard({
               </div>
             )}
           </div>
+        )}
+
+        {tab === "family" && (
+          <FamilyAdmin initialFamily={initialFamily} onMessage={setMessage} />
         )}
 
         {tab === "rsvps" && (

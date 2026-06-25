@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { LanguageToggle } from "./LanguageToggle";
@@ -8,20 +9,34 @@ type Props = {
   couple: { bride: string; groom: string };
 };
 
-const navItems = [
-  { href: "#details", key: "details" as const },
-  { href: "#updates", key: "updates" as const },
-  { href: "#travel", key: "travel" as const },
-  { href: "#dress-code", key: "attire" as const },
-  { href: "#faq", key: "faq" as const },
-  { href: "#rsvp", key: "rsvp" as const },
+type NavLink = {
+  href: string;
+  key:
+    | "details"
+    | "family"
+    | "updates"
+    | "travel"
+    | "attire"
+    | "faq"
+    | "rsvp";
+};
+
+const navItems: NavLink[] = [
+  { href: "#details", key: "details" },
+  { href: "/family", key: "family" },
+  { href: "#updates", key: "updates" },
+  { href: "#travel", key: "travel" },
+  { href: "#dress-code", key: "attire" },
+  { href: "#faq", key: "faq" },
+  { href: "#rsvp", key: "rsvp" },
 ];
 
 const mobileItems = [
-  { id: "home", href: "#home", key: "home" as const },
-  { id: "details", href: "#details", key: "details" as const },
-  { id: "updates", href: "#updates", key: "updates" as const },
-  { id: "rsvp", href: "#rsvp", key: "rsvp" as const },
+  { id: "home", href: "/", key: "home" as const, isPage: true },
+  { id: "details", href: "#details", key: "details" as const, isPage: false },
+  { id: "updates", href: "#updates", key: "updates" as const, isPage: false },
+  { id: "family", href: "/family", key: "family" as const, isPage: true },
+  { id: "rsvp", href: "#rsvp", key: "rsvp" as const, isPage: false },
 ] as const;
 
 const moreLinks = [
@@ -31,19 +46,31 @@ const moreLinks = [
 ] as const;
 
 const sectionIds = [
-  ...mobileItems.map((item) => item.id),
+  ...mobileItems.filter((item) => !item.isPage).map((item) => item.id),
   ...moreLinks.map((link) => link.id),
 ];
 
+function resolveHref(pathname: string, href: string): string {
+  if (href.startsWith("/") && !href.startsWith("/#")) return href;
+  return pathname === "/" ? href : `/${href}`;
+}
+
 export function Nav({ couple }: Props) {
+  const pathname = usePathname();
   const { locale, t } = useLanguage();
   const [activeSection, setActiveSection] = useState("home");
   const [moreOpen, setMoreOpen] = useState(false);
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const isNepali = locale === "ne";
+  const isFamilyPage = pathname === "/family";
   const isMoreActive = moreLinks.some((link) => link.id === activeSection);
 
   useEffect(() => {
+    if (pathname === "/family") {
+      setActiveSection("family");
+      return;
+    }
+
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
@@ -65,7 +92,7 @@ export function Nav({ couple }: Props) {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -101,25 +128,34 @@ export function Nav({ couple }: Props) {
         <div className="border-b border-gold/15 bg-white/20 backdrop-blur-md">
           <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-12 py-2">
             <a
-              href="#home"
+              href="/"
               className="font-serif text-base text-black transition-colors hover:text-wedding lg:text-lg"
             >
               {couple.bride} & {couple.groom}
             </a>
 
-            <ul className="flex items-center gap-5 lg:gap-6">
-              {navItems.map(({ href, key }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    className={`block text-xs font-bold tracking-[0.2em] text-black transition-colors hover:text-wedding ${
-                      isNepali ? "font-serif tracking-wide" : "uppercase"
-                    }`}
-                  >
-                    {t.nav[key]}
-                  </a>
-                </li>
-              ))}
+            <ul className="flex items-center gap-4 lg:gap-5">
+              {navItems.map(({ href, key }) => {
+                const resolved = resolveHref(pathname, href);
+                const isActive =
+                  key === "family"
+                    ? isFamilyPage
+                    : pathname === "/" && href === `#${activeSection}`;
+
+                return (
+                  <li key={href}>
+                    <a
+                      href={resolved}
+                      className={`block text-xs font-bold tracking-[0.2em] transition-colors hover:text-wedding ${
+                        isNepali ? "font-serif tracking-wide" : "uppercase"
+                      } ${isActive ? "text-wedding" : "text-black"}`}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      {t.nav[key]}
+                    </a>
+                  </li>
+                );
+              })}
               <li className="shrink-0">
                 <LanguageToggle />
               </li>
@@ -147,7 +183,7 @@ export function Nav({ couple }: Props) {
               {moreLinks.map(({ href, key, id }) => (
                 <a
                   key={href}
-                  href={href}
+                  href={resolveHref(pathname, href)}
                   role="menuitem"
                   onClick={() => setMoreOpen(false)}
                   className={`flex min-h-[44px] items-center justify-center rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
@@ -165,12 +201,16 @@ export function Nav({ couple }: Props) {
           )}
 
           <div className="flex w-full items-stretch justify-between gap-0.5 rounded-full border border-white/50 bg-white/35 px-1 py-1 shadow-[0_8px_32px_rgba(0,0,0,0.14)] backdrop-blur-2xl">
-            {mobileItems.map(({ id, href, key }) => {
-              const isActive = activeSection === id;
+            {mobileItems.map(({ id, href, key, isPage }) => {
+              const isActive = isPage
+                ? (id === "family" && isFamilyPage) ||
+                  (id === "home" && pathname === "/")
+                : pathname === "/" && activeSection === id;
+
               return (
                 <a
                   key={id}
-                  href={href}
+                  href={isPage ? href : resolveHref(pathname, href)}
                   className={mobileLinkClass(isActive)}
                   aria-current={isActive ? "page" : undefined}
                   onClick={() => setMoreOpen(false)}
