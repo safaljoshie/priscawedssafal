@@ -7,6 +7,7 @@ import type {
   FamilyMember,
   FamilySide,
 } from "@/lib/types";
+import { sanitizeFamilyPhotoUrl } from "@/lib/familyPhotoUrl";
 
 const categories: FamilyCategory[] = [
   "parents",
@@ -49,6 +50,7 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
   const [saving, setSaving] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [photoMessage, setPhotoMessage] = useState("");
+  const [photoDragActive, setPhotoDragActive] = useState(false);
 
   useEffect(() => {
     setFamily(initialFamily);
@@ -74,7 +76,7 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
       ...member,
       nameNe: member.nameNe ?? "",
       relationNe: member.relationNe ?? "",
-      photo: member.photo ?? "",
+      photo: sanitizeFamilyPhotoUrl(member.photo) ?? "",
       bioNe: member.bioNe ?? "",
     });
     onMessage("");
@@ -97,6 +99,11 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
 
   async function uploadPhoto(file: File) {
     if (!editing) return;
+    if (!file.type.startsWith("image/")) {
+      setPhotoMessage("Please choose an image file.");
+      return;
+    }
+
     setUploadingPhoto(true);
     setPhotoMessage("");
 
@@ -122,6 +129,17 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
     } finally {
       setUploadingPhoto(false);
     }
+  }
+
+  function handlePhotoFiles(files: FileList | File[] | null | undefined) {
+    const file = Array.from(files ?? []).find((item) =>
+      item.type.startsWith("image/")
+    );
+    if (!file) {
+      setPhotoMessage("Please drop or choose an image file.");
+      return;
+    }
+    void uploadPhoto(file);
   }
 
   function updateMemberList(nextMember: FamilyMember) {
@@ -158,7 +176,7 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
       nameNe: editing.nameNe?.trim() ?? "",
       relation: editing.relation.trim(),
       relationNe: editing.relationNe?.trim() ?? "",
-      photo: editing.photo?.trim() ?? "",
+      photo: sanitizeFamilyPhotoUrl(editing.photo) ?? "",
       bio: editing.bio.trim(),
       bioNe: editing.bioNe?.trim() ?? "",
     };
@@ -275,7 +293,10 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
               No members in this category yet.
             </li>
           ) : (
-            members.map((member) => (
+            members.map((member) => {
+              const photoUrl = sanitizeFamilyPhotoUrl(member.photo);
+
+              return (
               <li
                 key={member.id}
                 className="rounded-sm border border-gold/20 bg-white p-4"
@@ -285,11 +306,11 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                   onClick={() => startEdit(member)}
                   className="flex w-full items-start gap-3 text-left"
                 >
-                  {member.photo?.trim() ? (
+                  {photoUrl ? (
                     <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-gold/25 bg-green/5">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={member.photo}
+                        src={photoUrl}
                         alt=""
                         className="h-full w-full object-cover"
                       />
@@ -342,7 +363,8 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                   </button>
                 </div>
               </li>
-            ))
+            );
+            })
           )}
         </ul>
       </div>
@@ -432,11 +454,11 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
 
             <Field label="Photo">
               <div className="flex items-start gap-4">
-                {editing.photo?.trim() ? (
+                {sanitizeFamilyPhotoUrl(editing.photo) ? (
                   <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-gold/25 bg-green/5">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={editing.photo}
+                      src={sanitizeFamilyPhotoUrl(editing.photo)}
                       alt=""
                       className="h-full w-full object-cover"
                     />
@@ -448,22 +470,46 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                 )}
 
                 <div className="min-w-0 flex-1 space-y-2">
-                  <label className="inline-block cursor-pointer rounded-sm border border-gold/30 bg-gold/10 px-4 py-2 text-xs uppercase tracking-[0.12em] text-green transition-colors hover:bg-gold/20">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="sr-only"
-                      disabled={uploadingPhoto}
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) void uploadPhoto(file);
-                        e.target.value = "";
-                      }}
-                    />
-                    {uploadingPhoto ? "Compressing…" : "Upload photo"}
-                  </label>
+                  <div
+                    onDragEnter={(e) => {
+                      e.preventDefault();
+                      setPhotoDragActive(true);
+                    }}
+                    onDragLeave={(e) => {
+                      e.preventDefault();
+                      setPhotoDragActive(false);
+                    }}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setPhotoDragActive(false);
+                      handlePhotoFiles(e.dataTransfer.files);
+                    }}
+                    className={`rounded-sm border border-dashed px-4 py-5 text-center transition-colors ${
+                      photoDragActive
+                        ? "border-gold bg-gold/10"
+                        : "border-gold/30 bg-green/5"
+                    }`}
+                  >
+                    <label className="inline-block cursor-pointer rounded-sm border border-gold/30 bg-gold/10 px-4 py-2 text-xs uppercase tracking-[0.12em] text-green transition-colors hover:bg-gold/20">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="sr-only"
+                        disabled={uploadingPhoto}
+                        onChange={(e) => {
+                          handlePhotoFiles(e.target.files);
+                          e.target.value = "";
+                        }}
+                      />
+                      {uploadingPhoto ? "Compressing…" : "Choose photo"}
+                    </label>
+                    <p className="mt-2 text-xs text-[#1a1a1a]/45">
+                      or drag and drop an image here
+                    </p>
+                  </div>
 
-                  {editing.photo?.trim() && (
+                  {sanitizeFamilyPhotoUrl(editing.photo) && (
                     <button
                       type="button"
                       onClick={() => {
@@ -475,15 +521,6 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                       Remove photo
                     </button>
                   )}
-
-                  <input
-                    value={editing.photo ?? ""}
-                    onChange={(e) =>
-                      setEditing({ ...editing, photo: e.target.value })
-                    }
-                    placeholder="Or paste image URL"
-                    className={inputClass}
-                  />
 
                   {photoMessage && (
                     <p
@@ -498,7 +535,8 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                   )}
 
                   <p className="text-xs text-[#1a1a1a]/40">
-                    Photos are resized to 512×512 and saved as WebP.
+                    Use upload only — desktop file paths will not work on the
+                    website. Photos are resized to 512×512 and saved as WebP.
                   </p>
                 </div>
               </div>

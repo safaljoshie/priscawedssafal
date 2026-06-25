@@ -10,6 +10,7 @@ import type {
   FamilySideData,
 } from "@/lib/types";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { sanitizeFamilyPhotoUrl } from "@/lib/familyPhotoUrl";
 import { SectionHeading } from "./SectionHeading";
 
 type Side = FamilySide;
@@ -89,7 +90,8 @@ function MemberCard({
   const isNepali = locale === "ne";
   const { name, relation, bio } = localizeMember(member, locale);
   const displayName = name || relation;
-  const hasPhoto = Boolean(member.photo?.trim());
+  const photoUrl = sanitizeFamilyPhotoUrl(member.photo);
+  const hasPhoto = Boolean(photoUrl);
   const accentClass =
     side === "prisca"
       ? "border-gold/30 bg-gold/5"
@@ -121,7 +123,7 @@ function MemberCard({
           >
             {hasPhoto ? (
               <Image
-                src={member.photo!}
+                src={photoUrl!}
                 alt={displayName}
                 fill
                 className="object-cover"

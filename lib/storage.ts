@@ -10,6 +10,10 @@ import type {
   WeddingUpdate,
 } from "./types";
 import { readJson, readJsonArray, writeJson } from "./persistence";
+import {
+  sanitizeFamilyMemberBio,
+  sanitizeFamilyPhotoUrl,
+} from "./familyPhotoUrl";
 import { sortWeddingData } from "./sortEvents";
 
 const WEDDING_BLOB_KEY = "data/wedding.json";
@@ -132,8 +136,36 @@ export function slugifyEventId(name: string): string {
     .replace(/^-|-$/g, "");
 }
 
+function sanitizeFamilyMember(member: FamilyMember): FamilyMember {
+  return {
+    ...member,
+    photo: sanitizeFamilyPhotoUrl(member.photo),
+    bio: sanitizeFamilyMemberBio(member.bio),
+    bioNe: sanitizeFamilyMemberBio(member.bioNe),
+  };
+}
+
+function sanitizeFamilyData(data: FamilyData): FamilyData {
+  const sides = ["prisca", "safal"] as const;
+  const categories = [
+    "parents",
+    "siblings",
+    "grandparents",
+    "extended",
+  ] as const;
+
+  const next = structuredClone(data);
+  for (const side of sides) {
+    for (const category of categories) {
+      next[side][category] = (next[side][category] ?? []).map(sanitizeFamilyMember);
+    }
+  }
+  return next;
+}
+
 export async function getFamilyData(): Promise<FamilyData> {
-  return readJson<FamilyData>(FAMILY_BLOB_KEY, FAMILY_FILE);
+  const data = await readJson<FamilyData>(FAMILY_BLOB_KEY, FAMILY_FILE);
+  return sanitizeFamilyData(data);
 }
 
 export async function saveFamilyData(data: FamilyData): Promise<void> {
@@ -170,16 +202,16 @@ function findFamilyMember(
 function normalizeMember(
   member: Omit<FamilyMember, "id"> & { id?: string }
 ): FamilyMember {
-  return {
+  return sanitizeFamilyMember({
     id: member.id?.trim() || crypto.randomUUID(),
     name: member.name?.trim() ?? "",
     nameNe: member.nameNe?.trim() || undefined,
     relation: member.relation?.trim() ?? "",
     relationNe: member.relationNe?.trim() || undefined,
-    photo: member.photo?.trim() || undefined,
-    bio: member.bio?.trim() ?? "",
+    photo: sanitizeFamilyPhotoUrl(member.photo),
+    bio: sanitizeFamilyMemberBio(member.bio),
     bioNe: member.bioNe?.trim() || undefined,
-  };
+  });
 }
 
 export async function addFamilyMember(
@@ -203,7 +235,7 @@ export async function updateFamilyMember(
   if (!location) throw new Error("Family member not found");
 
   const current = data[location.side][location.category][location.index];
-  const updated: FamilyMember = {
+  const updated = sanitizeFamilyMember({
     ...current,
     ...updates,
     id,
@@ -218,12 +250,10 @@ export async function updateFamilyMember(
       updates.relationNe !== undefined
         ? updates.relationNe.trim() || undefined
         : current.relationNe,
-    photo:
-      updates.photo !== undefined ? updates.photo.trim() || undefined : current.photo,
-    bio: updates.bio !== undefined ? updates.bio.trim() : current.bio,
-    bioNe:
-      updates.bioNe !== undefined ? updates.bioNe.trim() || undefined : current.bioNe,
-  };
+    photo: updates.photo !== undefined ? updates.photo : current.photo,
+    bio: updates.bio !== undefined ? updates.bio : current.bio,
+    bioNe: updates.bioNe !== undefined ? updates.bioNe : current.bioNe,
+  });
 
   data[location.side][location.category][location.index] = updated;
   await saveFamilyData(data);
