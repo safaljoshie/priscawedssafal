@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const input = Buffer.from(await file.arrayBuffer());
+    const input = Buffer.from(new Uint8Array(await file.arrayBuffer()));
     const compressed = await compressFamilyPhoto(input);
     const url = await storeFamilyPhoto(compressed);
 

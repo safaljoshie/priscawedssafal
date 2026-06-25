@@ -26,7 +26,9 @@ export async function GET(_request: Request, context: RouteContext) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    return new NextResponse(result.stream, {
+    const bytes = Buffer.from(new Uint8Array(await new Response(result.stream).arrayBuffer()));
+
+    return new NextResponse(bytes, {
       headers: {
         "Content-Type": "image/webp",
         "Cache-Control": "public, max-age=31536000, immutable",
