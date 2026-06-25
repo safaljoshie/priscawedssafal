@@ -470,7 +470,7 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                 )}
 
                 <div className="min-w-0 flex-1 space-y-2">
-                  <div
+                  <label
                     onDragEnter={(e) => {
                       e.preventDefault();
                       setPhotoDragActive(true);
@@ -485,29 +485,29 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                       setPhotoDragActive(false);
                       handlePhotoFiles(e.dataTransfer.files);
                     }}
-                    className={`rounded-sm border border-dashed px-4 py-5 text-center transition-colors ${
+                    className={`block cursor-pointer rounded-sm border border-dashed px-4 py-5 text-center transition-colors ${
                       photoDragActive
                         ? "border-gold bg-gold/10"
-                        : "border-gold/30 bg-green/5"
+                        : "border-gold/30 bg-green/5 hover:bg-gold/5"
                     }`}
                   >
-                    <label className="inline-block cursor-pointer rounded-sm border border-gold/30 bg-gold/10 px-4 py-2 text-xs uppercase tracking-[0.12em] text-green transition-colors hover:bg-gold/20">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="sr-only"
-                        disabled={uploadingPhoto}
-                        onChange={(e) => {
-                          handlePhotoFiles(e.target.files);
-                          e.target.value = "";
-                        }}
-                      />
-                      {uploadingPhoto ? "Compressing…" : "Choose photo"}
-                    </label>
-                    <p className="mt-2 text-xs text-[#1a1a1a]/45">
-                      or drag and drop an image here
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      disabled={uploadingPhoto}
+                      onChange={(e) => {
+                        handlePhotoFiles(e.target.files);
+                        e.target.value = "";
+                      }}
+                    />
+                    <span className="inline-block rounded-sm border border-gold/30 bg-gold/10 px-4 py-2 text-xs uppercase tracking-[0.12em] text-green">
+                      {uploadingPhoto ? "Compressing…" : "Upload from computer"}
+                    </span>
+                    <p className="mt-2 text-xs text-[#1a1a1a]/55">
+                      Click here to browse, or drag a photo from your desktop
                     </p>
-                  </div>
+                  </label>
 
                   {sanitizeFamilyPhotoUrl(editing.photo) && (
                     <button
@@ -535,8 +535,8 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                   )}
 
                   <p className="text-xs text-[#1a1a1a]/40">
-                    Use upload only — desktop file paths will not work on the
-                    website. Photos are resized to 512×512 and saved as WebP.
+                    Photos from your computer are automatically resized to
+                    512×512 and saved as WebP.
                   </p>
                 </div>
               </div>
