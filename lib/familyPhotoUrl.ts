@@ -6,6 +6,13 @@ function isAllowedFamilyPhotoUrl(url: string): boolean {
   return false;
 }
 
+const IMAGE_FILE_PATTERN = /\.(jpe?g|png|gif|webp|heic|heif|bmp|avif)$/i;
+
+export function isImageUploadFile(file: Pick<File, "name" | "type">): boolean {
+  if (file.type.startsWith("image/")) return true;
+  return IMAGE_FILE_PATTERN.test(file.name);
+}
+
 export function sanitizeFamilyPhotoUrl(photo?: string): string | undefined {
   if (!photo?.trim()) return undefined;
 

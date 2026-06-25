@@ -7,7 +7,7 @@ import type {
   FamilyMember,
   FamilySide,
 } from "@/lib/types";
-import { sanitizeFamilyPhotoUrl } from "@/lib/familyPhotoUrl";
+import { sanitizeFamilyPhotoUrl, isImageUploadFile } from "@/lib/familyPhotoUrl";
 
 const categories: FamilyCategory[] = [
   "parents",
@@ -42,6 +42,7 @@ type Props = {
 export function FamilyAdmin({ initialFamily, onMessage }: Props) {
   const listRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
   const [family, setFamily] = useState(initialFamily);
   const [side, setSide] = useState<FamilySide>("prisca");
   const [category, setCategory] = useState<FamilyCategory>("parents");
@@ -99,13 +100,13 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
 
   async function uploadPhoto(file: File) {
     if (!editing) return;
-    if (!file.type.startsWith("image/")) {
-      setPhotoMessage("Please choose an image file.");
+    if (!isImageUploadFile(file)) {
+      setPhotoMessage("Please choose a JPG, PNG, or HEIC image.");
       return;
     }
 
     setUploadingPhoto(true);
-    setPhotoMessage("");
+    setPhotoMessage("Uploading…");
 
     const formData = new FormData();
     formData.append("file", file);
@@ -114,29 +115,35 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
       const res = await fetch("/api/admin/family/upload", {
         method: "POST",
         body: formData,
+        credentials: "same-origin",
       });
-      const data = await res.json();
+      const data = (await res.json()) as { url?: string; sizeKb?: number; error?: string };
 
       if (!res.ok) {
         setPhotoMessage(data.error || "Failed to upload photo");
         return;
       }
 
+      if (!data.url) {
+        setPhotoMessage("Failed to upload photo");
+        return;
+      }
+
       setEditing({ ...editing, photo: data.url });
-      setPhotoMessage(`Uploaded (${data.sizeKb} KB, compressed)`);
+      setPhotoMessage(
+        `Photo uploaded (${data.sizeKb ?? "?"} KB). Tap Save below to keep it.`
+      );
     } catch {
-      setPhotoMessage("Failed to upload photo");
+      setPhotoMessage("Failed to upload photo. Check your connection and try again.");
     } finally {
       setUploadingPhoto(false);
     }
   }
 
   function handlePhotoFiles(files: FileList | File[] | null | undefined) {
-    const file = Array.from(files ?? []).find((item) =>
-      item.type.startsWith("image/")
-    );
+    const file = Array.from(files ?? []).find((item) => isImageUploadFile(item));
     if (!file) {
-      setPhotoMessage("Please drop or choose an image file.");
+      setPhotoMessage("Please choose a JPG, PNG, or HEIC image.");
       return;
     }
     void uploadPhoto(file);
@@ -470,7 +477,19 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                 )}
 
                 <div className="min-w-0 flex-1 space-y-2">
-                  <label
+                  <input
+                    ref={photoInputRef}
+                    type="file"
+                    accept="image/*,.heic,.heif"
+                    className="hidden"
+                    disabled={uploadingPhoto}
+                    onChange={(e) => {
+                      handlePhotoFiles(e.target.files);
+                      e.target.value = "";
+                    }}
+                  />
+
+                  <div
                     onDragEnter={(e) => {
                       e.preventDefault();
                       setPhotoDragActive(true);
@@ -485,29 +504,24 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                       setPhotoDragActive(false);
                       handlePhotoFiles(e.dataTransfer.files);
                     }}
-                    className={`block cursor-pointer rounded-sm border border-dashed px-4 py-5 text-center transition-colors ${
+                    className={`rounded-sm border border-dashed px-4 py-5 text-center transition-colors ${
                       photoDragActive
                         ? "border-gold bg-gold/10"
-                        : "border-gold/30 bg-green/5 hover:bg-gold/5"
+                        : "border-gold/30 bg-green/5"
                     }`}
                   >
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="sr-only"
+                    <button
+                      type="button"
                       disabled={uploadingPhoto}
-                      onChange={(e) => {
-                        handlePhotoFiles(e.target.files);
-                        e.target.value = "";
-                      }}
-                    />
-                    <span className="inline-block rounded-sm border border-gold/30 bg-gold/10 px-4 py-2 text-xs uppercase tracking-[0.12em] text-green">
-                      {uploadingPhoto ? "Compressing…" : "Upload from computer"}
-                    </span>
+                      onClick={() => photoInputRef.current?.click()}
+                      className="rounded-sm border border-gold/30 bg-gold/10 px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-green transition-colors hover:bg-gold/20 disabled:opacity-60"
+                    >
+                      {uploadingPhoto ? "Uploading…" : "Upload from computer"}
+                    </button>
                     <p className="mt-2 text-xs text-[#1a1a1a]/55">
-                      Click here to browse, or drag a photo from your desktop
+                      Tap to browse your photos, or drag an image here
                     </p>
-                  </label>
+                  </div>
 
                   {sanitizeFamilyPhotoUrl(editing.photo) && (
                     <button
@@ -524,10 +538,11 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
 
                   {photoMessage && (
                     <p
-                      className={`text-xs ${
-                        photoMessage.includes("Failed")
+                      className={`text-sm ${
+                        photoMessage.includes("Failed") ||
+                        photoMessage.includes("Please choose")
                           ? "text-red-600"
-                          : "text-green/60"
+                          : "font-medium text-green"
                       }`}
                     >
                       {photoMessage}
@@ -535,8 +550,8 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                   )}
 
                   <p className="text-xs text-[#1a1a1a]/40">
-                    Photos from your computer are automatically resized to
-                    512×512 and saved as WebP.
+                    JPG, PNG, and iPhone photos work. We resize to 512×512
+                    WebP, then you tap Save.
                   </p>
                 </div>
               </div>
@@ -576,13 +591,13 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className="block">
+    <div className="block">
       <span className="mb-1 block text-xs uppercase tracking-[0.12em] text-[#1a1a1a]/50">
         {label}
         {required && <span className="text-gold"> *</span>}
       </span>
       {children}
-    </label>
+    </div>
   );
 }
 

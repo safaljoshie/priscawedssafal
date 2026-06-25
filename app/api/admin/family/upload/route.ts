@@ -5,6 +5,7 @@ import {
   compressFamilyPhoto,
   storeFamilyPhoto,
 } from "@/lib/familyPhoto";
+import { isImageUploadFile } from "@/lib/familyPhotoUrl";
 
 export const runtime = "nodejs";
 
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No image provided" }, { status: 400 });
     }
 
-    if (!file.type.startsWith("image/")) {
+    if (!isImageUploadFile(file)) {
       return NextResponse.json({ error: "File must be an image" }, { status: 400 });
     }
 
