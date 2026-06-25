@@ -8,9 +8,21 @@ const MAX_EDGE = 512;
 const WEBP_QUALITY = 82;
 
 export const MAX_FAMILY_PHOTO_BYTES = 4 * 1024 * 1024;
+export const FAMILY_PHOTO_BLOB_PREFIX = "images/family/";
 
 function useBlobStorage(): boolean {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+}
+
+export function familyPhotoBlobKey(filename: string): string {
+  return `${FAMILY_PHOTO_BLOB_PREFIX}${filename}`;
+}
+
+export function familyPhotoPublicPath(filename: string): string {
+  if (useBlobStorage()) {
+    return `/api/family/photos/${filename}`;
+  }
+  return `/images/family/${filename}`;
 }
 
 export async function compressFamilyPhoto(input: Buffer): Promise<Buffer> {
@@ -22,19 +34,21 @@ export async function compressFamilyPhoto(input: Buffer): Promise<Buffer> {
 }
 
 export async function storeFamilyPhoto(buffer: Buffer): Promise<string> {
-  const id = randomUUID();
-  const blobKey = `images/family/${id}.webp`;
+  const filename = `${randomUUID()}.webp`;
+  const blobKey = familyPhotoBlobKey(filename);
 
   if (useBlobStorage()) {
-    const blob = await put(blobKey, buffer, {
-      access: "public",
+    await put(blobKey, buffer, {
+      access: "private",
       contentType: "image/webp",
+      addRandomSuffix: false,
+      allowOverwrite: true,
     });
-    return blob.url;
+    return familyPhotoPublicPath(filename);
   }
 
   const dir = path.join(process.cwd(), "public/images/family");
   await mkdir(dir, { recursive: true });
-  await writeFile(path.join(dir, `${id}.webp`), buffer);
-  return `/images/family/${id}.webp`;
+  await writeFile(path.join(dir, filename), buffer);
+  return familyPhotoPublicPath(filename);
 }

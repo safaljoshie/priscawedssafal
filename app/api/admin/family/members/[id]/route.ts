@@ -16,7 +16,12 @@ export async function PUT(request: Request, context: RouteContext) {
 
     if (body.name !== undefined) updates.name = body.name;
     if (body.nameNe !== undefined) updates.nameNe = body.nameNe;
-    if (body.relation !== undefined) updates.relation = body.relation;
+    if (body.relation !== undefined) {
+      if (!body.relation.trim()) {
+        return NextResponse.json({ error: "Relation is required" }, { status: 400 });
+      }
+      updates.relation = body.relation;
+    }
     if (body.relationNe !== undefined) updates.relationNe = body.relationNe;
     if (body.photo !== undefined) updates.photo = body.photo;
     if (body.bio !== undefined) updates.bio = body.bio;

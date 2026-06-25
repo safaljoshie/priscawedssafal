@@ -160,7 +160,7 @@ function MemberCard({
 
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="border-t border-gold/15 px-4 pb-4 pt-3">
@@ -285,7 +285,7 @@ export function FamilyPage({ family }: { family: FamilyData }) {
           <div className="mt-6 grid grid-cols-2 gap-3">
             {members.map((member, index) => (
               <MemberCard
-                key={`${side}-${category}-${index}`}
+                key={member.id}
                 member={member}
                 index={index}
                 isOpen={openIndex === index}
