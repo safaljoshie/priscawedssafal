@@ -10,7 +10,7 @@ import { StayPreview } from "./StayPreview";
 const phoneFrameClass =
   "overflow-hidden rounded-[1.75rem] border-[3px] shadow-md";
 
-const phoneHeightClass = "h-[440px] md:h-[485px]";
+const phoneHeightClass = "h-[320px] md:h-[485px]";
 
 const infoBoxClass = `${phoneFrameClass} ${phoneHeightClass} flex flex-col justify-center border-green/25 bg-green/10 px-5 py-8 md:px-6`;
 
@@ -96,7 +96,7 @@ export function Travel({ wedding }: { wedding: WeddingData }) {
                   href={explore.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-gold underline-offset-2 transition-colors hover:text-green hover:underline"
+                  className="inline-flex min-h-[44px] items-center font-medium text-gold underline-offset-2 transition-colors hover:text-green hover:underline"
                 >
                   SaurahaNepal.com
                 </a>{" "}

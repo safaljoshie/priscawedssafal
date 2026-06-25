@@ -7,7 +7,7 @@ export function LanguageToggle() {
 
   return (
     <div
-      className="flex items-center gap-0.5 rounded-full border border-white/25 bg-white/20 p-0.5 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md md:text-xs"
+      className="flex items-center gap-0.5 rounded-full border border-white/25 bg-white/20 p-1 text-xs font-bold uppercase tracking-wider backdrop-blur-md md:text-xs"
       role="group"
       aria-label="Language"
     >
@@ -16,7 +16,7 @@ export function LanguageToggle() {
           key={lang}
           type="button"
           onClick={() => setLocale(lang)}
-          className={`rounded-full px-2 py-0.5 transition-colors md:px-2.5 md:py-1 ${
+          className={`min-h-[36px] min-w-[36px] rounded-full px-3 py-1.5 transition-colors md:min-h-[32px] md:min-w-[32px] md:px-2.5 md:py-1 ${
             locale === lang
               ? "bg-wedding/90 text-white shadow-sm"
               : "text-black hover:bg-white/15 hover:text-wedding"

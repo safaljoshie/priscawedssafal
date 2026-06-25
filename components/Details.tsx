@@ -76,7 +76,7 @@ export function Details({ wedding }: { wedding: WeddingData }) {
           href={location.mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={`mt-4 inline-block text-xs tracking-[0.2em] text-gold underline-offset-4 transition-colors hover:text-green hover:underline md:text-sm ${
+          className={`mt-4 inline-flex min-h-[44px] items-center justify-center text-xs tracking-[0.2em] text-gold underline-offset-4 transition-colors hover:text-green hover:underline md:text-sm ${
             isNepali ? "font-serif" : "uppercase"
           }`}
         >
@@ -85,11 +85,12 @@ export function Details({ wedding }: { wedding: WeddingData }) {
       </article>
 
       <div className="mx-auto mt-14 max-w-4xl md:mt-20">
-        <div
-          className="flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:justify-center md:gap-3"
-          role="tablist"
-          aria-label="Wedding events"
-        >
+        <div className="relative">
+          <div
+            className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:flex-wrap md:justify-center md:gap-3 [&::-webkit-scrollbar]:hidden"
+            role="tablist"
+            aria-label="Wedding events"
+          >
           {events.map((event) => {
             const isActive = event.id === selectedId;
             return (
@@ -109,6 +110,11 @@ export function Details({ wedding }: { wedding: WeddingData }) {
               </button>
             );
           })}
+          </div>
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-ivory to-transparent md:hidden"
+            aria-hidden
+          />
         </div>
 
         <div
@@ -130,7 +136,7 @@ export function Details({ wedding }: { wedding: WeddingData }) {
                 href={selected.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`mt-2 inline-block text-xs tracking-[0.15em] text-gold underline-offset-4 hover:underline ${
+                className={`mt-2 inline-flex min-h-[44px] items-center text-xs tracking-[0.15em] text-gold underline-offset-4 hover:underline ${
                   isNepali ? "font-serif" : "uppercase"
                 }`}
               >

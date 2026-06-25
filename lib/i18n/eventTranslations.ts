@@ -64,7 +64,7 @@ export function getLocalizedEventName(event: WeddingEvent, locale: Locale): stri
 /** +4 Tailwind steps vs default English event labels */
 export function eventTabTextClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-xl font-bold tracking-normal md:text-2xl"
+    ? "font-serif text-lg font-bold tracking-normal md:text-2xl"
     : "text-xs uppercase tracking-[0.12em] md:text-sm md:tracking-[0.15em]";
 }
 
@@ -76,7 +76,7 @@ export function eventTabPaddingClass(locale: Locale): string {
 
 export function eventPanelTitleClass(locale: Locale): string {
   return locale === "ne"
-    ? "font-serif text-5xl font-bold text-green md:text-6xl"
+    ? "font-serif text-3xl font-bold text-green md:text-6xl"
     : "font-serif text-xl font-bold text-green md:text-2xl";
 }
 

@@ -3,6 +3,9 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   theme: {
     extend: {
+      screens: {
+        short: { raw: "(max-height: 700px)" },
+      },
       fontFamily: {
         serif: ["Cormorant Garamond", "serif"],
         sans: ["Inter", "sans-serif"],

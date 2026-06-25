@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { LanguageToggle } from "./LanguageToggle";
 
@@ -12,6 +12,8 @@ const navItems = [
   { href: "#details", key: "details" as const },
   { href: "#updates", key: "updates" as const },
   { href: "#travel", key: "travel" as const },
+  { href: "#dress-code", key: "attire" as const },
+  { href: "#faq", key: "faq" as const },
   { href: "#rsvp", key: "rsvp" as const },
 ];
 
@@ -19,16 +21,27 @@ const mobileItems = [
   { id: "home", href: "#home", key: "home" as const },
   { id: "details", href: "#details", key: "details" as const },
   { id: "updates", href: "#updates", key: "updates" as const },
-  { id: "travel", href: "#travel", key: "travel" as const },
   { id: "rsvp", href: "#rsvp", key: "rsvp" as const },
 ] as const;
 
-const sectionIds = mobileItems.map((item) => item.id);
+const moreLinks = [
+  { href: "#travel", key: "travel" as const, id: "travel" },
+  { href: "#dress-code", key: "attire" as const, id: "dress-code" },
+  { href: "#faq", key: "faq" as const, id: "faq" },
+] as const;
+
+const sectionIds = [
+  ...mobileItems.map((item) => item.id),
+  ...moreLinks.map((link) => link.id),
+];
 
 export function Nav({ couple }: Props) {
   const { locale, t } = useLanguage();
   const [activeSection, setActiveSection] = useState("home");
+  const [moreOpen, setMoreOpen] = useState(false);
+  const mobileNavRef = useRef<HTMLDivElement>(null);
   const isNepali = locale === "ne";
+  const isMoreActive = moreLinks.some((link) => link.id === activeSection);
 
   useEffect(() => {
     const sections = sectionIds
@@ -54,6 +67,30 @@ export function Nav({ couple }: Props) {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!moreOpen) return;
+
+    const close = (event: MouseEvent | TouchEvent) => {
+      if (!mobileNavRef.current?.contains(event.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", close);
+    document.addEventListener("touchstart", close);
+    return () => {
+      document.removeEventListener("mousedown", close);
+      document.removeEventListener("touchstart", close);
+    };
+  }, [moreOpen]);
+
+  const mobileLinkClass = (isActive: boolean) =>
+    `flex min-h-[44px] flex-1 items-center justify-center rounded-full px-0.5 py-2.5 text-center font-bold leading-tight transition-colors ${
+      isNepali
+        ? "font-serif text-[11px] tracking-wide"
+        : "text-[10px] uppercase tracking-[0.06em]"
+    } ${isActive ? "bg-black/10 text-wedding" : "text-black hover:bg-black/5"}`;
+
   return (
     <>
       {/* Desktop — top bar */}
@@ -70,7 +107,7 @@ export function Nav({ couple }: Props) {
               {couple.bride} & {couple.groom}
             </a>
 
-            <ul className="flex items-center gap-6">
+            <ul className="flex items-center gap-5 lg:gap-6">
               {navItems.map(({ href, key }) => (
                 <li key={href}>
                   <a
@@ -98,27 +135,60 @@ export function Nav({ couple }: Props) {
 
       {/* Mobile — floating bottom nav */}
       <nav
-        className="fixed inset-x-0 bottom-0 z-50 flex justify-center px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 flex justify-center px-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden"
         aria-label="Section navigation"
       >
-        <div className="flex w-full max-w-lg items-center justify-between gap-0.5 rounded-full border border-white/50 bg-white/35 px-1 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.14)] backdrop-blur-2xl">
-          {mobileItems.map(({ id, href, key }) => {
-            const isActive = activeSection === id;
-            return (
-              <a
-                key={id}
-                href={href}
-                className={`flex flex-1 items-center justify-center rounded-full px-0.5 py-2 text-center font-bold leading-none transition-colors ${
-                  isNepali
-                    ? "font-serif text-[11px] tracking-wide"
-                    : "text-[10px] uppercase tracking-[0.08em]"
-                } ${isActive ? "bg-black/10 text-wedding" : "text-black hover:bg-black/5"}`}
-                aria-current={isActive ? "page" : undefined}
-              >
-                {t.nav[key]}
-              </a>
-            );
-          })}
+        <div ref={mobileNavRef} className="relative w-full max-w-lg">
+          {moreOpen && (
+            <div
+              className="absolute bottom-full left-1/2 mb-2 w-[min(100%,14rem)] -translate-x-1/2 rounded-2xl border border-white/50 bg-white/90 p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.14)] backdrop-blur-2xl"
+              role="menu"
+            >
+              {moreLinks.map(({ href, key, id }) => (
+                <a
+                  key={href}
+                  href={href}
+                  role="menuitem"
+                  onClick={() => setMoreOpen(false)}
+                  className={`flex min-h-[44px] items-center justify-center rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
+                    isNepali ? "font-serif" : "uppercase tracking-[0.12em]"
+                  } ${
+                    activeSection === id
+                      ? "bg-black/10 text-wedding"
+                      : "text-black hover:bg-black/5"
+                  }`}
+                >
+                  {t.nav[key]}
+                </a>
+              ))}
+            </div>
+          )}
+
+          <div className="flex w-full items-stretch justify-between gap-0.5 rounded-full border border-white/50 bg-white/35 px-1 py-1 shadow-[0_8px_32px_rgba(0,0,0,0.14)] backdrop-blur-2xl">
+            {mobileItems.map(({ id, href, key }) => {
+              const isActive = activeSection === id;
+              return (
+                <a
+                  key={id}
+                  href={href}
+                  className={mobileLinkClass(isActive)}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={() => setMoreOpen(false)}
+                >
+                  {t.nav[key]}
+                </a>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => setMoreOpen((open) => !open)}
+              className={mobileLinkClass(isMoreActive || moreOpen)}
+              aria-expanded={moreOpen}
+              aria-haspopup="menu"
+            >
+              {t.nav.more}
+            </button>
+          </div>
         </div>
       </nav>
     </>

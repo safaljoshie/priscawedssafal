@@ -14,7 +14,7 @@ export function Footer({ wedding }: { wedding: WeddingData }) {
         <p className="mt-3 text-xs uppercase tracking-[0.3em] text-gold md:text-sm">
           {hashtag}
         </p>
-        <p className="mt-8 text-xs text-[#1a1a1a]/40 md:text-sm">
+        <p className="mt-8 text-xs text-[#1a1a1a]/55 md:text-sm">
           Made with love · {new Date().getFullYear()}
         </p>
       </div>

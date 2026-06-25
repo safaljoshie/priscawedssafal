@@ -85,8 +85,8 @@ export function Updates({ wedding }: { wedding: WeddingData }) {
             href={t.updates.facebookEventUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-block rounded-sm border border-gold/35 px-6 py-3 text-xs tracking-[0.2em] text-green transition-colors hover:border-gold hover:text-wedding md:text-sm ${
-              isNepali ? "font-serif" : "uppercase"
+            className={`mx-auto inline-flex min-h-[44px] max-w-sm items-center justify-center rounded-sm border border-gold/35 px-5 py-3 text-sm leading-snug text-green transition-colors hover:border-gold hover:text-wedding md:max-w-md md:px-6 md:text-sm ${
+              isNepali ? "font-serif" : "uppercase tracking-[0.15em]"
             }`}
           >
             {t.updates.facebookEvent}

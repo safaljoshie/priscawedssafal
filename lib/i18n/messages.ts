@@ -8,6 +8,9 @@ export const messages = {
       updates: "Updates",
       travel: "Travel",
       rsvp: "RSVP",
+      more: "More",
+      attire: "Attire",
+      faq: "Good to know",
     },
     hero: {
       saveTheDate: "Save the Date",
@@ -96,9 +99,12 @@ export const messages = {
     nav: {
       home: "गृह",
       details: "विवरण",
-      updates: "सूचनाहरू",
+      updates: "सूचना",
       travel: "यात्रा",
       rsvp: "उपस्थिति",
+      more: "थप",
+      attire: "पहिरन",
+      faq: "जानकारी",
     },
     hero: {
       saveTheDate: "मिति सुरक्षित गर्नुहोस्",

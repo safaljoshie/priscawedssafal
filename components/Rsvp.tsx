@@ -231,7 +231,7 @@ export function Rsvp({ wedding }: { wedding: WeddingData }) {
             {(["yes", "no"] as const).map((val) => (
               <label
                 key={val}
-                className={`flex flex-1 cursor-pointer items-center justify-center rounded-sm border py-2.5 text-sm transition-colors md:py-3 md:text-base ${
+                className={`flex min-h-[44px] flex-1 cursor-pointer items-center justify-center rounded-sm border py-3 text-sm transition-colors md:text-base ${
                   isNepali ? "font-serif" : ""
                 } ${
                   form.attending === val
@@ -350,7 +350,7 @@ export function Rsvp({ wedding }: { wedding: WeddingData }) {
 }
 
 const inputClass =
-  "w-full rounded-sm border border-ivory/20 bg-white/5 px-4 py-3 text-sm text-ivory placeholder:text-ivory/35 outline-none transition-colors focus:border-gold md:text-base";
+  "w-full rounded-sm border border-ivory/20 bg-white/5 px-4 py-3 text-sm text-ivory placeholder:text-ivory/50 outline-none transition-colors focus:border-gold md:text-base";
 
 function Field({
   label,
@@ -366,7 +366,7 @@ function Field({
   return (
     <label className="block">
       <span
-        className={`mb-1.5 block text-xs tracking-[0.15em] text-ivory/60 md:text-sm ${
+        className={`mb-1.5 block text-xs tracking-[0.15em] text-ivory/70 md:text-sm ${
           isNepali ? "font-serif" : "uppercase"
         }`}
       >

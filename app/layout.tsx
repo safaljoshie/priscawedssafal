@@ -46,7 +46,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-[#e5e5e5] font-sans antialiased md:bg-white">
         <ScrollToHomeOnReload />
         <LanguageProvider>
-          <div className="mx-auto min-h-screen w-full max-w-phone bg-white shadow-sm md:max-w-none md:shadow-none">
+          <div className="mx-auto min-h-screen w-full max-w-phone overflow-x-hidden bg-white shadow-sm md:max-w-none md:overflow-x-visible md:shadow-none">
             {children}
           </div>
         </LanguageProvider>

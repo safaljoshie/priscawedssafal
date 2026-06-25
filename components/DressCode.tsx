@@ -46,13 +46,13 @@ export function DressCode({ wedding }: { wedding: WeddingData }) {
                 <p
                   className={`mt-3 leading-relaxed opacity-90 ${
                     isNepali
-                      ? "font-serif text-xs md:text-sm"
+                      ? "font-serif text-sm md:text-base"
                       : "text-sm md:text-base"
                   }`}
                 >
                   <span
                     className={`font-bold tracking-[0.08em] opacity-90 ${
-                      isNepali ? "font-serif text-xs md:text-sm" : "uppercase"
+                      isNepali ? "font-serif text-sm md:text-base" : "uppercase"
                     }`}
                   >
                     {t.dressCode.ladies}
@@ -63,13 +63,13 @@ export function DressCode({ wedding }: { wedding: WeddingData }) {
                 <p
                   className={`mt-3 leading-relaxed opacity-90 ${
                     isNepali
-                      ? "font-serif text-xs md:text-sm"
+                      ? "font-serif text-sm md:text-base"
                       : "text-sm md:text-base"
                   }`}
                 >
                   <span
                     className={`font-bold tracking-[0.08em] opacity-90 ${
-                      isNepali ? "font-serif text-xs md:text-sm" : "uppercase"
+                      isNepali ? "font-serif text-sm md:text-base" : "uppercase"
                     }`}
                   >
                     {t.dressCode.gents}
