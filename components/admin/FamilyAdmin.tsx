@@ -8,6 +8,7 @@ import type {
   FamilySide,
 } from "@/lib/types";
 import { sanitizeFamilyPhotoUrl, isImageUploadFile } from "@/lib/familyPhotoUrl";
+import { preparePhotoForUpload } from "@/lib/preparePhotoUpload";
 
 const categories: FamilyCategory[] = [
   "grandparents",
@@ -106,18 +107,37 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
     }
 
     setUploadingPhoto(true);
-    setPhotoMessage("Uploading…");
-
-    const formData = new FormData();
-    formData.append("file", file);
+    setPhotoMessage("Preparing photo…");
 
     try {
+      const prepared = await preparePhotoForUpload(file);
+      setPhotoMessage("Uploading…");
+
+      const formData = new FormData();
+      formData.append("file", prepared);
+
       const res = await fetch("/api/admin/family/upload", {
         method: "POST",
         body: formData,
         credentials: "same-origin",
       });
-      const data = (await res.json()) as { url?: string; sizeKb?: number; error?: string };
+
+      const text = await res.text();
+      let data: { url?: string; sizeKb?: number; error?: string };
+      try {
+        data = JSON.parse(text) as typeof data;
+      } catch {
+        if (res.status === 413) {
+          setPhotoMessage(
+            "Photo is too large. Try a smaller JPG, or take a new photo."
+          );
+        } else {
+          setPhotoMessage(
+            `Upload failed (${res.status}). Try a JPG or PNG photo.`
+          );
+        }
+        return;
+      }
 
       if (!res.ok) {
         setPhotoMessage(data.error || "Failed to upload photo");
@@ -133,8 +153,12 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
       setPhotoMessage(
         `Photo uploaded (${data.sizeKb ?? "?"} KB). Tap Save below to keep it.`
       );
-    } catch {
-      setPhotoMessage("Failed to upload photo. Check your connection and try again.");
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to upload photo. Check your connection and try again.";
+      setPhotoMessage(message);
     } finally {
       setUploadingPhoto(false);
     }
@@ -550,8 +574,8 @@ export function FamilyAdmin({ initialFamily, onMessage }: Props) {
                   )}
 
                   <p className="text-xs text-[#1a1a1a]/40">
-                    JPG, PNG, and iPhone photos work. We resize to 512×512
-                    WebP, then you tap Save.
+                    Photos are compressed on your device first, then resized to
+                    512×512 WebP on the server. Tap Save when upload finishes.
                   </p>
                 </div>
               </div>

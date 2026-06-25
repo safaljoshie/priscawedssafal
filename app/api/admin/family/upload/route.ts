@@ -8,6 +8,7 @@ import {
 import { isImageUploadFile } from "@/lib/familyPhotoUrl";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 export async function POST(request: Request) {
   const authError = await requireAdminApi();
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
 
     if (file.size > MAX_FAMILY_PHOTO_BYTES) {
       return NextResponse.json(
-        { error: "Image must be under 10MB. Try a smaller photo." },
+        { error: "Image must be under 5MB. Try a smaller photo." },
         { status: 400 }
       );
     }

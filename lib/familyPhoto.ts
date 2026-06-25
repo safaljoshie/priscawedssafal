@@ -6,7 +6,7 @@ import path from "path";
 const MAX_EDGE = 512;
 const WEBP_QUALITY = 82;
 
-export const MAX_FAMILY_PHOTO_BYTES = 10 * 1024 * 1024;
+export const MAX_FAMILY_PHOTO_BYTES = 5 * 1024 * 1024;
 export const FAMILY_PHOTO_BLOB_PREFIX = "images/family/";
 
 function useBlobStorage(): boolean {
@@ -71,8 +71,16 @@ export async function compressFamilyPhoto(input: Buffer): Promise<Buffer> {
       throw error;
     }
 
-    const jpeg = await convertHeicToJpeg(plainInput);
-    return compressWithSharp(jpeg);
+    try {
+      const jpeg = await convertHeicToJpeg(plainInput);
+      return compressWithSharp(jpeg);
+    } catch (fallbackError) {
+      const fallbackMessage =
+        fallbackError instanceof Error ? fallbackError.message : "";
+      throw new Error(
+        `Could not process this iPhone photo. Save it as JPG and try again. (${fallbackMessage})`
+      );
+    }
   }
 }
 
