@@ -102,9 +102,9 @@ function MemberCard({
 
   return (
     <article
-      className={`rounded-sm border bg-white text-left shadow-sm transition-all duration-300 ${
+      className={`w-full rounded-sm border bg-white text-left shadow-sm transition-all duration-300 md:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] ${
         isOpen
-          ? `col-span-2 ${accentClass} border-2`
+          ? `!w-full ${accentClass} border-2`
           : "border-gold/15 hover:border-gold/30"
       }`}
     >
@@ -227,7 +227,7 @@ export function FamilyPage({ family }: { family: FamilyData }) {
 
   return (
     <section className="bg-ivory px-6 pb-20 pt-28 md:px-12 md:pb-28 md:pt-32">
-      <div className="mx-auto w-full max-w-phone">
+      <div className="mx-auto w-full max-w-phone md:max-w-4xl lg:max-w-6xl">
         <SectionHeading label={t.family.label} title={t.family.title} />
 
         {showSidePicker ? (
@@ -274,7 +274,7 @@ export function FamilyPage({ family }: { family: FamilyData }) {
         )}
 
         <div
-          className="mt-6 flex gap-1 overflow-x-auto border-b border-gold/15 pb-px [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="mt-6 flex gap-1 overflow-x-auto border-b border-gold/15 pb-px [-ms-overflow-style:none] [scrollbar-width:none] md:flex-wrap md:justify-center md:gap-2 [&::-webkit-scrollbar]:hidden"
           role="tablist"
           aria-label={t.family.label}
         >
@@ -310,7 +310,7 @@ export function FamilyPage({ family }: { family: FamilyData }) {
             {t.family.emptyCategory}
           </p>
         ) : (
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="mt-6 flex flex-wrap justify-center gap-3 md:gap-4">
             {members.map((member, index) => (
               <MemberCard
                 key={member.id}

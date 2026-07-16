@@ -1,6 +1,6 @@
 {
   "visibility": {
-    "prisca": true,
+    "prisca": false,
     "safal": true
   },
   "prisca": {
@@ -10,7 +10,6 @@
         "name": "",
         "relation": "Father",
         "relationNe": "बुबा",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
@@ -19,7 +18,6 @@
         "name": "",
         "relation": "Mother",
         "relationNe": "आमा",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       }
@@ -30,7 +28,6 @@
         "name": "",
         "relation": "Sibling",
         "relationNe": "दाजु/दिदी/भाइ/बहिनी",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       }
@@ -41,7 +38,6 @@
         "name": "",
         "relation": "Grandfather",
         "relationNe": "हजुरबुबा",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
@@ -50,7 +46,6 @@
         "name": "",
         "relation": "Grandmother",
         "relationNe": "हजुरआमा",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       }
@@ -61,7 +56,6 @@
         "name": "",
         "relation": "Extended family",
         "relationNe": "विस्तारित परिवार",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       }
@@ -74,7 +68,6 @@
         "name": "",
         "relation": "Father",
         "relationNe": "बुबा",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
@@ -83,7 +76,6 @@
         "name": "",
         "relation": "Mother",
         "relationNe": "आमा",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       }
@@ -94,7 +86,6 @@
         "name": "",
         "relation": "Sibling",
         "relationNe": "दाजु/दिदी/भाइ/बहिनी",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       }
@@ -105,7 +96,6 @@
         "name": "",
         "relation": "Grandfather",
         "relationNe": "हजुरबुबा",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
@@ -114,7 +104,6 @@
         "name": "",
         "relation": "Grandmother",
         "relationNe": "हजुरआमा",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       }
@@ -124,239 +113,239 @@
         "id": "safal-extended-1",
         "name": "Bishow Kumar Joshi",
         "relation": "Eldest Uncle",
-        "photo": "",
         "bio": "",
-        "bioNe": ""
+        "bioNe": "",
+        "nameNe": "बिश्वो कुमार जोशी",
+        "relationNe": "Jethaa Thulobaba"
       },
       {
         "id": "safal-extended-2",
         "name": "Bal Kumari Joshi",
         "relation": "Eldest Aunty",
-        "photo": "",
         "bio": "",
-        "bioNe": ""
+        "bioNe": "",
+        "nameNe": "बाल कुमारी जोशी",
+        "relationNe": "जेठी ठुलोआमा"
       },
       {
         "id": "safal-extended-3",
         "name": "Ravi Joshi",
         "relation": "Maila Uncle",
-        "photo": "",
         "bio": "",
-        "bioNe": ""
+        "bioNe": "",
+        "photo": "/api/family/photos/23dbef25-d0fe-4583-b173-d661834035f9.webp",
+        "nameNe": "रवी जोशी",
+        "relationNe": "माइल ठुलोबाबा"
       },
       {
         "id": "safal-extended-4",
         "name": "Minu Joshi",
         "relation": "Maili Aunty",
-        "photo": "",
         "bio": "",
-        "bioNe": ""
+        "bioNe": "",
+        "photo": "/api/family/photos/dad9c7b1-d36d-4251-832c-a41f93fb6e40.webp",
+        "nameNe": "मिनु जोशी",
+        "relationNe": "माइली ठुलोआमा"
       },
       {
         "id": "safal-extended-5",
-        "name": "Europe Joshi",
-        "relation": "Eldest Cousin Brother",
-        "photo": "",
+        "name": "Rabin Joshi",
+        "nameNe": "रबिन जोशी",
+        "relation": "Youngest Thulobaba",
+        "relationNe": "साइल ठुलोबाबा",
+        "photo": "/api/family/photos/dbd3cbad-8557-441d-8f3f-8c3ddf8e06ef.webp",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-6",
-        "name": "Nirmala Joshi",
-        "relation": "Eldest Sister-in-law",
-        "photo": "",
+        "name": "Divya Laxmi Joshi",
+        "nameNe": "दिव्य लक्ष्मी जोशी",
+        "relation": "Youngest Thuliaama",
+        "relationNe": "साइली ठुलोआम",
+        "photo": "/api/family/photos/f251bd79-830d-4c79-93d4-2fc849a557e1.webp",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-7",
-        "name": "Uran Joshi",
-        "relation": "Cousin Brother",
-        "photo": "",
+        "name": "Europe Joshi",
+        "relation": "Eldest Cousin Brother",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-8",
-        "name": "Rubi Joshi",
-        "relation": "Sister-in-law",
-        "photo": "",
+        "name": "Nirmala Joshi",
+        "relation": "Eldest Sister-in-law",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-9",
-        "name": "Saurav Joshi",
+        "name": "Uran Joshi",
         "relation": "Cousin Brother",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-10",
-        "name": "Asmita Joshi",
+        "name": "Rubi Joshi",
         "relation": "Sister-in-law",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-11",
-        "name": "Sulav Joshi",
+        "name": "Saurav Joshi",
         "relation": "Cousin Brother",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-12",
-        "name": "Sonu Joshi",
+        "name": "Asmita Joshi",
         "relation": "Sister-in-law",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-13",
-        "name": "Sakar Joshi",
+        "name": "Sulav Joshi",
         "relation": "Cousin Brother",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-14",
-        "name": "Sajja Joshi",
-        "relation": "Cousin Sister",
-        "photo": "",
+        "name": "Sonu Joshi",
+        "relation": "Sister-in-law",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-15",
-        "name": "Damoder Bhakta Shrestha",
-        "relation": "Thulo Paju",
-        "photo": "",
+        "name": "Sakar Joshi",
+        "relation": "Cousin Brother",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-16",
-        "name": "Bindrawati Shrestha",
-        "relation": "Thulo Nini",
-        "photo": "",
+        "name": "Sajja Joshi",
+        "relation": "Cousin Sister",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-17",
-        "name": "Surendra Shrestha",
-        "relation": "Maila Paju",
-        "photo": "",
+        "name": "Damoder Bhakta Shrestha",
+        "relation": "Thulo Paju",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-18",
-        "name": "Nirmala Shrestha",
-        "relation": "Maili Nini",
-        "photo": "",
+        "name": "Bindrawati Shrestha",
+        "relation": "Thulo Nini",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-19",
-        "name": "Bigyan Shrestha",
-        "relation": "Kancha Paju",
-        "photo": "",
+        "name": "Surendra Shrestha",
+        "relation": "Maila Paju",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-20",
-        "name": "Mina Joshi",
-        "relation": "Kanchi Nini",
-        "photo": "",
+        "name": "Nirmala Shrestha",
+        "relation": "Maili Nini",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-21",
-        "name": "Bijaya Bajracharya",
-        "relation": "Brother-in-law",
-        "photo": "",
+        "name": "Bigyan Shrestha",
+        "relation": "Kancha Paju",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-22",
-        "name": "Jeena Joshi",
-        "relation": "Cousin Sister",
-        "photo": "",
+        "name": "Mina Joshi",
+        "relation": "Kanchi Nini",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-23",
-        "name": "Kirshna Mohan Shrestha",
-        "relation": "Maternal Uncle",
-        "photo": "",
+        "name": "Bijaya Bajracharya",
+        "relation": "Brother-in-law",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-24",
-        "name": "Shila Shrestha",
-        "relation": "Maternal Aunty",
-        "photo": "",
+        "name": "Jeena Joshi",
+        "relation": "Cousin Sister",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-25",
-        "name": "Unison Joshi",
-        "relation": "Bhatij",
-        "photo": "",
+        "name": "Kirshna Mohan Shrestha",
+        "relation": "Maternal Uncle",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-26",
-        "name": "Ujini Joshi",
-        "relation": "Bhatiji",
-        "photo": "",
+        "name": "Shila Shrestha",
+        "relation": "Maternal Aunty",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-27",
-        "name": "Ariyana Bajracharya",
-        "relation": "Bhanji",
-        "photo": "",
+        "name": "Unison Joshi",
+        "relation": "Bhatij",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-28",
-        "name": "Aura Joshi",
+        "name": "Ujini Joshi",
         "relation": "Bhatiji",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-29",
-        "name": "Arshiya Bajracharya",
+        "name": "Ariyana Bajracharya",
         "relation": "Bhanji",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       },
       {
         "id": "safal-extended-30",
+        "name": "Aura Joshi",
+        "relation": "Bhatiji",
+        "bio": "",
+        "bioNe": ""
+      },
+      {
+        "id": "safal-extended-31",
+        "name": "Arshiya Bajracharya",
+        "relation": "Bhanji",
+        "bio": "",
+        "bioNe": ""
+      },
+      {
+        "id": "safal-extended-32",
         "name": "Alfa Rose Joshi",
         "relation": "Bhatiji",
-        "photo": "",
         "bio": "",
         "bioNe": ""
       }
