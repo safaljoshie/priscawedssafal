@@ -17,6 +17,10 @@ function toPlainBuffer(data: Buffer | Uint8Array): Buffer {
   return Buffer.from(data);
 }
 
+function isJpegBuffer(input: Buffer): boolean {
+  return input.length > 3 && input[0] === 0xff && input[1] === 0xd8 && input[2] === 0xff;
+}
+
 function isHeifBuffer(input: Buffer): boolean {
   if (input.length < 12) return false;
   const brand = input.subarray(8, 12).toString("ascii");
@@ -30,6 +34,10 @@ function isHeifBuffer(input: Buffer): boolean {
 
 function isHeifError(message: string): boolean {
   return /heif|heic|iref box/i.test(message);
+}
+
+function isSharpLoadError(message: string): boolean {
+  return /sharp|libvips|ERR_DLOPEN_FAILED|Cannot find module/i.test(message);
 }
 
 async function convertHeicToJpeg(input: Buffer): Promise<Buffer> {
@@ -51,30 +59,65 @@ async function compressWithSharp(input: Buffer): Promise<Buffer> {
     .resize(MAX_EDGE, MAX_EDGE, { fit: "cover", position: "centre" })
     .webp({ quality: WEBP_QUALITY });
 
-  if (typeof pipeline.toUint8Array === "function") {
-    const result = await pipeline.toUint8Array();
-    const bytes = "data" in result ? result.data : result;
-    return toPlainBuffer(bytes);
-  }
-
   return toPlainBuffer(await pipeline.toBuffer());
 }
 
-export async function compressFamilyPhoto(input: Buffer): Promise<Buffer> {
+export async function compressFamilyPhoto(input: Buffer): Promise<{
+  buffer: Buffer;
+  contentType: "image/webp" | "image/jpeg";
+  extension: "webp" | "jpg";
+}> {
   const plainInput = toPlainBuffer(input);
 
   try {
-    return await compressWithSharp(plainInput);
+    return {
+      buffer: await compressWithSharp(plainInput),
+      contentType: "image/webp",
+      extension: "webp",
+    };
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
-    if (!isHeifError(message) && !isHeifBuffer(plainInput)) {
+
+    if (isSharpLoadError(message) && isJpegBuffer(plainInput)) {
+      return {
+        buffer: plainInput,
+        contentType: "image/jpeg",
+        extension: "jpg",
+      };
+    }
+
+    if (!isHeifError(message) && !isHeifBuffer(plainInput) && !isSharpLoadError(message)) {
       throw error;
     }
 
     try {
       const jpeg = await convertHeicToJpeg(plainInput);
-      return compressWithSharp(jpeg);
+      try {
+        return {
+          buffer: await compressWithSharp(jpeg),
+          contentType: "image/webp",
+          extension: "webp",
+        };
+      } catch (sharpError) {
+        const sharpMessage =
+          sharpError instanceof Error ? sharpError.message : "";
+        if (isSharpLoadError(sharpMessage)) {
+          return {
+            buffer: jpeg,
+            contentType: "image/jpeg",
+            extension: "jpg",
+          };
+        }
+        throw sharpError;
+      }
     } catch (fallbackError) {
+      if (isJpegBuffer(plainInput)) {
+        return {
+          buffer: plainInput,
+          contentType: "image/jpeg",
+          extension: "jpg",
+        };
+      }
       const fallbackMessage =
         fallbackError instanceof Error ? fallbackError.message : "";
       throw new Error(
@@ -95,15 +138,20 @@ export function familyPhotoPublicPath(filename: string): string {
   return `/images/family/${filename}`;
 }
 
-export async function storeFamilyPhoto(buffer: Buffer): Promise<string> {
-  const filename = `${randomUUID()}.webp`;
+export async function storeFamilyPhoto(
+  buffer: Buffer,
+  options?: { contentType?: string; extension?: string }
+): Promise<string> {
+  const extension = options?.extension ?? "webp";
+  const contentType = options?.contentType ?? "image/webp";
+  const filename = `${randomUUID()}.${extension}`;
   const blobKey = familyPhotoBlobKey(filename);
   const plainBuffer = toPlainBuffer(buffer);
 
   if (useBlobStorage()) {
     await put(blobKey, plainBuffer, {
       access: "private",
-      contentType: "image/webp",
+      contentType,
       addRandomSuffix: false,
       allowOverwrite: true,
     });

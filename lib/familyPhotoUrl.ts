@@ -1,6 +1,6 @@
 function isAllowedFamilyPhotoUrl(url: string): boolean {
-  if (/^\/api\/family\/photos\/[0-9a-f-]+\.webp$/i.test(url)) return true;
-  if (/^\/images\/family\/[0-9a-f-]+\.webp$/i.test(url)) return true;
+  if (/^\/api\/family\/photos\/[0-9a-f-]+\.(webp|jpe?g|png)$/i.test(url)) return true;
+  if (/^\/images\/family\/[0-9a-f-]+\.(webp|jpe?g|png)$/i.test(url)) return true;
   if (url.startsWith("/images/")) return true;
   if (url.startsWith("https://")) return true;
   return false;

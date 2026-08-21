@@ -4,7 +4,13 @@ import { familyPhotoBlobKey } from "@/lib/familyPhoto";
 
 type RouteContext = { params: Promise<{ name: string }> };
 
-const FILENAME_PATTERN = /^[0-9a-f-]+\.webp$/i;
+const FILENAME_PATTERN = /^[0-9a-f-]+\.(webp|jpe?g|png)$/i;
+
+function contentTypeForName(name: string): string {
+  if (/\.png$/i.test(name)) return "image/png";
+  if (/\.jpe?g$/i.test(name)) return "image/jpeg";
+  return "image/webp";
+}
 
 export async function GET(_request: Request, context: RouteContext) {
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
@@ -26,11 +32,13 @@ export async function GET(_request: Request, context: RouteContext) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    const bytes = Buffer.from(new Uint8Array(await new Response(result.stream).arrayBuffer()));
+    const bytes = Buffer.from(
+      new Uint8Array(await new Response(result.stream).arrayBuffer())
+    );
 
     return new NextResponse(bytes, {
       headers: {
-        "Content-Type": "image/webp",
+        "Content-Type": contentTypeForName(name),
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     });

@@ -52,7 +52,10 @@ export async function POST(request: Request) {
 
     const input = Buffer.from(new Uint8Array(await file.arrayBuffer()));
     const compressed = await compressGalleryPhoto(input);
-    const url = await storeGalleryPhoto(compressed.buffer);
+    const url = await storeGalleryPhoto(compressed.buffer, {
+      contentType: compressed.contentType,
+      extension: compressed.extension,
+    });
 
     if (!saveAsPhoto) {
       return NextResponse.json({

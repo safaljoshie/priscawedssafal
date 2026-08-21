@@ -35,11 +35,14 @@ export async function POST(request: Request) {
 
     const input = Buffer.from(new Uint8Array(await file.arrayBuffer()));
     const compressed = await compressFamilyPhoto(input);
-    const url = await storeFamilyPhoto(compressed);
+    const url = await storeFamilyPhoto(compressed.buffer, {
+      contentType: compressed.contentType,
+      extension: compressed.extension,
+    });
 
     return NextResponse.json({
       url,
-      sizeKb: Math.round(compressed.length / 1024),
+      sizeKb: Math.round(compressed.buffer.length / 1024),
     });
   } catch (error) {
     const raw =
