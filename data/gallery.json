@@ -1,0 +1,507 @@
+{
+  "enabled": true,
+  "photos": [
+    {
+      "id": "mehendi-0",
+      "event": "mehendi",
+      "color": "#c9a96e",
+      "portrait": true,
+      "alt": {
+        "en": "Mehendi photo 1",
+        "ne": "मेहेन्दी फोटो 1"
+      }
+    },
+    {
+      "id": "mehendi-1",
+      "event": "mehendi",
+      "color": "#b8924f",
+      "portrait": false,
+      "alt": {
+        "en": "Mehendi photo 2",
+        "ne": "मेहेन्दी फोटो 2"
+      }
+    },
+    {
+      "id": "mehendi-2",
+      "event": "mehendi",
+      "color": "#d4b87a",
+      "portrait": false,
+      "alt": {
+        "en": "Mehendi photo 3",
+        "ne": "मेहेन्दी फोटो 3"
+      }
+    },
+    {
+      "id": "mehendi-3",
+      "event": "mehendi",
+      "color": "#e8d5a8",
+      "portrait": true,
+      "alt": {
+        "en": "Mehendi photo 4",
+        "ne": "मेहेन्दी फोटो 4"
+      }
+    },
+    {
+      "id": "mehendi-4",
+      "event": "mehendi",
+      "color": "#a07840",
+      "portrait": false,
+      "alt": {
+        "en": "Mehendi photo 5",
+        "ne": "मेहेन्दी फोटो 5"
+      }
+    },
+    {
+      "id": "mehendi-5",
+      "event": "mehendi",
+      "color": "#c9a96e",
+      "portrait": false,
+      "alt": {
+        "en": "Mehendi photo 6",
+        "ne": "मेहेन्दी फोटो 6"
+      }
+    },
+    {
+      "id": "mehendi-6",
+      "event": "mehendi",
+      "color": "#b8924f",
+      "portrait": true,
+      "alt": {
+        "en": "Mehendi photo 7",
+        "ne": "मेहेन्दी फोटो 7"
+      }
+    },
+    {
+      "id": "mehendi-7",
+      "event": "mehendi",
+      "color": "#e8d5a8",
+      "portrait": false,
+      "alt": {
+        "en": "Mehendi photo 8",
+        "ne": "मेहेन्दी फोटो 8"
+      }
+    },
+    {
+      "id": "mehendi-8",
+      "event": "mehendi",
+      "color": "#d4b87a",
+      "portrait": false,
+      "alt": {
+        "en": "Mehendi photo 9",
+        "ne": "मेहेन्दी फोटो 9"
+      }
+    },
+    {
+      "id": "mehendi-9",
+      "event": "mehendi",
+      "color": "#a07840",
+      "portrait": true,
+      "alt": {
+        "en": "Mehendi photo 10",
+        "ne": "मेहेन्दी फोटो 10"
+      }
+    },
+    {
+      "id": "wedding-day-0",
+      "event": "wedding-day",
+      "color": "#2c3e2d",
+      "portrait": true,
+      "alt": {
+        "en": "Wedding Day photo 1",
+        "ne": "विवाह दिवस फोटो 1"
+      }
+    },
+    {
+      "id": "wedding-day-1",
+      "event": "wedding-day",
+      "color": "#3d5c3a",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 2",
+        "ne": "विवाह दिवस फोटो 2"
+      }
+    },
+    {
+      "id": "wedding-day-2",
+      "event": "wedding-day",
+      "color": "#4a6741",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 3",
+        "ne": "विवाह दिवस फोटो 3"
+      }
+    },
+    {
+      "id": "wedding-day-3",
+      "event": "wedding-day",
+      "color": "#5a7a56",
+      "portrait": true,
+      "alt": {
+        "en": "Wedding Day photo 4",
+        "ne": "विवाह दिवस फोटो 4"
+      }
+    },
+    {
+      "id": "wedding-day-4",
+      "event": "wedding-day",
+      "color": "#2c3e2d",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 5",
+        "ne": "विवाह दिवस फोटो 5"
+      }
+    },
+    {
+      "id": "wedding-day-5",
+      "event": "wedding-day",
+      "color": "#3d5c3a",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 6",
+        "ne": "विवाह दिवस फोटो 6"
+      }
+    },
+    {
+      "id": "wedding-day-6",
+      "event": "wedding-day",
+      "color": "#4a6741",
+      "portrait": true,
+      "alt": {
+        "en": "Wedding Day photo 7",
+        "ne": "विवाह दिवस फोटो 7"
+      }
+    },
+    {
+      "id": "wedding-day-7",
+      "event": "wedding-day",
+      "color": "#5a7a56",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 8",
+        "ne": "विवाह दिवस फोटो 8"
+      }
+    },
+    {
+      "id": "wedding-day-8",
+      "event": "wedding-day",
+      "color": "#2c3e2d",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 9",
+        "ne": "विवाह दिवस फोटो 9"
+      }
+    },
+    {
+      "id": "wedding-day-9",
+      "event": "wedding-day",
+      "color": "#3d5c3a",
+      "portrait": true,
+      "alt": {
+        "en": "Wedding Day photo 10",
+        "ne": "विवाह दिवस फोटो 10"
+      }
+    },
+    {
+      "id": "wedding-day-10",
+      "event": "wedding-day",
+      "color": "#4a6741",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 11",
+        "ne": "विवाह दिवस फोटो 11"
+      }
+    },
+    {
+      "id": "wedding-day-11",
+      "event": "wedding-day",
+      "color": "#5a7a56",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 12",
+        "ne": "विवाह दिवस फोटो 12"
+      }
+    },
+    {
+      "id": "wedding-day-12",
+      "event": "wedding-day",
+      "color": "#2c3e2d",
+      "portrait": true,
+      "alt": {
+        "en": "Wedding Day photo 13",
+        "ne": "विवाह दिवस फोटो 13"
+      }
+    },
+    {
+      "id": "wedding-day-13",
+      "event": "wedding-day",
+      "color": "#3d5c3a",
+      "portrait": false,
+      "alt": {
+        "en": "Wedding Day photo 14",
+        "ne": "विवाह दिवस फोटो 14"
+      }
+    },
+    {
+      "id": "ganesh-sagun-0",
+      "event": "ganesh-sagun",
+      "color": "#8b5e3c",
+      "portrait": true,
+      "alt": {
+        "en": "Sagun & Ganesh photo 1",
+        "ne": "सगुन र गणेश फोटो 1"
+      }
+    },
+    {
+      "id": "ganesh-sagun-1",
+      "event": "ganesh-sagun",
+      "color": "#a0724f",
+      "portrait": false,
+      "alt": {
+        "en": "Sagun & Ganesh photo 2",
+        "ne": "सगुन र गणेश फोटो 2"
+      }
+    },
+    {
+      "id": "ganesh-sagun-2",
+      "event": "ganesh-sagun",
+      "color": "#7a4f30",
+      "portrait": false,
+      "alt": {
+        "en": "Sagun & Ganesh photo 3",
+        "ne": "सगुन र गणेश फोटो 3"
+      }
+    },
+    {
+      "id": "ganesh-sagun-3",
+      "event": "ganesh-sagun",
+      "color": "#c4956a",
+      "portrait": true,
+      "alt": {
+        "en": "Sagun & Ganesh photo 4",
+        "ne": "सगुन र गणेश फोटो 4"
+      }
+    },
+    {
+      "id": "ganesh-sagun-4",
+      "event": "ganesh-sagun",
+      "color": "#8b5e3c",
+      "portrait": false,
+      "alt": {
+        "en": "Sagun & Ganesh photo 5",
+        "ne": "सगुन र गणेश फोटो 5"
+      }
+    },
+    {
+      "id": "ganesh-sagun-5",
+      "event": "ganesh-sagun",
+      "color": "#a0724f",
+      "portrait": false,
+      "alt": {
+        "en": "Sagun & Ganesh photo 6",
+        "ne": "सगुन र गणेश फोटो 6"
+      }
+    },
+    {
+      "id": "ganesh-sagun-6",
+      "event": "ganesh-sagun",
+      "color": "#7a4f30",
+      "portrait": true,
+      "alt": {
+        "en": "Sagun & Ganesh photo 7",
+        "ne": "सगुन र गणेश फोटो 7"
+      }
+    },
+    {
+      "id": "ganesh-sagun-7",
+      "event": "ganesh-sagun",
+      "color": "#c4956a",
+      "portrait": false,
+      "alt": {
+        "en": "Sagun & Ganesh photo 8",
+        "ne": "सगुन र गणेश फोटो 8"
+      }
+    },
+    {
+      "id": "reception-0",
+      "event": "reception",
+      "color": "#5c6b4a",
+      "portrait": true,
+      "alt": {
+        "en": "Reception photo 1",
+        "ne": "रिसेप्शन फोटो 1"
+      }
+    },
+    {
+      "id": "reception-1",
+      "event": "reception",
+      "color": "#6e7d5c",
+      "portrait": false,
+      "alt": {
+        "en": "Reception photo 2",
+        "ne": "रिसेप्शन फोटो 2"
+      }
+    },
+    {
+      "id": "reception-2",
+      "event": "reception",
+      "color": "#4a5840",
+      "portrait": false,
+      "alt": {
+        "en": "Reception photo 3",
+        "ne": "रिसेप्शन फोटो 3"
+      }
+    },
+    {
+      "id": "reception-3",
+      "event": "reception",
+      "color": "#8a9a78",
+      "portrait": true,
+      "alt": {
+        "en": "Reception photo 4",
+        "ne": "रिसेप्शन फोटो 4"
+      }
+    },
+    {
+      "id": "reception-4",
+      "event": "reception",
+      "color": "#5c6b4a",
+      "portrait": false,
+      "alt": {
+        "en": "Reception photo 5",
+        "ne": "रिसेप्शन फोटो 5"
+      }
+    },
+    {
+      "id": "reception-5",
+      "event": "reception",
+      "color": "#6e7d5c",
+      "portrait": false,
+      "alt": {
+        "en": "Reception photo 6",
+        "ne": "रिसेप्शन फोटो 6"
+      }
+    },
+    {
+      "id": "reception-6",
+      "event": "reception",
+      "color": "#4a5840",
+      "portrait": true,
+      "alt": {
+        "en": "Reception photo 7",
+        "ne": "रिसेप्शन फोटो 7"
+      }
+    },
+    {
+      "id": "reception-7",
+      "event": "reception",
+      "color": "#8a9a78",
+      "portrait": false,
+      "alt": {
+        "en": "Reception photo 8",
+        "ne": "रिसेप्शन फोटो 8"
+      }
+    },
+    {
+      "id": "reception-8",
+      "event": "reception",
+      "color": "#5c6b4a",
+      "portrait": false,
+      "alt": {
+        "en": "Reception photo 9",
+        "ne": "रिसेप्शन फोटो 9"
+      }
+    },
+    {
+      "id": "reception-9",
+      "event": "reception",
+      "color": "#6e7d5c",
+      "portrait": true,
+      "alt": {
+        "en": "Reception photo 10",
+        "ne": "रिसेप्शन फोटो 10"
+      }
+    },
+    {
+      "id": "reception-10",
+      "event": "reception",
+      "color": "#4a5840",
+      "portrait": false,
+      "alt": {
+        "en": "Reception photo 11",
+        "ne": "रिसेप्शन फोटो 11"
+      }
+    },
+    {
+      "id": "reception-11",
+      "event": "reception",
+      "color": "#8a9a78",
+      "portrait": false,
+      "alt": {
+        "en": "Reception photo 12",
+        "ne": "रिसेप्शन फोटो 12"
+      }
+    }
+  ],
+  "reels": [
+    {
+      "id": "r1",
+      "event": "wedding-day",
+      "title": {
+        "en": "Wedding Highlights",
+        "ne": "विवाह हाइलाइट्स"
+      },
+      "duration": "2:34",
+      "color": "#2c3e2d"
+    },
+    {
+      "id": "r2",
+      "event": "mehendi",
+      "title": {
+        "en": "Mehendi Reel",
+        "ne": "मेहेन्दी रिल"
+      },
+      "duration": "1:12",
+      "color": "#c9a96e"
+    },
+    {
+      "id": "r3",
+      "event": "reception",
+      "title": {
+        "en": "Reception Dance Reel",
+        "ne": "रिसेप्शन नृत्य रिल"
+      },
+      "duration": "1:58",
+      "color": "#5c6b4a"
+    },
+    {
+      "id": "r4",
+      "event": "ganesh-sagun",
+      "title": {
+        "en": "Sagun Ceremony",
+        "ne": "सगुन समारोह"
+      },
+      "duration": "3:10",
+      "color": "#8b5e3c"
+    },
+    {
+      "id": "r5",
+      "event": "wedding-day",
+      "title": {
+        "en": "Vows & Ring Exchange",
+        "ne": "प्रतिज्ञा र औंठी आदानप्रदान"
+      },
+      "duration": "4:22",
+      "color": "#3d5c3a"
+    },
+    {
+      "id": "r6",
+      "event": "reception",
+      "title": {
+        "en": "First Dance",
+        "ne": "पहिलो नृत्य"
+      },
+      "duration": "2:05",
+      "color": "#6e7d5c"
+    }
+  ]
+}

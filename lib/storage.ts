@@ -5,6 +5,9 @@ import type {
   FamilyMember,
   FamilySide,
   FamilyVisibility,
+  GalleryData,
+  GalleryPhoto,
+  GalleryReel,
   RsvpSubmission,
   WeddingData,
   WeddingEvent,
@@ -19,14 +22,17 @@ import {
   getFamilyVisibility,
   normalizeFamilyVisibility,
 } from "./familyVisibility";
+import { isGalleryEnabled, normalizeGalleryEnabled } from "./galleryVisibility";
 import { sortWeddingData } from "./sortEvents";
 
 const WEDDING_BLOB_KEY = "data/wedding.json";
 const RSVPS_BLOB_KEY = "data/rsvps.json";
 const FAMILY_BLOB_KEY = "data/family.json";
+const GALLERY_BLOB_KEY = "data/gallery.json";
 const WEDDING_FILE = "wedding.json";
 const RSVPS_FILE = "rsvps.json";
 const FAMILY_FILE = "family.json";
+const GALLERY_FILE = "gallery.json";
 
 export async function getWeddingData(): Promise<WeddingData> {
   const data = await readJson<WeddingData>(WEDDING_BLOB_KEY, WEDDING_FILE);
@@ -172,6 +178,84 @@ function sanitizeFamilyData(data: FamilyData): FamilyData {
 export async function getFamilyData(): Promise<FamilyData> {
   const data = await readJson<FamilyData>(FAMILY_BLOB_KEY, FAMILY_FILE);
   return sanitizeFamilyData(data);
+}
+
+export async function getGalleryData(): Promise<GalleryData> {
+  const data = await readJson<GalleryData>(GALLERY_BLOB_KEY, GALLERY_FILE);
+  return {
+    ...data,
+    enabled: normalizeGalleryEnabled(data.enabled),
+    photos: data.photos ?? [],
+    reels: data.reels ?? [],
+  };
+}
+
+export async function saveGalleryData(data: GalleryData): Promise<void> {
+  const payload: GalleryData = {
+    ...data,
+    enabled: normalizeGalleryEnabled(data.enabled),
+    photos: data.photos ?? [],
+    reels: data.reels ?? [],
+  };
+  await writeJson(GALLERY_BLOB_KEY, GALLERY_FILE, payload);
+  revalidatePath("/gallery");
+  revalidatePath("/");
+  revalidatePath("/family");
+}
+
+export async function updateGalleryVisibility(
+  enabled: boolean
+): Promise<boolean> {
+  const data = await getGalleryData();
+  data.enabled = enabled;
+  await saveGalleryData(data);
+  return isGalleryEnabled(data);
+}
+
+export async function addGalleryPhoto(
+  photo: Omit<GalleryPhoto, "id"> & { id?: string }
+): Promise<GalleryPhoto> {
+  const data = await getGalleryData();
+  const next: GalleryPhoto = {
+    ...photo,
+    id: photo.id ?? `photo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+  };
+  data.photos = [next, ...data.photos];
+  await saveGalleryData(data);
+  return next;
+}
+
+export async function deleteGalleryPhoto(id: string): Promise<void> {
+  const data = await getGalleryData();
+  const next = data.photos.filter((photo) => photo.id !== id);
+  if (next.length === data.photos.length) {
+    throw new Error("Photo not found");
+  }
+  data.photos = next;
+  await saveGalleryData(data);
+}
+
+export async function addGalleryReel(
+  reel: Omit<GalleryReel, "id"> & { id?: string }
+): Promise<GalleryReel> {
+  const data = await getGalleryData();
+  const next: GalleryReel = {
+    ...reel,
+    id: reel.id ?? `reel-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+  };
+  data.reels = [next, ...data.reels];
+  await saveGalleryData(data);
+  return next;
+}
+
+export async function deleteGalleryReel(id: string): Promise<void> {
+  const data = await getGalleryData();
+  const next = data.reels.filter((reel) => reel.id !== id);
+  if (next.length === data.reels.length) {
+    throw new Error("Reel not found");
+  }
+  data.reels = next;
+  await saveGalleryData(data);
 }
 
 export async function saveFamilyData(data: FamilyData): Promise<void> {

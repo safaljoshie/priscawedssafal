@@ -112,3 +112,40 @@ export type FamilyData = {
   prisca: FamilySideData;
   safal: FamilySideData;
 };
+
+export type GalleryEventId =
+  | "mehendi"
+  | "wedding-day"
+  | "ganesh-sagun"
+  | "reception";
+
+export type GalleryLocalizedText = {
+  en: string;
+  ne: string;
+};
+
+export type GalleryPhoto = {
+  id: string;
+  event: GalleryEventId;
+  alt: GalleryLocalizedText;
+  portrait?: boolean;
+  src?: string;
+  thumb?: string;
+  color?: string;
+};
+
+export type GalleryReel = {
+  id: string;
+  event: GalleryEventId;
+  title: GalleryLocalizedText;
+  duration: string;
+  color?: string;
+  thumb?: string;
+  videoUrl?: string;
+};
+
+export type GalleryData = {
+  enabled?: boolean;
+  photos: GalleryPhoto[];
+  reels: GalleryReel[];
+};

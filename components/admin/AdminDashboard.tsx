@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import { FamilyAdmin } from "@/components/admin/FamilyAdmin";
+import { GalleryAdmin } from "@/components/admin/GalleryAdmin";
 import type {
   FamilyData,
+  GalleryData,
   RsvpSubmission,
   ScheduleItem,
   WeddingEvent,
   WeddingUpdate,
 } from "@/lib/types";
 
-type Tab = "events" | "updates" | "family" | "rsvps";
+type Tab = "events" | "updates" | "family" | "gallery" | "rsvps";
 
 const emptyScheduleRow = (): ScheduleItem => ({
   time: "",
@@ -44,6 +46,7 @@ type Props = {
   initialEvents: WeddingEvent[];
   initialUpdates: WeddingUpdate[];
   initialFamily: FamilyData;
+  initialGallery: GalleryData;
   initialRsvps: RsvpSubmission[];
 };
 
@@ -51,12 +54,14 @@ export function AdminDashboard({
   initialEvents,
   initialUpdates,
   initialFamily,
+  initialGallery,
   initialRsvps,
 }: Props) {
   const [tab, setTab] = useState<Tab>("events");
   const [events, setEvents] = useState(initialEvents);
   const [updates, setUpdates] = useState(initialUpdates);
   const [family, setFamily] = useState(initialFamily);
+  const [gallery] = useState(initialGallery);
   const [rsvps, setRsvps] = useState(initialRsvps);
   const [editing, setEditing] = useState<WeddingEvent | null>(null);
   const [editingUpdate, setEditingUpdate] = useState<WeddingUpdate | null>(null);
@@ -319,8 +324,8 @@ export function AdminDashboard({
       </header>
 
       <div className="mx-auto max-w-6xl px-4 py-6 md:px-8 md:py-10">
-        <div className="flex gap-2 border-b border-gold/15 pb-4">
-          {(["events", "updates", "family", "rsvps"] as const).map((t) => (
+        <div className="flex flex-wrap gap-2 border-b border-gold/15 pb-4">
+          {(["events", "updates", "family", "gallery", "rsvps"] as const).map((t) => (
             <button
               key={t}
               type="button"
@@ -342,7 +347,9 @@ export function AdminDashboard({
                   ? `Updates (${updates.length})`
                   : t === "family"
                     ? "Family"
-                    : `RSVPs (${rsvps.length})`}
+                    : t === "gallery"
+                      ? "Gallery"
+                      : `RSVPs (${rsvps.length})`}
             </button>
           ))}
         </div>
@@ -804,6 +811,10 @@ export function AdminDashboard({
 
         {tab === "family" && (
           <FamilyAdmin initialFamily={family} onMessage={setMessage} />
+        )}
+
+        {tab === "gallery" && (
+          <GalleryAdmin initialGallery={gallery} onMessage={setMessage} />
         )}
 
         {tab === "rsvps" && (

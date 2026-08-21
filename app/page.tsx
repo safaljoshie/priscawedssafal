@@ -7,12 +7,16 @@ import { Hero } from "@/components/Hero";
 import { Nav } from "@/components/Nav";
 import { Rsvp } from "@/components/Rsvp";
 import { Travel } from "@/components/Travel";
-import { getWeddingData } from "@/lib/storage";
+import { isGalleryEnabled } from "@/lib/galleryVisibility";
+import { getGalleryData, getWeddingData } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const wedding = await getWeddingData();
+  const [wedding, gallery] = await Promise.all([
+    getWeddingData(),
+    getGalleryData(),
+  ]);
 
   return (
     <>
@@ -48,7 +52,7 @@ export default async function Home() {
         media="(min-width: 768px)"
         fetchPriority="high"
       />
-      <Nav couple={wedding.couple} />
+      <Nav couple={wedding.couple} showGallery={isGalleryEnabled(gallery)} />
       <div className="pb-[5.5rem] md:pb-0">
       <Hero wedding={wedding} />
       <Details wedding={wedding} />

@@ -7,6 +7,7 @@ import { LanguageToggle } from "./LanguageToggle";
 
 type Props = {
   couple: { bride: string; groom: string };
+  showGallery?: boolean;
 };
 
 type NavLink = {
@@ -14,6 +15,7 @@ type NavLink = {
   key:
     | "details"
     | "family"
+    | "gallery"
     | "updates"
     | "travel"
     | "attire"
@@ -24,6 +26,7 @@ type NavLink = {
 const desktopNavItems: NavLink[] = [
   { href: "#details", key: "details" },
   { href: "/family", key: "family" },
+  { href: "/gallery", key: "gallery" },
   { href: "#updates", key: "updates" },
   { href: "#faq", key: "faq" },
   { href: "#rsvp", key: "rsvp" },
@@ -37,15 +40,16 @@ const mobileItems = [
 ] as const;
 
 const moreLinks = [
-  { href: "#updates", key: "updates" as const, id: "updates" },
-  { href: "#travel", key: "travel" as const, id: "travel" },
-  { href: "#dress-code", key: "attire" as const, id: "dress-code" },
-  { href: "#faq", key: "faq" as const, id: "faq" },
+  { href: "/gallery", key: "gallery" as const, id: "gallery", isPage: true },
+  { href: "#updates", key: "updates" as const, id: "updates", isPage: false },
+  { href: "#travel", key: "travel" as const, id: "travel", isPage: false },
+  { href: "#dress-code", key: "attire" as const, id: "dress-code", isPage: false },
+  { href: "#faq", key: "faq" as const, id: "faq", isPage: false },
 ] as const;
 
 const sectionIds = [
   ...mobileItems.filter((item) => !item.isPage).map((item) => item.id),
-  ...moreLinks.map((link) => link.id),
+  ...moreLinks.filter((link) => !link.isPage).map((link) => link.id),
 ];
 
 function resolveHref(pathname: string, href: string): string {
@@ -53,7 +57,7 @@ function resolveHref(pathname: string, href: string): string {
   return pathname === "/" ? href : `/${href}`;
 }
 
-export function Nav({ couple }: Props) {
+export function Nav({ couple, showGallery = false }: Props) {
   const pathname = usePathname();
   const { locale, t } = useLanguage();
   const [activeSection, setActiveSection] = useState("home");
@@ -61,11 +65,27 @@ export function Nav({ couple }: Props) {
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const isNepali = locale === "ne";
   const isFamilyPage = pathname === "/family";
-  const isMoreActive = moreLinks.some((link) => link.id === activeSection);
+  const isGalleryPage = pathname === "/gallery";
+  const isStandalonePage = isFamilyPage || isGalleryPage;
+  const isMoreActive =
+    (showGallery && isGalleryPage) ||
+    moreLinks.some((link) => !link.isPage && link.id === activeSection);
+
+  const desktopItems = showGallery
+    ? desktopNavItems
+    : desktopNavItems.filter((item) => item.key !== "gallery");
+
+  const mobileMoreLinks = showGallery
+    ? moreLinks
+    : moreLinks.filter((link) => link.key !== "gallery");
 
   useEffect(() => {
     if (pathname === "/family") {
       setActiveSection("family");
+      return;
+    }
+    if (pathname === "/gallery") {
+      setActiveSection("gallery");
       return;
     }
 
@@ -133,12 +153,14 @@ export function Nav({ couple }: Props) {
             </a>
 
             <ul className="flex items-center gap-4 lg:gap-5">
-              {desktopNavItems.map(({ href, key }) => {
+              {desktopItems.map(({ href, key }) => {
                 const resolved = resolveHref(pathname, href);
                 const isActive =
                   key === "family"
                     ? isFamilyPage
-                    : pathname === "/" && href === `#${activeSection}`;
+                    : key === "gallery"
+                      ? isGalleryPage
+                      : pathname === "/" && href === `#${activeSection}`;
 
                 return (
                   <li key={href}>
@@ -178,23 +200,29 @@ export function Nav({ couple }: Props) {
               className="absolute bottom-full left-1/2 mb-2 w-[min(100%,14rem)] -translate-x-1/2 rounded-2xl border border-white/50 bg-white/90 p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.14)] backdrop-blur-2xl"
               role="menu"
             >
-              {moreLinks.map(({ href, key, id }) => (
-                <a
-                  key={href}
-                  href={resolveHref(pathname, href)}
-                  role="menuitem"
-                  onClick={() => setMoreOpen(false)}
-                  className={`flex min-h-[44px] items-center justify-center rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
-                    isNepali ? "font-serif" : "uppercase tracking-[0.12em]"
-                  } ${
-                    activeSection === id
-                      ? "bg-black/10 text-wedding"
-                      : "text-black hover:bg-black/5"
-                  }`}
-                >
-                  {t.nav[key]}
-                </a>
-              ))}
+              {mobileMoreLinks.map(({ href, key, id, isPage }) => {
+                const isActive = isPage
+                  ? id === "gallery" && isGalleryPage
+                  : !isStandalonePage && activeSection === id;
+
+                return (
+                  <a
+                    key={href}
+                    href={isPage ? href : resolveHref(pathname, href)}
+                    role="menuitem"
+                    onClick={() => setMoreOpen(false)}
+                    className={`flex min-h-[44px] items-center justify-center rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
+                      isNepali ? "font-serif" : "uppercase tracking-[0.12em]"
+                    } ${
+                      isActive
+                        ? "bg-black/10 text-wedding"
+                        : "text-black hover:bg-black/5"
+                    }`}
+                  >
+                    {t.nav[key]}
+                  </a>
+                );
+              })}
             </div>
           )}
 
